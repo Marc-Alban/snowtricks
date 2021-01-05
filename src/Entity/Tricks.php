@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TricksRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -43,19 +45,39 @@ class Tricks
     private $updatedAt;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="trick")
      */
-    private $user_id;
+    private $comments;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\OneToMany(targetEntity=Images::class, mappedBy="trick", orphanRemoval=true)
      */
-    private $category_id;
+    private $image;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\OneToMany(targetEntity=Videos::class, mappedBy="trick")
      */
-    private $main_image_id;
+    private $videos;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="tricks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Categories::class, inversedBy="tricks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+        $this->image = new ArrayCollection();
+        $this->videos = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -122,38 +144,116 @@ class Tricks
         return $this;
     }
 
-    public function getUserId(): ?int
+    /**
+     * @return Collection|Comments[]
+     */
+    public function getComments(): Collection
     {
-        return $this->user_id;
+        return $this->comments;
     }
 
-    public function setUserId(int $user_id): self
+    public function addComment(Comments $comment): self
     {
-        $this->user_id = $user_id;
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setTrick($this);
+        }
 
         return $this;
     }
 
-    public function getCategoryId(): ?int
+    public function removeComment(Comments $comment): self
     {
-        return $this->category_id;
-    }
-
-    public function setCategoryId(int $category_id): self
-    {
-        $this->category_id = $category_id;
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getTrick() === $this) {
+                $comment->setTrick(null);
+            }
+        }
 
         return $this;
     }
 
-    public function getMainImageId(): ?int
+    /**
+     * @return Collection|Images[]
+     */
+    public function getMainImage(): Collection
     {
-        return $this->main_image_id;
+        return $this->main_image;
     }
 
-    public function setMainImageId(int $main_image_id): self
+    public function addMainImage(Images $mainImage): self
     {
-        $this->main_image_id = $main_image_id;
+        if (!$this->main_image->contains($mainImage)) {
+            $this->main_image[] = $mainImage;
+            $mainImage->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMainImage(Images $mainImage): self
+    {
+        if ($this->main_image->removeElement($mainImage)) {
+            // set the owning side to null (unless already changed)
+            if ($mainImage->getTrick() === $this) {
+                $mainImage->setTrick(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Videos[]
+     */
+    public function getVideos(): Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(Videos $video): self
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
+            $video->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVideo(Videos $video): self
+    {
+        if ($this->videos->removeElement($video)) {
+            // set the owning side to null (unless already changed)
+            if ($video->getTrick() === $this) {
+                $video->setTrick(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getUser(): ?Users
+    {
+        return $this->user;
+    }
+
+    public function setUser(?Users $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Categories
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Categories $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

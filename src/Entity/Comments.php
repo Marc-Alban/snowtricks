@@ -23,14 +23,15 @@ class Comments
     private $content;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity=Users::class, inversedBy="comments")
      */
-    private $user_id;
+    private $user;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity=Tricks::class, inversedBy="comments")
      */
-    private $trick_id;
+    private $trick;
+
 
     public function getId(): ?int
     {
@@ -49,27 +50,29 @@ class Comments
         return $this;
     }
 
-    public function getUserId(): ?int
+    public function getUser(): ?Users
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(int $user_id): self
+    public function setUser(?Users $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getTrickId(): ?int
+    public function getTrick(): ?Tricks
     {
-        return $this->trick_id;
+        return $this->trick;
     }
 
-    public function setTrickId(int $trick_id): self
+    public function setTrick(?Tricks $trick): self
     {
-        $this->trick_id = $trick_id;
+        $this->trick = $trick;
 
         return $this;
     }
+
+
 }

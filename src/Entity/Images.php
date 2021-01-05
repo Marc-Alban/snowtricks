@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ImagesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -28,9 +30,20 @@ class Images
     private $name;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity=Tricks::class, inversedBy="main_image")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $trick_id;
+    private $trick;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Users::class, mappedBy="images")
+     */
+    private $user;
+
+    public function __construct()
+    {
+        $this->user = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -61,15 +74,46 @@ class Images
         return $this;
     }
 
-    public function getTrickId(): ?int
+    public function getTrick(): ?Tricks
     {
-        return $this->trick_id;
+        return $this->trick;
     }
 
-    public function setTrickId(int $trick_id): self
+    public function setTrick(?Tricks $trick): self
     {
-        $this->trick_id = $trick_id;
+        $this->trick = $trick;
 
         return $this;
     }
+
+    /**
+     * @return Collection|Users[]
+     */
+    public function getUser(): Collection
+    {
+        return $this->user;
+    }
+
+    public function addUser(Users $user): self
+    {
+        if (!$this->user->contains($user)) {
+            $this->user[] = $user;
+            $user->setImages($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(Users $user): self
+    {
+        if ($this->user->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getImages() === $this) {
+                $user->setImages(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

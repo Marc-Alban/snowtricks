@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -41,20 +43,12 @@ class Users implements UserInterface
      */
     private $email;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $imageUser;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
     private $token;
 
-    /**
-     * @ORM\Column(type="smallint")
-     */
-    private $activatedAt;
 
     /**
      * @ORM\Column(type="datetime")
@@ -65,6 +59,28 @@ class Users implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $isVerified = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comments::class, mappedBy="user")
+     */
+    private $comments;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Tricks::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $tricks;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Images::class, inversedBy="user")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $images;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+        $this->tricks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -151,18 +167,6 @@ class Users implements UserInterface
         return $this;
     }
 
-    public function getImageUser(): ?string
-    {
-        return $this->imageUser;
-    }
-
-    public function setImageUser(string $imageUser): self
-    {
-        $this->imageUser = $imageUser;
-
-        return $this;
-    }
-
     public function getToken(): ?string
     {
         return $this->token;
@@ -175,17 +179,6 @@ class Users implements UserInterface
         return $this;
     }
 
-    public function getActivatedAt(): ?int
-    {
-        return $this->activatedAt;
-    }
-
-    public function setActivatedAt(int $activatedAt): self
-    {
-        $this->activatedAt = $activatedAt;
-
-        return $this;
-    }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
@@ -207,6 +200,78 @@ class Users implements UserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comments[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comments $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comments $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Tricks[]
+     */
+    public function getTricks(): Collection
+    {
+        return $this->tricks;
+    }
+
+    public function addTrick(Tricks $trick): self
+    {
+        if (!$this->tricks->contains($trick)) {
+            $this->tricks[] = $trick;
+            $trick->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrick(Tricks $trick): self
+    {
+        if ($this->tricks->removeElement($trick)) {
+            // set the owning side to null (unless already changed)
+            if ($trick->getUser() === $this) {
+                $trick->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getImages(): ?Images
+    {
+        return $this->images;
+    }
+
+    public function setImages(?Images $images): self
+    {
+        $this->images = $images;
 
         return $this;
     }

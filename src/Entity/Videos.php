@@ -23,9 +23,10 @@ class Videos
     private $url;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity=Tricks::class, inversedBy="videos")
      */
-    private $trick_id;
+    private $trick;
+
 
     public function getId(): ?int
     {
@@ -44,15 +45,16 @@ class Videos
         return $this;
     }
 
-    public function getTrickId(): ?int
+    public function getTrick(): ?Tricks
     {
-        return $this->trick_id;
+        return $this->trick;
     }
 
-    public function setTrickId(int $trick_id): self
+    public function setTrick(?Tricks $trick): self
     {
-        $this->trick_id = $trick_id;
+        $this->trick = $trick;
 
         return $this;
     }
+
 }
