@@ -108,6 +108,9 @@
     "phpdocumentor/type-resolver": {
         "version": "1.4.0"
     },
+    "phpstan/phpstan": {
+        "version": "0.12.65"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -506,10 +509,10 @@
         "version": "v5.2.1"
     },
     "twig/extra-bundle": {
-        "version": "v3.1.1"
+        "version": "v3.2.1"
     },
     "twig/twig": {
-        "version": "v3.1.1"
+        "version": "v3.2.1"
     },
     "webmozart/assert": {
         "version": "1.9.1"
