@@ -25,28 +25,27 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         //Create Category
-        $grab = (new Category());
-        $grab->setName('grab');
-        $manager->persist($grab);
-        $rotation = (new Category());
-        $rotation->setName('rotation');
-        $manager->persist($rotation);
-        $flip = (new Category());
-        $flip->setName('flip');
-        $manager->persist($flip);
-        $slide = (new Category());
-        $slide->setName('slide');
-        $manager->persist($slide);
-        $oneFoot = (new Category());
-        $oneFoot->setName('one foot');
-        $manager->persist($oneFoot);
-        $oldScool = (new Category());
-        $oldScool->setName('old school');
-        $manager->persist($oldScool);
-        $rotationDesax = (new Category());
-        $rotationDesax->setName('rotation désaxée');
-        $manager->persist($rotationDesax);
-    }
+//        $grab = (new Category());
+//        $grab->setName('grab');
+//        $manager->persist($grab);
+//        $rotation = (new Category());
+//        $rotation->setName('rotation');
+//        $manager->persist($rotation);
+//        $flip = (new Category());
+//        $flip->setName('flip');
+//        $manager->persist($flip);
+//        $slide = (new Category());
+//        $slide->setName('slide');
+//        $manager->persist($slide);
+//        $oneFoot = (new Category());
+//        $oneFoot->setName('one foot');
+//        $manager->persist($oneFoot);
+//        $oldScool = (new Category());
+//        $oldScool->setName('old school');
+//        $manager->persist($oldScool);
+//        $rotationDesax = (new Category());
+//        $rotationDesax->setName('rotation désaxée');
+//        $manager->persist($rotationDesax);
 
 //
 //        //Create User
@@ -329,5 +328,5 @@ class AppFixtures extends Fixture
 //        $manager->persist($valeflip);
 //        //End Trick 15----------------------------------------------------------------------------------
 //        $manager->flush();
-//    }
+   }
 }
