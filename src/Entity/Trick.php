@@ -13,16 +13,16 @@ use Doctrine\ORM\Mapping as ORM;
 class Trick
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100, unique=true)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $nameTrick;
+    private $title;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
@@ -32,44 +32,44 @@ class Trick
     /**
      * @ORM\Column(type="text")
      */
-    private $descriptionTrick;
+    private $description;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $createdAt;
+    private $created;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="trick")
+     * @ORM\Column(type="datetime")
      */
-    private $user;
+    private $lastUpdate;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Categorie::class, inversedBy="trick")
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="tricks")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $categorie;
+    private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick", cascade={"remove"}, orphanRemoval=true)
      */
-    private $comment;
+    private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="trick", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="trick",  cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $image;
+    private $images;
 
     /**
-     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $video;
+    private $videos;
 
     public function __construct()
     {
-        $this->comment = new ArrayCollection();
-        $this->image = new ArrayCollection();
-        $this->video = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+        $this->images = new ArrayCollection();
+        $this->videos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,74 +77,62 @@ class Trick
         return $this->id;
     }
 
-    public function getNameTrick(): ?string
+    public function getTitle(): ?string
     {
-        return $this->nameTrick;
+        return $this->title;
     }
 
-    public function setNameTrick(string $nameTrick): self
+    public function setTitle(string $title): self
     {
-        $this->nameTrick = $nameTrick;
+        $this->title = $title;
 
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getDescription(): ?string
     {
-        return $this->slug;
+        return $this->description;
     }
 
-    public function setSlug(string $slug): self
+    public function setDescription(string $description): self
     {
-        $this->slug = $slug;
+        $this->description = $description;
 
         return $this;
     }
 
-    public function getDescriptionTrick(): ?string
+    public function getCreated(): ?\DateTimeInterface
     {
-        return $this->descriptionTrick;
+        return $this->created;
     }
 
-    public function setDescriptionTrick(string $descriptionTrick): self
+    public function setCreated(\DateTimeInterface $created): self
     {
-        $this->descriptionTrick = $descriptionTrick;
+        $this->created = $created;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getLastUpdate(): ?\DateTimeInterface
     {
-        return $this->createdAt;
+        return $this->lastUpdate;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setLastUpdate(\DateTimeInterface $lastUpdate): self
     {
-        $this->createdAt = $createdAt;
+        $this->lastUpdate = $lastUpdate;
 
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getCategory(): ?Category
     {
-        return $this->user;
+        return $this->category;
     }
 
-    public function setUser(?User $user): self
+    public function setCategory(?Category $category): self
     {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getCategorie(): ?Categorie
-    {
-        return $this->categorie;
-    }
-
-    public function setCategorie(?Categorie $categorie): self
-    {
-        $this->categorie = $categorie;
+        $this->category = $category;
 
         return $this;
     }
@@ -152,15 +140,15 @@ class Trick
     /**
      * @return Collection|Comment[]
      */
-    public function getComment(): Collection
+    public function getComments(): Collection
     {
-        return $this->comment;
+        return $this->comments;
     }
 
     public function addComment(Comment $comment): self
     {
-        if (!$this->comment->contains($comment)) {
-            $this->comment[] = $comment;
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
             $comment->setTrick($this);
         }
 
@@ -169,7 +157,8 @@ class Trick
 
     public function removeComment(Comment $comment): self
     {
-        if ($this->comment->removeElement($comment)) {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
             // set the owning side to null (unless already changed)
             if ($comment->getTrick() === $this) {
                 $comment->setTrick(null);
@@ -182,15 +171,15 @@ class Trick
     /**
      * @return Collection|Image[]
      */
-    public function getImage(): Collection
+    public function getImages(): Collection
     {
-        return $this->image;
+        return $this->images;
     }
 
     public function addImage(Image $image): self
     {
-        if (!$this->image->contains($image)) {
-            $this->image[] = $image;
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
             $image->setTrick($this);
         }
 
@@ -199,11 +188,12 @@ class Trick
 
     public function removeImage(Image $image): self
     {
-        if ($this->image->removeElement($image)) {
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
             // set the owning side to null (unless already changed)
-            if ($image->getTrick() === $this) {
-                $image->setTrick(null);
-            }
+            //if ($image->getTrick() === $this) {
+            //    $image->setTrick(null);
+            //}
         }
 
         return $this;
@@ -212,15 +202,15 @@ class Trick
     /**
      * @return Collection|Video[]
      */
-    public function getVideo(): Collection
+    public function getVideos(): Collection
     {
-        return $this->video;
+        return $this->videos;
     }
 
     public function addVideo(Video $video): self
     {
-        if (!$this->video->contains($video)) {
-            $this->video[] = $video;
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
             $video->setTrick($this);
         }
 
@@ -229,12 +219,26 @@ class Trick
 
     public function removeVideo(Video $video): self
     {
-        if ($this->video->removeElement($video)) {
+        if ($this->videos->contains($video)) {
+            $this->videos->removeElement($video);
             // set the owning side to null (unless already changed)
-            if ($video->getTrick() === $this) {
-                $video->setTrick(null);
-            }
+            //if ($video->getTrick() === $this) {
+            //    $video->setTrick(null);
+            //}
         }
+
+        return $this;
+    }
+
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

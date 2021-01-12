@@ -11,35 +11,59 @@ use Doctrine\ORM\Mapping as ORM;
 class Video
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=41)
      */
-    private $url;
+    private $address;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="video")
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="videos")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $trick;
+
+    // default values automatically added
+    public function __construct()
+    {
+        $this->setCreated(new \DateTime());
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUrl(): ?string
+    public function getAddress(): ?string
     {
-        return $this->url;
+        return $this->address;
     }
 
-    public function setUrl(string $url): self
+    public function setAddress(string $address): self
     {
-        $this->url = $url;
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getCreated(): ?\DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function setCreated(\DateTimeInterface $created): self
+    {
+        $this->created = $created;
 
         return $this;
     }

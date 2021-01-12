@@ -3,9 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ImageRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+
 
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
@@ -13,8 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Image
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -22,22 +21,24 @@ class Image
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nameImage;
+    private $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="image")
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="images")
      * @ORM\JoinColumn(nullable=false)
      */
     private $trick;
 
-    /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="image", orphanRemoval=true)
-     */
-    private $user;
 
+    // default values automatically added
     public function __construct()
     {
-        $this->user = new ArrayCollection();
+        $this->setCreated(new \DateTime());
     }
 
     public function getId(): ?int
@@ -45,14 +46,26 @@ class Image
         return $this->id;
     }
 
-    public function getNameImage(): ?string
+    public function getContent()
     {
-        return $this->nameImage;
+        return $this->content;
     }
 
-    public function setNameImage(string $nameImage): self
+    public function setContent($content): self
     {
-        $this->nameImage = $nameImage;
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getCreated(): ?\DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function setCreated(\DateTimeInterface $created): self
+    {
+        $this->created = $created;
 
         return $this;
     }
@@ -69,33 +82,4 @@ class Image
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUser(): Collection
-    {
-        return $this->user;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
-            $user->setImage($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->user->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getImage() === $this) {
-                $user->setImage(null);
-            }
-        }
-
-        return $this;
-    }
 }
