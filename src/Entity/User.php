@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
@@ -20,60 +21,60 @@ class User
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100, unique=true)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $userName;
+    private $username;
 
     /**
      * @ORM\Column(type="json")
      */
-    private $role = [];
+    private $roles = [];
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string")
      */
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photo;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $activated;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $token;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $createdAt;
+    private $created;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="datetime")
      */
-    private $isVerified;
+    private $lastUpdate;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
      */
-    private $comment;
+    private $comments;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="user")
-     */
-    private $trick;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Image::class, inversedBy="user")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $image;
+    ////////////////////////////////////////////////////////////////////////////////////
 
     public function __construct()
     {
-        $this->comment = new ArrayCollection();
-        $this->trick = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -81,33 +82,38 @@ class User
         return $this->id;
     }
 
-    public function getUserName(): ?string
+    public function getUsername(): string
     {
-        return $this->userName;
+        return (string) $this->username;
     }
 
-    public function setUserName(string $userName): self
+    public function setUsername(string $username): self
     {
-        $this->userName = $userName;
+        $this->username = $username;
 
         return $this;
     }
 
-    public function getRole(): ?array
+    public function getRoles(): array
     {
-        return $this->role;
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
-    public function setRole(array $role): self
+    public function setRoles(array $roles): self
     {
-        $this->role = $role;
+        $this->roles = $roles;
 
         return $this;
     }
 
-    public function getPassword(): ?string
+
+    public function getPassword(): string
     {
-        return $this->password;
+        return (string) $this->password;
     }
 
     public function setPassword(string $password): self
@@ -116,6 +122,7 @@ class User
 
         return $this;
     }
+
 
     public function getEmail(): ?string
     {
@@ -129,38 +136,62 @@ class User
         return $this;
     }
 
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto($photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getActivated(): ?bool
+    {
+        return $this->activated;
+    }
+
+    public function setActivated(bool $activated): self
+    {
+        $this->activated = $activated;
+
+        return $this;
+    }
+
     public function getToken(): ?string
     {
         return $this->token;
     }
 
-    public function setToken(string $token): self
+    public function setToken(?string $token): self
     {
         $this->token = $token;
 
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreated(): ?\DateTimeInterface
     {
-        return $this->createdAt;
+        return $this->created;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreated(\DateTimeInterface $created): self
     {
-        $this->createdAt = $createdAt;
+        $this->created = $created;
 
         return $this;
     }
 
-    public function getIsVerified(): ?bool
+    public function getLastUpdate(): ?\DateTimeInterface
     {
-        return $this->isVerified;
+        return $this->lastUpdate;
     }
 
-    public function setIsVerified(bool $isVerified): self
+    public function setLastUpdate(\DateTimeInterface $lastUpdate): self
     {
-        $this->isVerified = $isVerified;
+        $this->lastUpdate = $lastUpdate;
 
         return $this;
     }
@@ -168,15 +199,15 @@ class User
     /**
      * @return Collection|Comment[]
      */
-    public function getComment(): Collection
+    public function getComments(): Collection
     {
-        return $this->comment;
+        return $this->comments;
     }
 
     public function addComment(Comment $comment): self
     {
-        if (!$this->comment->contains($comment)) {
-            $this->comment[] = $comment;
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
             $comment->setUser($this);
         }
 
@@ -185,54 +216,13 @@ class User
 
     public function removeComment(Comment $comment): self
     {
-        if ($this->comment->removeElement($comment)) {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
             // set the owning side to null (unless already changed)
             if ($comment->getUser() === $this) {
                 $comment->setUser(null);
             }
         }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Trick[]
-     */
-    public function getTrick(): Collection
-    {
-        return $this->trick;
-    }
-
-    public function addTrick(Trick $trick): self
-    {
-        if (!$this->trick->contains($trick)) {
-            $this->trick[] = $trick;
-            $trick->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTrick(Trick $trick): self
-    {
-        if ($this->trick->removeElement($trick)) {
-            // set the owning side to null (unless already changed)
-            if ($trick->getUser() === $this) {
-                $trick->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getImage(): ?Image
-    {
-        return $this->image;
-    }
-
-    public function setImage(?Image $image): self
-    {
-        $this->image = $image;
 
         return $this;
     }
