@@ -24,60 +24,85 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        //Create Category
-//        $grab = (new Category());
-//        $grab->setName('grab');
-//        $manager->persist($grab);
-//        $rotation = (new Category());
-//        $rotation->setName('rotation');
-//        $manager->persist($rotation);
-//        $flip = (new Category());
-//        $flip->setName('flip');
-//        $manager->persist($flip);
-//        $slide = (new Category());
-//        $slide->setName('slide');
-//        $manager->persist($slide);
-//        $oneFoot = (new Category());
-//        $oneFoot->setName('one foot');
-//        $manager->persist($oneFoot);
-//        $oldScool = (new Category());
-//        $oldScool->setName('old school');
-//        $manager->persist($oldScool);
-//        $rotationDesax = (new Category());
-//        $rotationDesax->setName('rotation désaxée');
-//        $manager->persist($rotationDesax);
 
-//
+        //Create Category
+        $categorys = [];
+        $grab = (new Category());
+        $grab->setName('grab');
+        $categorys['grab'] = $grab;
+        $manager->persist($grab);
+        $rotation = (new Category());
+        $rotation->setName('rotation');
+        $categorys['rotation'] = $rotation;
+        $manager->persist($rotation);
+        $flip = (new Category());
+        $flip->setName('flip');
+        $categorys['flip'] = $flip;
+        $manager->persist($flip);
+        $slide = (new Category());
+        $slide->setName('slide');
+        $categorys['slide'] = $slide;
+        $manager->persist($slide);
+        $oneFoot = (new Category());
+        $oneFoot->setName('one foot');
+        $categorys['oneFoot'] = $oneFoot;
+        $manager->persist($oneFoot);
+        $oldScool = (new Category());
+        $oldScool->setName('old school');
+        $categorys['oldSchool'] = $oldScool;
+        $manager->persist($oldScool);
+        $rotationDesax = (new Category());
+        $rotationDesax->setName('rotation désaxée');
+        $categorys['rotationDesax'] = $rotationDesax;
+        $manager->persist($rotationDesax);
+        $manager->flush();
+
+
 //        //Create User
-//        $user = (new User());
-//        $user->setUsername('Marc-Alban')
-//            ->setPassword('@dmIn123')
-//            ->setEmail('millet.marcalban@gmail.com')
-//            ->setCreatedAt(new DateTime())
-//            ->setIsVerified('1')
-//            ->setImageUser(null);
-//        $manager->persist($user);
-//
+
+        $user = (new User());
+        $user->setUsername('Marc-Alban')
+            ->setPassword('@dmIn123')
+            ->setEmail('millet.marcalban@gmail.com')
+            ->setPhoto('jimmy-avatar.jpg')
+            ->setActivated('1')
+            ->setCreated(new DateTime())
+            ->setLastUpdate(new DateTime());
+        $manager->persist($user);
+        $manager->flush();
+
+
 //
 //        //create Tricks
 //        //Trick 1 -----------------------------------------------------------------------------------
-//        $methodAir = (new Trick())->setNameTrick('Methode Air')
-//            ->setDescriptionTrick('Cette figure – qui consiste à attraper sa planche d\'une main et le tourner perpendiculairement au sol – est un classique "old school". Il n\'empêche qu\'il est indémodable, avec de vrais ambassadeurs comme Jamie Lynn ou la star Terje Haakonsen. En 2007, ce dernier a même battu le record du monde du "air" le plus haut en s\'élevant à 9,8 mètres au-dessus du kick (sommet d\'un mur d\'une rampe ou autre structure de saut). ')
-//            ->setCreatedAt(new DateTime())
-//            ->setCategory($grab)
-//            ->setUser($user);
-//        $image = (new Image())
-//            ->setNameImage('methode_air.jpg')
-//            ->getTrick($methodAir)
-//            ->addUser($user);
-//        $manager->persist($image);
-//        $video = (new Video())
-//            ->setUrl('https://www.youtube.com/embed/_hxLS2ErMiY')
-//            ->setTrick($methodAir);
-//        $manager->persist($video);
-//        $manager->persist($methodAir);
+        $tailGrab = (new Trick())->setTitle('Tail grab')
+            ->setDescription('Si vous voulez faire un tail grab, cela est possible en snowboard par un mouvement d’assiette de la planche obtenu par une dysmétrie dans la montée des jambes.
+        Le bras qui n’attrape pas sert de contre-balancier et il se place généralement à l’opposé de celui qui attrape.')
+            ->setCreated(new DateTime())
+            ->setLastUpdate(new DateTime())
+            ->setCategory($categorys['grab']);
+        $tailGrab->setSlug($tailGrab->getTitle());
+        $manager->persist($tailGrab);
+        $manager->flush();
+
+
+        $image = (new Image())
+            ->setContent('tail-grab.jpg')
+            ->setTrick($tailGrab)
+            ->setCreated(new DateTime());
+        $manager->persist($image);
+        $manager->flush();
+
+
+        $video = (new Video())
+            ->setAddress('https://www.youtube.com/embed/id8VKl9RVQw')
+            ->setTrick($tailGrab)
+            ->setCreated(new DateTime());
+        $manager->persist($video);
+        $manager->flush();
+
+
 //        //End Trick 1----------------------------------------------------------------------------------
-//
 //        //Trick 2 -----------------------------------------------------------------------------------
 //        $noseGrab = (new Trick())->setNameTrick('nose grab')
 //            ->setDescriptionTrick('saisie de la partie avant de la planche, avec la main avant')
@@ -327,6 +352,6 @@ class AppFixtures extends Fixture
 //        $manager->persist($image);
 //        $manager->persist($valeflip);
 //        //End Trick 15----------------------------------------------------------------------------------
-//        $manager->flush();
+
    }
 }
