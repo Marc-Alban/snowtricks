@@ -1,0 +1,2 @@
+# snowtricks
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a793012b563a43b2abbe45aa4fdd2b89)](https://app.codacy.com/gh/Marc-Alban/snowtricks?utm_source=github.com&utm_medium=referral&utm_content=Marc-Alban/snowtricks&utm_campaign=Badge_Grade)
