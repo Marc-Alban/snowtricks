@@ -1,4 +1,7 @@
 {
+    "components/font-awesome": {
+        "version": "5.15.1"
+    },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.1"
     },
@@ -95,6 +98,12 @@
     },
     "egulias/email-validator": {
         "version": "2.1.25"
+    },
+    "fontawesome/fontawesome": {
+        "version": "3.0.2"
+    },
+    "fortawesome/font-awesome": {
+        "version": "5.15.2"
     },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.2"
@@ -547,6 +556,9 @@
     },
     "symfony/yaml": {
         "version": "v5.2.1"
+    },
+    "twbs/bootstrap": {
+        "version": "v4.0.0"
     },
     "twig/extra-bundle": {
         "version": "v3.2.1"

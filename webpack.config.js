@@ -1,4 +1,6 @@
 var Encore = require('@symfony/webpack-encore');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -13,6 +15,19 @@ Encore
     .setPublicPath('/build')
     // only needed for CDN's or sub-directory deploy
     //.setManifestKeyPrefix('build/')
+    .copyFiles({
+            from: './assets/img',
+
+            // optional target path, relative to the output dir
+            //to: 'images/[path][name].[ext]',
+
+            // if versioning is enabled, add the file hash too
+            //to: 'images/[path][name].[hash:8].[ext]',
+
+            // only copy files matching this pattern
+            //pattern: /\.(png|jpg|jpeg)$/
+            })
+
 
     /*
      * ENTRY CONFIG

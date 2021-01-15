@@ -12,10 +12,11 @@ class TricksController extends AbstractController
      * @Route("/tricks", name="trick_index")
      * @return Response
      */
-    public function index(): Response
+    public function index(TrickRepository $trick): Response
     {
         return $this->render('pages/tricks.html.twig', [
-                'current_menu'=>'tricks'
+                'current_menu'=>'tricks',
+                'tricks' => $trick->findAll()
             ]);
     }
 

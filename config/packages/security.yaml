@@ -22,3 +22,6 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+    encoders:
+        # auto encoder with default options
+        App\Entity\User: 'auto'

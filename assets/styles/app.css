@@ -1,9 +1,11 @@
-/*
+@import '~font-awesome';
+ /*
  * Globals
  */
 
-
-
+h3,h4{
+    font-size: 1rem;
+}
 .bd-placeholder-img {
     font-size: 1.125rem;
     text-anchor: middle;
@@ -12,8 +14,89 @@
     user-select: none;
 }
 
-@media (min-width: 768px) {
-    .bd-placeholder-img-lg {
-        font-size: 3.5rem;
+p,a,a:hover,a:active{
+    color: #0a0a0a;
+    text-decoration: none;
+}
+
+/**
+ *Navbar
+ */
+nav>a:not(:last-child){
+    border-right: 1px solid;
+}
+
+nav>a{
+    text-decoration-line: underline;
+}
+
+nav>a:hover{
+    text-decoration-line: underline;
+    text-decoration-color: #5eb5e0;
+}
+
+/**
+ * main
+ */
+
+/*home top */
+.minVh{
+    min-height: 95vh;
+}
+
+
+.fa-arrow-circle-o-down{
+    font-size: 35px;
+    position: absolute;
+    bottom: 15%;
+    right: 40px;
+}
+
+.fa-arrow-circle-o-up{
+    display: flex;
+    justify-content: flex-end;
+    font-size: 35px;
+}
+
+
+
+/*Main*/
+.view-group {
+    display: -ms-flexbox;
+    display: contents;
+    flex-wrap: wrap;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+.thumbnail
+{
+    margin-bottom: 30px;
+    padding: 0px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+
+.fa-trash, .fa-pencil{
+    cursor: pointer;
+}
+
+
+/*tricks*/
+
+
+/**
+ * Media queries
+ */
+@media (max-width: 768px) {
+    .navbarTop{
+        display: none !important;
+    }
+
+    .navbarBottom
+    {
+        display: block !important;
     }
 }
