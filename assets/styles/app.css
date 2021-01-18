@@ -3,6 +3,10 @@
  * Globals
  */
 
+body{
+    position: relative;
+}
+
 h3,h4{
     font-size: 1rem;
 }
@@ -22,6 +26,16 @@ p,a,a:hover,a:active{
 /**
  *Navbar
  */
+
+.navbarTop{
+    display: flex !important;
+}
+
+.navbarBottom
+{
+    display: none !important;
+}
+
 nav>a:not(:last-child){
     border-right: 1px solid;
 }
@@ -34,6 +48,8 @@ nav>a:hover{
     text-decoration-line: underline;
     text-decoration-color: #5eb5e0;
 }
+
+
 
 /**
  * main
@@ -48,8 +64,8 @@ nav>a:hover{
 .fa-arrow-circle-o-down{
     font-size: 35px;
     position: absolute;
-    bottom: 15%;
-    right: 40px;
+    top: 750px;
+    right: 50px;
 }
 
 .fa-arrow-circle-o-up{
@@ -97,6 +113,19 @@ nav>a:hover{
 
     .navbarBottom
     {
-        display: block !important;
+        position: fixed;
+        bottom: -20px;
+        width: 100%;
+        z-index: 1;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+    .navbarBottom nav a{
+        padding: 20px !important;
+    }
+
+    .navbarBottom nav a .fa{
+        font-size: 1.5rem;
     }
 }

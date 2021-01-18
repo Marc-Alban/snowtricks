@@ -7,3 +7,12 @@
         <a class="p-2 text-dark {% if current_menu is defined and current_menu == 'signUp' %}active{% endif %}" href="{{ path('login') }}">Sign Out</a>
     </nav>
 </header>
+
+
+<header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm navbarBottom">
+    <nav class="my-2 my-md-0 me-md-3">
+        <a class="p-2" href="{{ path('home') }}"><i class="fa fa-home"></i></a>
+        <a class="p-2" href="{{ path('trick_index') }}"><i class="fa fa-bookmark"></i></a>
+        <a class="p-2" href="{{ path('register') }}"><i class="fa fa-sign-out"></i></a>
+    </nav>
+</header>
