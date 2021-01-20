@@ -1,59 +1,46 @@
 {% extends 'base.html.twig' %}
-{% block title %}Liste des tricks{% endblock %}
+{% block title %}Créer un tricks{% endblock %}
 {% block body %}
-    <main>
-        <section id="gobottom">
-            <h2 class="text-center font-italic mb-4">Liste des figures</h2>
+    <div class="container">
+        <div class="row col-lg-10 col-md-10 d-content">
             <div class="container">
                 <div class="row">
-                    <div id="tricks" class="row view-group">
-                        {% for trick in tricks %}
-                            <div class="item col-xs-3 col-lg-3">
-                                <div class="thumbnail card">
-                                    <div class="img-event m-auto">
-                                        <img class="group list-group-image img-fluid"
-                                             src="http://placehold.it/400x250/000/fff"
-                                             alt=""/>
-                                    </div>
-                                    <div class="caption card-body">
-                                        <div class="d-flex align-items-center  justify-content-between flex-wrap">
-                                            <h4 class="group card-title ">
-                                                {{ trick.title | raw }}</h4>
-                                            <i class="fa fa-pencil lead"></i>
-                                            <i class="fa fa-trash lead" data-toggle="modal" data-target="#myModal"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="container">
-            <div class="row">
-                <a href="#gobottom"><i class="fa fa-arrow-circle-o-up"></i></a>
-            </div>
-        </section>
-    </main>
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-center">
-            <div class="modal-dialog .modal-align-center">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel">Suppression</h4>
-                        <button type="button" class="close " data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Fermer</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">Voulez-vous vraiment supprimer ce trick ? </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
-                        <button type="button" class="btn btn-danger">Oui supprimer</button>
+                    <div class="col-lg-10 mx-auto">
+                        {{ form_start(form,{
+                            'attr':{'class':'trick-form'}
+                        }) }}
+
+                        <h5>Titre</h5>
+                        {{ form_row(form.title, {
+                            'attr': {'class': 'form-control'}
+                        }) }}
+                        <hr>
+                        <h5>Description</h5>
+                        {{ form_row(form.description, {
+                            'attr': {'class': 'form-control'}
+                        }) }}
+                        <hr>
+                        <h5>Catégorie</h5>
+                        {{ form_row(form.categorie, {
+                            'attr': {'class': 'form-control'}
+                        }) }}
+                        <hr>
+                        <h5>Images</h5>
+                        {{ form_row(form.content, {
+                            'attr': {'class': 'form-control'}
+                        }) }}
+                        <hr>
+                        <h5>Videos</h5>
+                        {{ form_row(form.url, {
+                            'attr': {'class': 'form-control'}
+                        }) }}
+                        <hr>
+                        <a class="btn btn-primary" href="{{ path('home') }}">Annuler</a>
+                        <button type="submit" class="btn btn-primary pull-right">Enregistrer</button>
+                        {{ form_end(form)}}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </main>
 {% endblock %}

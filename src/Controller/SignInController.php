@@ -10,7 +10,7 @@ class SignInController extends AbstractController
 {
 
     /**
-     * @Route("signIn", name="register")
+     * @Route("signin", name="register")
      * @return Response
      */
     public function index(): Response

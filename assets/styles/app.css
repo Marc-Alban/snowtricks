@@ -74,9 +74,6 @@ nav>a:hover{
     font-size: 35px;
 }
 
-
-
-/*Main*/
 .view-group {
     display: -ms-flexbox;
     display: contents;
@@ -99,8 +96,15 @@ nav>a:hover{
     cursor: pointer;
 }
 
-
 /*tricks*/
+
+/*Caroussel---------------------------------------------------------*/
+.d-content{
+    display: contents;
+}
+
+/*Caroussel---------------------------------------------------------*/
+
 
 
 /**

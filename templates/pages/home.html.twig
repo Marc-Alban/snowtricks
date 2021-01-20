@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% block title %}Home{% endblock %}
 {% block body %}
     <main>
         {# Top Main #}
@@ -30,8 +31,10 @@
                                     </div>
                                     <div class="caption card-body">
                                         <div class="d-flex align-items-center  justify-content-between flex-wrap">
-                                            <h4 class="group card-title ">
-                                                {{ trick.title | raw }}</h4>
+                                            <a href="">
+                                                <h4 class="group card-title ">
+                                                    {{ trick.title | raw }}</h4>
+                                            </a>
                                                 <i class="fa fa-pencil lead"></i>
                                                 <i class="fa fa-trash lead" data-toggle="modal" data-target="#myModal"></i>
                                         </div>

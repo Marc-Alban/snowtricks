@@ -1,7 +1,6 @@
 <?php
 namespace App\Controller;
 
-use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,15 +11,15 @@ class HomeController extends AbstractController
 
     /**
      * @Route("/", name="home")
+     * @param TrickRepository $trick
      * @return Response
      */
-    public function index(TrickRepository $trick, ImageRepository $image): Response
+    public function index(TrickRepository $trick): Response
     {
 
         return $this->render('pages/home.html.twig', [
             'current_menu'=>'home',
             'tricks' => $trick->findAll(),
-            'image' => $image->findAll()
         ]);
     }
 }
