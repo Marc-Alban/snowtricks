@@ -1,34 +1,23 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="{{ app.request.locale }}">
     <head>
-
         <meta charset="UTF-8">
-
-        <title>{% block title %}Snwotrick{% endblock %}</title>
-
+        <title>{% block title %}Snowtrick{% endblock %}</title>
         <meta name="theme-color" content="#7952b3">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <link rel="icon" href="{{ asset("build/favicon-32x32.png")}}" sizes="32x32" type="image/png">
-
+        <link rel="icon" href="{{ asset("build/images/favicon-32x32.png")}}" sizes="32x32" type="image/png">
         <!-- Custom styles for this template -->
         {% block stylesheets %}
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
             {{encore_entry_link_tags('app')}}
         {% endblock %}
-
     </head>
     <body>
-
-        {% include 'header.html.twig' %}
-
+        {% include 'layout/partials/_alertMessages.html.twig' %}
+        {% include 'layout/partials/_header.html.twig' %}
         {% block body %}{% endblock %}
-
-        {% include 'footer.html.twig' %}
-
+        {% include 'layout/partials/_footer.html.twig' %}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
-
     </body>
 </html>

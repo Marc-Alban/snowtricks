@@ -126,7 +126,7 @@ class AppFixtures extends Fixture
                 ->setDescription($row['description'])
                 ->setCreated(new DateTime())
                 ->setLastUpdate(new DateTime())
-                ->setCategory($this->categories);
+                ->setCategory($this->categories[]);
                 //Ici il y a setImage
                 //Ici il y a setVideo
             $this->trick->setSlug($this->trick->getTitle());

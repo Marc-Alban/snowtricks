@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6ab5ce54f17e8d449311921a81fb5fd8",
+    "content-hash": "e76365a051122b25941672639c8b4499",
     "packages": [
         {
             "name": "components/font-awesome",
@@ -8612,7 +8612,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.2.5",
+        "php": ">=8.0",
         "ext-ctype": "*",
         "ext-iconv": "*"
     },

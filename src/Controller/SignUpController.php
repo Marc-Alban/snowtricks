@@ -9,13 +9,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class SignUpController extends AbstractController
 {
     /**
-     * @Route("signup", name="login")
+     * @Route("signup", name="app_login")
      * @return Response
      */
     public function index(): Response
     {
-        return $this->render('pages/signUp.html.twig', [
-            'current_menu' => 'signUp',
-        ]);
+        return $this->render('pages/signUp.html.twig');
     }
 }

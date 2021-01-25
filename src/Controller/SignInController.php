@@ -10,13 +10,11 @@ class SignInController extends AbstractController
 {
 
     /**
-     * @Route("signin", name="register")
+     * @Route("signin", name="app_register")
      * @return Response
      */
     public function index(): Response
     {
-        return $this->render('pages/signIn.html.twig', [
-            'current_menu' => 'signIn',
-        ]);
+        return $this->render('pages/signIn.html.twig');
     }
 }

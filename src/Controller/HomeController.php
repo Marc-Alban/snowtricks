@@ -10,7 +10,7 @@ class HomeController extends AbstractController
 {
 
     /**
-     * @Route("/", name="home")
+     * @Route("/", name="app_home")
      * @param TrickRepository $trick
      * @return Response
      */
@@ -18,7 +18,6 @@ class HomeController extends AbstractController
     {
 
         return $this->render('pages/home.html.twig', [
-            'current_menu'=>'home',
             'tricks' => $trick->findAll(),
         ]);
     }
