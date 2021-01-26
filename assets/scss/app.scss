@@ -1,15 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
-@import '~font-awesome';
+@import "https://fonts.googleapis.com/css2?family=Montserrat&display=swap";
+@import "~font-awesome";
 @import "~bootstrap";
- /*
+/*
  * Globals
  */
-
-body{
+body {
     position: relative;
 }
-
-h3,h4{
+h3 {
+    font-size: 1rem;
+}
+h4 {
     font-size: 1rem;
 }
 .bd-placeholder-img {
@@ -19,63 +20,61 @@ h3,h4{
     -moz-user-select: none;
     user-select: none;
 }
-
-p,a,a:hover,a:active{
+p {
     color: #0a0a0a;
     text-decoration: none;
 }
-
+a {
+    color: #0a0a0a;
+    text-decoration: none;
+    &:hover {
+        color: #0a0a0a;
+        text-decoration: none;
+    }
+    &:active {
+        color: #0a0a0a;
+        text-decoration: none;
+    }
+}
 /**
  *Navbar
  */
-
-.navbarTop{
+.navbarTop {
     display: flex !important;
 }
-
-.navbarBottom
-{
+.navbarBottom {
     display: none !important;
 }
-
-nav>a:not(:last-child){
-    border-right: 1px solid;
+nav {
+    >a {
+        &:not(:last-child) {
+            border-right: 1px solid;
+        }
+        text-decoration-line: underline;
+        &:hover {
+            text-decoration-line: underline;
+            text-decoration-color: #5eb5e0;
+        }
+    }
 }
-
-nav>a{
-    text-decoration-line: underline;
-}
-
-nav>a:hover{
-    text-decoration-line: underline;
-    text-decoration-color: #5eb5e0;
-}
-
-
-
 /**
  * main
  */
-
 /*home top */
-.minVh{
+.minVh {
     min-height: 95vh;
 }
-
-
-.fa-arrow-circle-o-down{
+.fa-arrow-circle-o-down {
     font-size: 35px;
     position: absolute;
     top: 750px;
     right: 50px;
 }
-
-.fa-arrow-circle-o-up{
+.fa-arrow-circle-o-up {
     display: flex;
     justify-content: flex-end;
     font-size: 35px;
 }
-
 .view-group {
     display: -ms-flexbox;
     display: contents;
@@ -85,40 +84,33 @@ nav>a:hover{
     padding-left: 0;
     margin-bottom: 0;
 }
-.thumbnail
-{
+.thumbnail {
     margin-bottom: 30px;
     padding: 0px;
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
     border-radius: 0px;
 }
-
-.fa-trash, .fa-pencil{
+.fa-trash {
     cursor: pointer;
 }
-
+.fa-pencil {
+    cursor: pointer;
+}
 /*tricks*/
-
 /*Caroussel---------------------------------------------------------*/
-.d-content{
+/*Caroussel---------------------------------------------------------*/
+.d-content {
     display: contents;
 }
-
-/*Caroussel---------------------------------------------------------*/
-
-
-
 /**
  * Media queries
  */
 @media (max-width: 768px) {
-    .navbarTop{
+    .navbarTop {
         display: none !important;
     }
-
-    .navbarBottom
-    {
+    .navbarBottom {
         position: fixed;
         bottom: -20px;
         width: 100%;
@@ -126,12 +118,13 @@ nav>a:hover{
         display: flex !important;
         align-items: center;
         justify-content: center;
-    }
-    .navbarBottom nav a{
-        padding: 20px !important;
-    }
-
-    .navbarBottom nav a .fa{
-        font-size: 1.5rem;
+        nav {
+            a {
+                padding: 20px !important;
+                .fa {
+                    font-size: 1.5rem;
+                }
+            }
+        }
     }
 }
