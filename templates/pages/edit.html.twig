@@ -1,10 +1,12 @@
 {% extends 'layout/base.html.twig' %}
 {% block title %}Edit un tricks{% endblock %}
 {% block body %}
+<div class="container">
 	<div class="row">
 		<div class="col-md-6 mx-auto">
 			<h2>Edit trick</h2>
 			{{ include('layout/partials/_form.html.twig', {submit_bottom_text: 'Update Pin'}) }}
 		</div>
 	</div>
+</div>
 {% endblock %}

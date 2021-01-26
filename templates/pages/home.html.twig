@@ -1,79 +1,73 @@
 {% extends 'layout/base.html.twig' %}
 {% block title %}Home{% endblock %}
 {% block body %}
-    <main>
-        {# Top Main #}
-        <div class="container shape-container d-flex align-items-center minVh">
-            <div class="col px-0">
-                <div class="row justify-content-center align-items-center">
-                    <div class="col-lg-7 text-center pt-lg">
-                        <h1>Snowtrick</h1>
-                        <p class="lead text-grey mt-4 mb-5">La légende c'est vous !</p>
-                    </div>
-                </div>
-            </div>
-            <a class="" href="#gobottom"><i class="fa fa-arrow-circle-o-down"></i> </a>
-        </div>
-        {# main #}
-        <section id="gobottom">
-            <h2 class="text-center font-italic mb-4">Dernières figures</h2>
-            <div class="container">
-                <div class="row">
-                    <div id="tricks" class="row view-group">
-                        {% for trick in tricks %}
-                            <div class="item col-xs-3 col-lg-3">
-                                <div class="thumbnail card">
-                                    <div class="img-event m-auto">
-{#                                        <img src="{{ asset('build/{{image.content}}') }}" alt="ACME logo">#}
-                                        <img class="group list-group-image img-fluid"
-                                             src="http://placehold.it/400x250/000/fff"
-                                             alt=""/>
-                                    </div>
-                                    <div class="caption card-body">
-                                        <div class="d-flex align-items-center  justify-content-between flex-wrap">
-                                            <a href="">
-                                                <h4 class="group card-title ">
-                                                    {{ trick.title | raw }}</h4>
-                                            </a>
-                                                <i class="fa fa-pencil lead"></i>
-                                                <i class="fa fa-trash lead" data-toggle="modal" data-target="#myModal"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="container">
-            <div class="row">
-                <div class="btn btn-primary m-2" id="load">Load More</div>
-            </div>
-        </section>
-        <section class="container">
-            <div class="row">
-                <a href="#gobottom"><i class="fa fa-arrow-circle-o-up"></i></a>
-            </div>
-        </section>
-    </main>
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-center">
-            <div class="modal-dialog .modal-align-center">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel">Suppression</h4>
-                        <button type="button" class="close " data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Fermer</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">Voulez-vous vraiment supprimer ce trick ? </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
-                        <button type="button" class="btn btn-danger">Oui supprimer</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	{# Top Main #}
+	<!-- Background image -->
+	<section class="pt-5 pb-5 mt-0 align-items-center d-flex bg-dark bgImgHome">
+		
+		<div class="container-fluid">
+			<div class="row  justify-content-center align-items-center d-flex text-center h-100">
+				<div class="col-12 col-md-12 ">
+					<h1 class="text-light mb-2 mt-5">Snowtrick</h1>
+					<p class="lead  text-light mb-5">La légende c'est vous</p>
+			
+					<div class="btn-container-wrapper p-relative d-block  zindex-1">
+						<a class="btn btn-link btn-lg   mt-md-3 mb-4 scroll align-self-center text-light" href="#gobottom">
+							<i class="fa fa-angle-down fa-4x text-light"></i>
+						</a>
+					</div>
+				</div>
+			
+			</div>
+		</div>
+	</section>
+	<section id="gobottom">
+		<h2 class="text-center font-italic mb-4">Dernières figures</h2>
+		<div class="container">
+			<div class="row">
+				<div id="tricks" class="row view-group">
+					{% for trick in tricks %}
+						<div class="item col-xs-3 col-lg-3">
+							<div class="thumbnail card">
+								<div class="img-event m-auto">
+									{# <img src="{{ asset('build/{{image.content}}') }}" alt="ACME logo"> #}
+									<img class="group list-group-image img-fluid"
+									     src="http://placehold.it/400x250/000/fff"
+									     alt=""/>
+								</div>
+								<div class="caption card-body">
+									<div class="d-flex align-items-center  justify-content-between flex-wrap">
+										<a href="{{ path('app_trick_show', {id:trick.id}) }}">
+											<h4 class="group card-title ">
+												{{ trick.title|raw }}</h4>
+										</a>
+										<a href="{{ path('app_trick_edit', {id:trick.id}) }}"><i
+													class="fa fa-pencil lead"></i></a>
+										<a href="#" onclick="event.preventDefault(); confirm('Etes-vous sur de vouloir le supprimer ?') && document.getElementById('js-trick-delete-form').submit();"> <i
+													class="fa fa-trash lead"></i></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="container d-flex justify-content-around">
+		<div class="row">
+			<div class="btn btn-primary m-2" id="load">Load More</div>
+		</div>
+	</section>
+	<section class="container rowUp d-flex">
+		<div class="row">
+			<a href="#gobottom"><i class="fa fa-arrow-circle-o-up"></i></a>
+		</div>
+	</section>
+	{% for trick in tricks %}
+	<form id="js-trick-delete-form" action="{{ path('app_trick_delete', {id: trick.id} ) }}" method="post" style="display: none">
+		<input type="hidden" name="csrf_token" value="{{ csrf_token('trick_delete'~ trick.id) }}">
+		<input type="hidden" name="_method" value="DELETE">
+	</form>
+	{% endfor %}
 {% endblock %}

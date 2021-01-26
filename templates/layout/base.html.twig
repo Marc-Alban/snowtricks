@@ -13,7 +13,9 @@
     <body>
         {% include 'layout/partials/_alertMessages.html.twig' %}
         {% include 'layout/partials/_header.html.twig' %}
-        {% block body %}{% endblock %}
+        <main class="mb-75">
+            {% block body %}{% endblock %}
+        </main>
         {% include 'layout/partials/_footer.html.twig' %}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}

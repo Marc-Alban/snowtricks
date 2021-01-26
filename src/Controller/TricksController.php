@@ -31,7 +31,7 @@ class TricksController extends AbstractController
             $manager->persist($trick);
             $manager->flush();
 
-            $this->addFlash('success', 'Trick successfully created');
+            $this->addFlash('success', 'Trick bien créer');
 
             return $this->redirectToRoute('app_home');
         }
@@ -54,7 +54,7 @@ class TricksController extends AbstractController
         if($this->isCsrfTokenValid('trick_delete'.$trick->getId(),$request->request->get('csrf_token'))){
             $manager->remove($trick);
             $manager->flush();
-            $this->addFlash('info', 'trick successfully deleted');
+            $this->addFlash('info', 'trick bien supprimer');
         }
         return $this->redirectToRoute('app_home');
     }
@@ -78,7 +78,7 @@ class TricksController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $manager->flush();
-            $this->addFlash('success', 'Trick successfully updated');
+            $this->addFlash('success', 'Trick bien mis à jour');
 
             return $this->redirectToRoute('app_home');
         }
@@ -91,12 +91,12 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/trick/{id<[0-9]+>}",name="app_trick_show", methods="GET")
-     * @param Trick $trick
-     * @return Response
      */
     public function show(Trick $trick): Response
     {
-        return $this->render('pages/show.html.twig',compact('trick'));
+        return $this->render('pages/show.html.twig',[
+            'trick'=>$trick
+        ]);
     }
 
 

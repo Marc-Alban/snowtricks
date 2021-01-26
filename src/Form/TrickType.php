@@ -15,10 +15,7 @@ class TrickType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
-            ->add('categorie')
             ->add('slug')
-            ->add('content')
-            ->add('url')
         ;
 
     }

@@ -15,8 +15,8 @@ use Doctrine\Persistence\ObjectManager;
 class AppFixtures extends Fixture
 {
 
-    private array $categories = [];
-    private Category $categorie;
+    private array $categorys = [];
+    private Category $category;
     private array $tricks = [];
     private Trick $trick;
 
@@ -24,7 +24,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
 
-        $this->categories =
+        $this->categorys =
             [
                 [
                     'name' => 'grab',
@@ -53,10 +53,10 @@ class AppFixtures extends Fixture
             ];
 
         //Create Category
-        foreach($this->categories as $i){
-            $this->categorie = (new Category());
-            $this->categorie->setName($i['name']);
-            $manager->persist($this->categorie);
+        foreach($this->categorys as $i){
+            $this->category = (new Category());
+            $this->category->setName($i['name']);
+            $manager->persist($this->category);
         }
         $manager->flush();
 
@@ -126,7 +126,7 @@ class AppFixtures extends Fixture
                 ->setDescription($row['description'])
                 ->setCreated(new DateTime())
                 ->setLastUpdate(new DateTime())
-                ->setCategory($this->categories[]);
+                ->setCategory($this->categorys[]);
                 //Ici il y a setImage
                 //Ici il y a setVideo
             $this->trick->setSlug($this->trick->getTitle());

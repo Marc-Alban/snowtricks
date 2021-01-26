@@ -1,130 +1,148 @@
-@import "https://fonts.googleapis.com/css2?family=Montserrat&display=swap";
 @import "~font-awesome";
 @import "~bootstrap";
-/*
- * Globals
- */
 body {
-    position: relative;
-}
-h3 {
-    font-size: 1rem;
-}
-h4 {
-    font-size: 1rem;
-}
-.bd-placeholder-img {
-    font-size: 1.125rem;
-    text-anchor: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-}
-p {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  color: #0a0a0a;
+  p {
     color: #0a0a0a;
     text-decoration: none;
-}
-a {
-    color: #0a0a0a;
+  }
+  a {
+    color: #000;
     text-decoration: none;
     &:hover {
-        color: #0a0a0a;
-        text-decoration: none;
+      color: #0a0a0a;
+      text-decoration: none;
     }
     &:active {
-        color: #0a0a0a;
-        text-decoration: none;
+      color: #0a0a0a;
+      text-decoration: none;
     }
+  }
+  .site-content {
+    flex: 1;
+  }
+  .bgImgHome {
+    height: 100vh;
+    background-size: cover;
+    background-image: url("https://images4.alphacoders.com/598/598152.jpg");
+    margin-bottom: 1rem;
+  }
+  h3 {
+    font-size: 1rem;
+  }
+  h4 {
+    font-size: 1rem;
+  }
+  .navbar-light {
+    .navbar-nav {
+      .nav-link {
+        color: #000;
+        text-decoration: none;
+      }
+    }
+  }
 }
-/**
- *Navbar
- */
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
 .navbarTop {
-    display: flex !important;
+  display: flex !important;
 }
 .navbarBottom {
-    display: none !important;
+  display: none !important;
 }
 nav {
-    >a {
-        &:not(:last-child) {
-            border-right: 1px solid;
-        }
+  ul {
+    li {
+      border-right: 1px solid;
+      &:not(:first-child),
+      :not(:last-child) {
+        border-right: 1px solid;
+      }
+      a {
         text-decoration-line: underline;
         &:hover {
-            text-decoration-line: underline;
-            text-decoration-color: #5eb5e0;
+          text-decoration-line: underline;
+          text-decoration-color: #5eb5e0;
         }
+      }
     }
+  }
 }
-/**
- * main
- */
-/*home top */
 .minVh {
-    min-height: 95vh;
+  min-height: 95vh;
 }
 .fa-arrow-circle-o-down {
-    font-size: 35px;
-    position: absolute;
-    top: 750px;
-    right: 50px;
+  font-size: 35px;
+  position: absolute;
+  top: 80%;
+  right: 60px;
+}
+.rowUp {
+  justify-content: flex-end;
 }
 .fa-arrow-circle-o-up {
-    display: flex;
-    justify-content: flex-end;
-    font-size: 35px;
+  font-size: 35px;
 }
 .view-group {
-    display: -ms-flexbox;
-    display: contents;
-    flex-wrap: wrap;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    padding-left: 0;
-    margin-bottom: 0;
+  display: -ms-flexbox;
+  display: contents;
+  flex-wrap: wrap;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  padding-left: 0;
+  margin-bottom: 0;
 }
 .thumbnail {
-    margin-bottom: 30px;
-    padding: 0px;
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    border-radius: 0px;
+  margin-bottom: 30px;
+  padding: 0;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
 }
 .fa-trash {
-    cursor: pointer;
+  cursor: pointer;
 }
 .fa-pencil {
-    cursor: pointer;
+  cursor: pointer;
 }
-/*tricks*/
-/*Caroussel---------------------------------------------------------*/
-/*Caroussel---------------------------------------------------------*/
 .d-content {
-    display: contents;
+  display: contents;
 }
-/**
- * Media queries
- */
+footer {
+  border-top: 1px solid black;
+  padding: 1rem;
+}
 @media (max-width: 768px) {
-    .navbarTop {
-        display: none !important;
-    }
-    .navbarBottom {
-        position: fixed;
-        bottom: -20px;
-        width: 100%;
-        z-index: 1;
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        nav {
-            a {
-                padding: 20px !important;
-                .fa {
-                    font-size: 1.5rem;
-                }
-            }
+  .rowUp {
+    justify-content: space-around;
+  }
+  .navbarTop {
+    display: none !important;
+  }
+  .navbarBottom {
+    position: fixed;
+    bottom: -20px;
+    width: 100%;
+    z-index: 1;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    nav {
+      a {
+        padding: 20px !important;
+        .fa {
+          font-size: 1.5rem;
         }
+      }
     }
+  }
 }
