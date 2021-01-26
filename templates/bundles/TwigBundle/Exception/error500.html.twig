@@ -1,11 +1,25 @@
 {% extends 'layout/base.html.twig' %}
     {% block title %}
-	    505 : Error
+	    505 : Erreurr
     {% endblock %}
 {% block body %}
-	<h1>505 Error --> Version non suporté</h1>
-	
-	<p>
-		Revenir à la page home ? <a href="{{ path('app_home') }}">cliquer ici</a>
-	</p>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="error-template">
+					<h1>
+						Oops!</h1>
+					<h2>
+						500 Erreur</h2>
+					<div class="error-details">
+						Le serveur a rencontré une situation qu'il ne sait pas traiter.
+					</div>
+					<div class="error-actions">
+						<a href="{{ path('app_home') }}" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
+							Retour Accueil</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}

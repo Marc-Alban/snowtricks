@@ -1,11 +1,17 @@
 @import "~font-awesome";
 @import "~bootstrap";
+
+html {
+  position: relative;
+}
+
 body {
   margin: 0;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   color: #0a0a0a;
+
   p {
     color: #0a0a0a;
     text-decoration: none;
@@ -46,6 +52,14 @@ body {
     }
   }
 }
+
+main{
+  margin-bottom: 100px;
+}
+
+.loadMore{
+  display: none !important;
+}
 .bd-placeholder-img {
   font-size: 1.125rem;
   text-anchor: middle;
@@ -63,8 +77,10 @@ nav {
   ul {
     li {
       border-right: 1px solid;
-      &:not(:first-child),
-      :not(:last-child) {
+      &:not(:first-child){
+        border-right: 1px solid;
+      }
+      &:not(:last-child) {
         border-right: 1px solid;
       }
       a {
@@ -79,12 +95,6 @@ nav {
 }
 .minVh {
   min-height: 95vh;
-}
-.fa-arrow-circle-o-down {
-  font-size: 35px;
-  position: absolute;
-  top: 80%;
-  right: 60px;
 }
 .rowUp {
   justify-content: flex-end;
@@ -117,10 +127,35 @@ nav {
 .d-content {
   display: contents;
 }
+.contShow{
+  border: 1px solid;
+  height: 100%;
+  padding: 2rem;
+}
+.contUpDe {
+  border: 1px solid;
+  display: flex;
+  justify-content: space-around;
+}
 footer {
   border-top: 1px solid black;
   padding: 1rem;
+  position: absolute;
+  bottom: 0;
+  min-width: 100%;
 }
+.error-template {
+  padding: 40px 15px;
+  text-align: center;
+}
+.error-actions {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  .btn {
+    margin-right: 10px;
+  }
+}
+
 @media (max-width: 768px) {
   .rowUp {
     justify-content: space-around;

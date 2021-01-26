@@ -3,22 +3,41 @@
 {% block title %}{{ trick.title }}{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <div class="row col-md-6 mx-auto ">
-            <article>
-                <h1>{{ trick.title }}</h1>
-                <p>{{ trick.description }} </p>
-                <p>{{ trick.slug }} </p>
-                <p>Créer le <span class="created">{{ trick.created|date("d/m/Y") }} </span> || modifier le : <span class="updated">{{ trick.lastUpdate|date("d/m/Y") }} </span></p>
-            </article>
-            <a href="{{ path('app_trick_edit', {id: trick.id} ) }}">Editer le trick</a>|
-            <a href="#" onclick="event.preventDefault(); confirm('Etes-vous sur de vouloir le supprimer ? ') && document.getElementById('js-trick-delete-form').submit();">Supprimer le trick</a>|
-            <a href="{{ path('app_home') }}">Revenir à la page d'accueil</a>
-        </div>
-    </div>
-    
-    <form id="js-trick-delete-form" action="{{ path('app_trick_delete', {id: trick.id} ) }}" method="post" style="display: none">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token('trick_delete'~ trick.id) }}">
-        <input type="hidden" name="_method" value="DELETE">
-    </form>
+	<div class="container contShow mt-5">
+		<div class="row col-md-8 mx-auto ">
+				<div class="container ">
+					<div class="d-flex justify-content-end">
+						<div class=" col-2 col-md-2 col-lg-2 contUpDe">
+						<span class="iconFa">
+							<a href="{{ path('app_trick_edit', {id: trick.id} ) }}">
+								<i class="fa fa-pencil lead"></i>
+							</a>
+						</span>
+						<span class="iconFa">
+							<a href="#" onclick="event.preventDefault(); confirm('Etes-vous sur de vouloir le supprimer ? ') && document.getElementById('js-trick-delete-form').submit();">
+								<i class="fa fa-trash lead"></i>
+							</a>
+						</span>
+						</div>
+					</div>
+				</div>
+			<article class="col-12 col-md-12 col-lg-12">
+				<h1 class="text-center">{{ trick.title }}</h1>
+				<p class="text-justify">{{ trick.description }} </p>
+				<div class="col-12 col-md-12 col-lg-12 d-flex justify-content-between flex-wrap">
+					<div class="alert alert-primary btn-primary">{{ trick.slug }}</div>
+					<div class="alert alert-primary btn-primary">Créer le <span
+								class="created">{{ trick.created|date("d/m/Y") }} </span></div>
+					<div class="alert alert-primary btn-primary">modifier le : <span
+								class="updated">{{ trick.lastUpdate|date("d/m/Y") }} </span></div>
+				</div>
+			</article>
+		</div>
+	</div>
+	
+	<form id="js-trick-delete-form" action="{{ path('app_trick_delete', {id: trick.id} ) }}" method="post"
+	      style="display: none">
+		<input type="hidden" name="csrf_token" value="{{ csrf_token('trick_delete'~ trick.id) }}">
+		<input type="hidden" name="_method" value="DELETE">
+	</form>
 {% endblock %}
