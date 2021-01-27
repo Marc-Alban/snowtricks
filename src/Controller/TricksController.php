@@ -21,9 +21,11 @@ class TricksController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $manager): Response
     {
+
+
         $trick = new Trick();
 
-        $form = $this->createForm(Trick::class,$trick);
+        $form = $this->createForm(TrickType::class,$trick);
 
         $form->handleRequest($request);
 

@@ -1,2 +1,6 @@
 parameters:
     checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+    excludePaths:
+        analyse:
+            - src/DataFixtures

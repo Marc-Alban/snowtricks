@@ -159,6 +159,7 @@ class Trick
     }
 
 
+
     /**
      * @return Collection
      */

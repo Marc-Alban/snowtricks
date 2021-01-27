@@ -5,8 +5,8 @@ namespace App\DataFixtures;
 use App\Entity\Category;
 use App\Entity\Trick;
 use App\Entity\User;
-//use App\Entity\Image;
-//use App\Entity\Video;
+use App\Entity\Image;
+use App\Entity\Video;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -15,16 +15,10 @@ use Doctrine\Persistence\ObjectManager;
 class AppFixtures extends Fixture
 {
 
-    private array $categorys = [];
-    private Category $category;
-    private array $tricks = [];
-    private Trick $trick;
-
-
     public function load(ObjectManager $manager)
     {
 
-        $this->categorys =
+        $categorys =
             [
                 [
                     'name' => 'grab',
@@ -45,23 +39,24 @@ class AppFixtures extends Fixture
                     'name' => 'old school',
                 ],
                 [
-                    'name' => 'one foot',
-                ],
-                [
                     'name' => 'rotation désaxée',
                 ]
             ];
 
         //Create Category
-        foreach($this->categorys as $i){
-            $this->category = (new Category());
-            $this->category->setName($i['name']);
-            $manager->persist($this->category);
+        $categ = [];
+        foreach($categorys as $i){
+            $category = (new Category());
+            $category->setName($i['name']);
+
+            $manager->persist($category);
+            $categ[] = $category;
         }
         $manager->flush();
 
 
         //Create User
+        $users = [];
         $user = (new User());
         $user->setUsername('Marc-Alban')
             ->setPassword('@dmIn123')
@@ -71,10 +66,79 @@ class AppFixtures extends Fixture
             ->setCreated(new DateTime())
             ->setLastUpdate(new DateTime());
         $manager->persist($user);
+        $users[] = $user;
         $manager->flush();
 
+
+        //Image
+        $images =
+            [
+                [
+                    '$address' => '50-50.jpg',
+                ],
+                [
+                    '$address' => 'flip.jpg',
+                ],
+                [
+                    '$address' => 'backside_air.jpg',
+                ],
+                [
+                    '$address' => 'frontsite.jpg',
+                ],
+                [
+                    '$address' => 'doubleback.jpg',
+                ],
+                [
+                    '$address' => 'Front_Bluntslide.jpg',
+                ],
+                [
+                    '$address' => 'japan.jpg',
+                ],
+                [
+                    '$address' => 'methode_air.jpg',
+                ],
+                [
+                    '$address' => 'nose_grab.jpg',
+                ],
+                [
+                    '$address' => 'Tail_grab.jpg',
+                ]
+            ];
+        $imgs = [];
+        foreach ($images as $img){
+            $image = (new Image())
+                ->setContent($img['$address'])
+                ->setCreated(new DateTime());
+            $manager->persist($image);
+        $imgs[] = $image;
+        }
+        $manager->flush();
+
+        //Video
+
+        //Image
+        $videos =
+            [
+                [
+                    '$address' => 'https://www.youtube.com/embed/_hxLS2ErMiY',
+                ],
+                [
+                    '$address' => 'https://www.youtube.com/embed/_Qq-YoXwNQY',
+                ],
+
+            ];
+        $vds = [];
+        foreach ($videos as $url){
+            $video = (new Video())
+                ->setAddress($url['url']);
+            $manager->persist($video);
+            $vds[] = $video;
+        }
+        $manager->flush();
+
+
         //create Tricks
-        $this->tricks = [
+        $tricks = [
             [
                 'title' => 'Tail grab',
                 'description' => 'Si vous voulez faire un tail grab, cela est possible en snowboard par un mouvement d’assiette de la planche obtenu par une dysmétrie dans la montée des jambes.
@@ -120,34 +184,21 @@ class AppFixtures extends Fixture
         ];
 
         //Trick -----------------------------------------------------------------------------------
-        foreach ($this->tricks as $row){
-            $this->trick = (new Trick())
+        $tr = [];
+        foreach ($tricks as $row){
+            $trick = (new Trick())
                 ->setTitle($row['title'])
                 ->setDescription($row['description'])
                 ->setCreated(new DateTime())
                 ->setLastUpdate(new DateTime())
-                ->setCategory($this->categorys[]);
-                //Ici il y a setImage
-                //Ici il y a setVideo
-            $this->trick->setSlug($this->trick->getTitle());
-            $manager->persist($this->trick);
+                ->getCategory($categ[0]);
+                $trick->setSlug($trick->getTitle());
+            $manager->persist($trick);
+            $tr[] = $trick;
         }
         $manager->flush();
-
         //End Trick ----------------------------------------------------------------------------------
 
-//        //Image
-//        $image = (new Image())
-//            ->setContent('front-bluntslide-270.jpg')
-//            ->setTrick($bluntslide270)
-//            ->setCreated(new DateTime());
-//        $manager->persist($image);
-//        $manager->flush();
-//        //Video
-//        $video = (new Video())
-//            ->setAddress('https://www.youtube.com/embed/O5DpwZjCsgA')
-//            ->setTrick($bluntslide270)
-//            ->setCreated(new DateTime());
 
 
    }
