@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\VideoRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
 
@@ -29,10 +30,10 @@ class Video
     private DateTime $created;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="videos")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="Video")
      */
-    private Trick $trick;
+    private Collection $tricks;
+
 
     // default values automatically added
     public function __construct()
@@ -69,15 +70,12 @@ class Video
         return $this;
     }
 
-    public function getTrick(): ?Trick
+    /**
+     * @return Collection
+     */
+    public function getTricks(): Collection
     {
-        return $this->trick;
+        return $this->tricks;
     }
 
-    public function setTrick(Trick $trick): self
-    {
-        $this->trick = $trick;
-
-        return $this;
-    }
 }

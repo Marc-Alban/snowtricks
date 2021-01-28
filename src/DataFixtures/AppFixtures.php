@@ -44,19 +44,15 @@ class AppFixtures extends Fixture
             ];
 
         //Create Category
-        $categ = [];
         foreach($categorys as $i){
             $category = (new Category());
             $category->setName($i['name']);
-
             $manager->persist($category);
-            $categ[] = $category;
         }
         $manager->flush();
 
 
         //Create User
-        $users = [];
         $user = (new User());
         $user->setUsername('Marc-Alban')
             ->setPassword('@dmIn123')
@@ -66,7 +62,6 @@ class AppFixtures extends Fixture
             ->setCreated(new DateTime())
             ->setLastUpdate(new DateTime());
         $manager->persist($user);
-        $users[] = $user;
         $manager->flush();
 
 
@@ -74,43 +69,40 @@ class AppFixtures extends Fixture
         $images =
             [
                 [
-                    '$address' => '50-50.jpg',
+                    'content' => '50-50.jpg',
                 ],
                 [
-                    '$address' => 'flip.jpg',
+                    'content' => 'flip.jpg',
                 ],
                 [
-                    '$address' => 'backside_air.jpg',
+                    'content' => 'backside_air.jpg',
                 ],
                 [
-                    '$address' => 'frontsite.jpg',
+                    'content' => 'frontsite.jpg',
                 ],
                 [
-                    '$address' => 'doubleback.jpg',
+                    'content' => 'doubleback.jpg',
                 ],
                 [
-                    '$address' => 'Front_Bluntslide.jpg',
+                    'content' => 'Front_Bluntslide.jpg',
                 ],
                 [
-                    '$address' => 'japan.jpg',
+                    'content' => 'japan.jpg',
                 ],
                 [
-                    '$address' => 'methode_air.jpg',
+                    'content' => 'methode_air.jpg',
                 ],
                 [
-                    '$address' => 'nose_grab.jpg',
+                    'content' => 'nose_grab.jpg',
                 ],
                 [
-                    '$address' => 'Tail_grab.jpg',
+                    'content' => 'Tail_grab.jpg',
                 ]
             ];
-        $imgs = [];
         foreach ($images as $img){
             $image = (new Image())
-                ->setContent($img['$address'])
-                ->setCreated(new DateTime());
+                ->setContent($img['content']);
             $manager->persist($image);
-        $imgs[] = $image;
         }
         $manager->flush();
 
@@ -120,19 +112,35 @@ class AppFixtures extends Fixture
         $videos =
             [
                 [
-                    '$address' => 'https://www.youtube.com/embed/_hxLS2ErMiY',
+                    'address' => 'https://www.youtube.com/embed/_hxLS2ErMiY',
                 ],
                 [
-                    '$address' => 'https://www.youtube.com/embed/_Qq-YoXwNQY',
+                    'address' => 'https://www.youtube.com/embed/_Qq-YoXwNQY',
+                ],                [
+                    'address' => 'https://www.youtube.com/embed/ZlNmeM1XdM4',
+                ],                [
+                    'address' => 'https://www.youtube.com/embed/CzDjM7h_Fwo',
+                ],                [
+                    'address' => 'https://www.youtube.com/embed/9T5AWWDxYM4',
+                ],                [
+                    'address' => 'https://www.youtube.com/embed/SLncsNaU6es',
+                ],               [
+                    'address' => 'https://www.youtube.com/embed/_CN_yyEn78M',
+                ],              [
+                    'address' => 'https://www.youtube.com/embed/12OHPNTeoRs',
+                ],              [
+                    'address' => 'https://www.youtube.com/embed/kxZbQGjSg4w',
+                ],              [
+                    'address' => 'https://www.youtube.com/embed/O5DpwZjCsgA',
+                ],              [
+                    'address' => 'https://www.youtube.com/embed/id8VKl9RVQw',
                 ],
 
             ];
-        $vds = [];
         foreach ($videos as $url){
             $video = (new Video())
-                ->setAddress($url['url']);
+                ->setAddress($url['address']);
             $manager->persist($video);
-            $vds[] = $video;
         }
         $manager->flush();
 
@@ -184,22 +192,19 @@ class AppFixtures extends Fixture
         ];
 
         //Trick -----------------------------------------------------------------------------------
-        $tr = [];
         foreach ($tricks as $row){
             $trick = (new Trick())
                 ->setTitle($row['title'])
                 ->setDescription($row['description'])
                 ->setCreated(new DateTime())
-                ->setLastUpdate(new DateTime())
-                ->getCategory($categ[0]);
-                $trick->setSlug($trick->getTitle());
+                ->setLastUpdate(new DateTime());
+            $trick->setSlug($trick->getTitle())
+                ->setCategory($category)
+                ->setImage($image)
+                ->setVideo($video);
             $manager->persist($trick);
-            $tr[] = $trick;
         }
         $manager->flush();
         //End Trick ----------------------------------------------------------------------------------
-
-
-
    }
 }

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ImageRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use \DateTime;
 
@@ -31,10 +32,10 @@ class Image
     private DateTime $created;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="images")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="Image")
      */
-    private Trick $trick;
+    private Collection $tricks;
+
 
 
     // default values automatically added
@@ -72,16 +73,13 @@ class Image
         return $this;
     }
 
-    public function getTrick(): Trick
+    /**
+     * @return Collection
+     */
+    public function getTricks(): Collection
     {
-        return $this->trick;
+        return $this->tricks;
     }
 
-    public function setTrick(Trick $trick): self
-    {
-        $this->trick = $trick;
-
-        return $this;
-    }
 
 }

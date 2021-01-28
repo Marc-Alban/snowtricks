@@ -36,11 +36,6 @@ class Comment
      */
     private User $user;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="comments")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private Trick $trick;
 
     public function getId(): ?int
     {
@@ -83,15 +78,4 @@ class Comment
         return $this;
     }
 
-    public function getTrick(): Trick
-    {
-        return $this->trick;
-    }
-
-    public function setTrick(Trick $trick): self
-    {
-        $this->trick = $trick;
-
-        return $this;
-    }
 }

@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\Mapping as ORM;
 use \DateTime;
@@ -54,26 +52,16 @@ class Trick
     private Category $category;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick", cascade={"remove"}, orphanRemoval=true)
+     * @ORM\ManyToOne(targetEntity=Image::class, inversedBy="tricks")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private Collection $comments;
+    private Image $image;
 
     /**
-     * @ORM\OneToMany(targetEntity=Image::class, mappedBy="trick",  cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\ManyToOne(targetEntity=Video::class, inversedBy="tricks")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private Collection $images;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
-    private Collection $videos;
-
-    public function __construct()
-    {
-        $this->comments = new ArrayCollection();
-        $this->images = new ArrayCollection();
-        $this->videos = new ArrayCollection();
-    }
+    private Video $video;
 
 
     public function getId(): int
@@ -89,6 +77,18 @@ class Trick
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
@@ -129,6 +129,8 @@ class Trick
         return $this;
     }
 
+
+
     public function getCategory():Category
     {
         return $this->category;
@@ -141,45 +143,28 @@ class Trick
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
-    public function getComments(): Collection
+    public function getImage():Image
     {
-        return $this->comments;
+        return $this->image;
     }
 
-
-    /**
-     * @return Collection
-     */
-    public function getImages(): Collection
+    public function setImage(Image $image): self
     {
-        return $this->images;
-    }
-
-
-
-    /**
-     * @return Collection
-     */
-    public function getVideos(): Collection
-    {
-        return $this->videos;
-    }
-
-
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
-
-    public function setSlug(string $slug): self
-    {
-        $this->slug = $slug;
+        $this->image = $image;
 
         return $this;
     }
 
+    public function getVideo():Video
+    {
+        return $this->video;
+    }
+
+    public function setVideo(Video $video): self
+    {
+        $this->video = $video;
+
+        return $this;
+    }
 
 }
