@@ -1,0 +1,69 @@
+<?php
+
+namespace App\DataFixtures;
+
+use App\Entity\Category;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use Doctrine\Persistence\ObjectManager;
+
+
+class CategoryFixtures extends Fixture implements FixtureGroupInterface
+{
+
+    public function load(ObjectManager $manager)
+    {
+
+        //Categories ----------------
+        $category1 = (new Category());
+        $category1->setName('grab');
+        $manager->persist($category1);
+        $manager->flush();
+
+        $category2 = (new Category());
+        $category2->setName('rotation');
+        $manager->persist($category1);
+        $manager->flush();
+
+        $category3 = (new Category());
+        $category3->setName('flip');
+        $manager->persist($category1);
+        $manager->flush();
+
+        $category4 = (new Category());
+        $category4->setName('slide');
+        $manager->persist($category1);
+        $manager->flush();
+
+        $category5 = (new Category());
+        $category5->setName('one foot');
+        $manager->persist($category1);
+        $manager->flush();
+
+        $category6 = (new Category());
+        $category6->setName('old school');
+        $manager->persist($category1);
+        $manager->flush();
+
+        $category7 = (new Category());
+        $category7->setName('rotation désaxé');
+        $manager->persist($category1);
+        $manager->flush();
+
+
+        //Reference
+        $this->setReference('Category1', $category1);
+        $this->setReference('Category2', $category2);
+        $this->setReference('Category3', $category3);
+        $this->setReference('Category4', $category4);
+        $this->setReference('Category5', $category5);
+        $this->setReference('Category6', $category6);
+        $this->setReference('Category7', $category7);
+
+    }
+
+    public static function getGroups(): array
+    {
+        return ['group1'];
+    }
+}

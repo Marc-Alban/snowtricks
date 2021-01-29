@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Trick;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,8 +17,23 @@ class TrickType extends AbstractType
     {
         $builder
             ->add('title', TextType::class)
-            ->add('description', TextareaType::class)
             ->add('slug',TextType::class)
+            ->add('description', TextareaType::class)
+            ->add('category', CollectionType::class,[
+                'entry_type'=>CategoryType::class,
+                'allow_add'=>true,
+                'allow_delete'=>true,
+            ])
+            ->add('image',CollectionType::class,[
+                'entry_type'=>ImageType::class,
+                'allow_add'=>true,
+                'allow_delete'=>true,
+            ])
+            ->add('video',CollectionType::class,[
+                'entry_type'=>VideoType::class,
+                'allow_add'=>true,
+                'allow_delete'=>true,
+            ])
         ;
 
     }

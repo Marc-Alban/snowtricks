@@ -1,4 +1,38 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+
+{{ form_errors(form) }}
+    {{ form_label(form.title, "Titre:") }}
+    {{ form_errors(form.title) }}
+    <div>
+        {{ form_widget(form.title) }}
+    </div>
+    {{ form_label(form.slug, "Slug:") }}
+    {{ form_errors(form.slug) }}
+    <div>
+        {{ form_widget(form.slug) }}
+    </div>
+    {{ form_label(form.description, "Description:") }}
+    {{ form_errors(form.description) }}
+    <div>
+        {{ form_widget(form.description) }}
+    </div>
+    {{ form_label(form.category, "Choisir une catégorie:") }}
+    {{ form_errors(form.category) }}
+    <div>
+        {{ form_widget(form.category) }}
+    </div>
+    {{ form_label(form.image, "Choisir une image:") }}
+    {{ form_errors(form.image) }}
+    <div>
+        {{ form_widget(form.image) }}
+    </div>
+    {{ form_label(form.video, "url d'une video:") }}
+    {{ form_errors(form.video) }}
+    <div>
+        {{ form_widget(form.video) }}
+    </div>
+    <div>
+        {{ form_rest(form)}}
+    </div>
 <input type="submit" value="{{ submit_bottom_text ?? 'Create Trick' }}" class="btn btn-primary " formnovalidate>
 {{ form_end(form) }}
