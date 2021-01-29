@@ -28,7 +28,7 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
         $manager->flush();
 
         //Reference
-        $this->setReference('user1', $user1);
+        $this->addReference('user1', $user1);
     }
 
     public static function getGroups(): array

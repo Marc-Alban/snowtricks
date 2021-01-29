@@ -77,16 +77,16 @@ class VideoFixtures extends Fixture implements FixtureGroupInterface
         $manager->flush();
 
         //Reference
-        $this->setReference('Video1', $video1);
-        $this->setReference('Video2', $video2);
-        $this->setReference('Video3', $video3);
-        $this->setReference('Video4', $video4);
-        $this->setReference('Video5', $video5);
-        $this->setReference('Video6', $video6);
-        $this->setReference('Video7', $video7);
-        $this->setReference('Video8', $video8);
-        $this->setReference('Video9', $video9);
-        $this->setReference('Video10', $video10);
+        $this->addReference('Video1', $video1);
+        $this->addReference('Video2', $video2);
+        $this->addReference('Video3', $video3);
+        $this->addReference('Video4', $video4);
+        $this->addReference('Video5', $video5);
+        $this->addReference('Video6', $video6);
+        $this->addReference('Video7', $video7);
+        $this->addReference('Video8', $video8);
+        $this->addReference('Video9', $video9);
+        $this->addReference('Video10', $video10);
     }
 
     public static function getGroups(): array

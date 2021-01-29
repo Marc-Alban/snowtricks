@@ -5,10 +5,11 @@ namespace App\DataFixtures;
 use App\Entity\Trick;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
 
-class TrickFixtures  extends Fixture
+class TrickFixtures extends Fixture implements FixtureGroupInterface
 {
 
     public function load(ObjectManager $manager)
@@ -32,7 +33,7 @@ class TrickFixtures  extends Fixture
             ->setDescription('saisie de la partie avant de la planche, avec la main avant.')
             ->setCreated(new DateTime())
             ->setLastUpdate(new DateTime());
-        $trick2->setSlug($trick1->getTitle());
+        $trick2->setSlug($trick2->getTitle());
         $trick2->setCategory($this->getReference('Category2'))
             ->setImage($this->getReference('Image2'))
             ->setVideo($this->getReference('Video2'));
@@ -136,5 +137,10 @@ class TrickFixtures  extends Fixture
         $manager->persist($trick10);
         $manager->flush();
 
+    }
+
+    public static function getGroups(): array
+    {
+        return ['group5'];
     }
 }
