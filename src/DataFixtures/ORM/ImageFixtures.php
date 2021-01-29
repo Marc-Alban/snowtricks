@@ -10,7 +10,10 @@ use Doctrine\Persistence\ObjectManager;
 class ImageFixtures extends Fixture
 {
 
-    public function load(ObjectManager $manager)
+    /**
+     * @param ObjectManager $manager
+     */
+    public function load(ObjectManager $manager): void
     {
 
         $image1 = (new Image())

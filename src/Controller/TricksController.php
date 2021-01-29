@@ -93,6 +93,8 @@ class TricksController extends AbstractController
 
     /**
      * @Route("/trick/{id<[0-9]+>}",name="app_trick_show", methods="GET")
+     * @param Trick $trick
+     * @return Response
      */
     public function show(Trick $trick): Response
     {

@@ -12,7 +12,10 @@ use Doctrine\Persistence\ObjectManager;
 class TrickFixtures extends Fixture implements DependentFixtureInterface
 {
 
-    public function load(ObjectManager $manager)
+    /**
+     * @param ObjectManager $manager
+     */
+    public function load(ObjectManager $manager): void
     {
         $trick1 = (new Trick())
             ->setTitle('Tail grab')

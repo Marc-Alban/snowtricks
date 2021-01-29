@@ -69,7 +69,7 @@ class Trick
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -81,7 +81,7 @@ class Trick
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getSlug(): string
     {
         return $this->slug;
     }
@@ -93,7 +93,7 @@ class Trick
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -105,7 +105,7 @@ class Trick
         return $this;
     }
 
-    public function getCreated(): ?DateTime
+    public function getCreated(): DateTime
     {
         return $this->created;
     }
@@ -117,7 +117,7 @@ class Trick
         return $this;
     }
 
-    public function getLastUpdate(): ?DateTime
+    public function getLastUpdate(): DateTime
     {
         return $this->lastUpdate;
     }

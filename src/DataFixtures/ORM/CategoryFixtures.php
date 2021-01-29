@@ -10,7 +10,10 @@ use Doctrine\Persistence\ObjectManager;
 class CategoryFixtures extends Fixture
 {
 
-    public function load(ObjectManager $manager)
+    /**
+     * @param ObjectManager $manager
+     */
+    public function load(ObjectManager $manager): void
     {
 
         //Categories ----------------

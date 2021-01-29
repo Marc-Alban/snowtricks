@@ -10,8 +10,10 @@ use Doctrine\Persistence\ObjectManager;
 
 class UserFixtures extends Fixture
 {
-
-    public function load(ObjectManager $manager)
+    /**
+     * @param ObjectManager $manager
+     */
+    public function load(ObjectManager $manager): void
     {
 
         //Create User----------------------------
@@ -20,7 +22,7 @@ class UserFixtures extends Fixture
             ->setPassword('@dmIn123')
             ->setEmail('millet.marcalban@gmail.com')
             ->setPhoto('jimmy-avatar.jpg')
-            ->setActivated('1')
+            ->setActivated(true)
             ->setCreated(new DateTime())
             ->setLastUpdate(new DateTime());
         $manager->persist($user1);
