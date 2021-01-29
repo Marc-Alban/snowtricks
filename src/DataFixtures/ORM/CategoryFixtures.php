@@ -1,14 +1,13 @@
 <?php
 
-namespace App\DataFixtures;
+namespace App\DataFixtures\ORM;
 
 use App\Entity\Category;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
 
-class CategoryFixtures extends Fixture implements FixtureGroupInterface
+class CategoryFixtures extends Fixture
 {
 
     public function load(ObjectManager $manager)
@@ -62,8 +61,4 @@ class CategoryFixtures extends Fixture implements FixtureGroupInterface
 
     }
 
-    public static function getGroups(): array
-    {
-        return ['group1'];
-    }
 }

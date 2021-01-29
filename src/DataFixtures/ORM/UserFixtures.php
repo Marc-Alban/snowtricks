@@ -1,15 +1,14 @@
 <?php
 
-namespace App\DataFixtures;
+namespace App\DataFixtures\ORM;
 
 use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
 
-class UserFixtures extends Fixture implements FixtureGroupInterface
+class UserFixtures extends Fixture
 {
 
     public function load(ObjectManager $manager)
@@ -31,8 +30,4 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
         $this->addReference('user1', $user1);
     }
 
-    public static function getGroups(): array
-    {
-        return ['group4'];
-    }
 }

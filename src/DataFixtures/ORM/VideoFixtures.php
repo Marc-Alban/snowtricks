@@ -1,16 +1,13 @@
 <?php
 
-namespace App\DataFixtures;
-
-namespace App\DataFixtures;
+namespace App\DataFixtures\ORM;
 
 use App\Entity\Video;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class VideoFixtures extends Fixture implements FixtureGroupInterface
+class VideoFixtures extends Fixture
 {
 
     public function load(ObjectManager $manager)
@@ -77,20 +74,16 @@ class VideoFixtures extends Fixture implements FixtureGroupInterface
         $manager->flush();
 
         //Reference
-        $this->addReference('Video1', $video1);
-        $this->addReference('Video2', $video2);
-        $this->addReference('Video3', $video3);
-        $this->addReference('Video4', $video4);
-        $this->addReference('Video5', $video5);
-        $this->addReference('Video6', $video6);
-        $this->addReference('Video7', $video7);
-        $this->addReference('Video8', $video8);
-        $this->addReference('Video9', $video9);
-        $this->addReference('Video10', $video10);
+        $this->addReference('video1', $video1);
+        $this->addReference('video2', $video2);
+        $this->addReference('video3', $video3);
+        $this->addReference('video4', $video4);
+        $this->addReference('video5', $video5);
+        $this->addReference('video6', $video6);
+        $this->addReference('video7', $video7);
+        $this->addReference('video8', $video8);
+        $this->addReference('video9', $video9);
+        $this->addReference('video10', $video10);
     }
 
-    public static function getGroups(): array
-    {
-        return ['group3'];
-    }
 }

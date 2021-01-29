@@ -1,20 +1,19 @@
 <?php
 
-namespace App\DataFixtures;
+namespace App\DataFixtures\ORM;
 
 use App\Entity\Trick;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
 
-class TrickFixtures extends Fixture implements FixtureGroupInterface
+class TrickFixtures extends Fixture implements DependentFixtureInterface
 {
 
     public function load(ObjectManager $manager)
     {
-
         $trick1 = (new Trick())
             ->setTitle('Tail grab')
             ->setDescription('Si vous voulez faire un tail grab, cela est possible en snowboard par un mouvement d’assiette de la planche obtenu par une dysmétrie dans la montée des jambes.
@@ -24,7 +23,7 @@ class TrickFixtures extends Fixture implements FixtureGroupInterface
         $trick1->setSlug($trick1->getTitle());
         $trick1->setCategory($this->getReference('Category1'))
             ->setImage($this->getReference('Image1'))
-            ->setVideo($this->getReference('Video1'));
+            ->setVideo($this->getReference('video1'));
         $manager->persist($trick1);
         $manager->flush();
 
@@ -36,7 +35,7 @@ class TrickFixtures extends Fixture implements FixtureGroupInterface
         $trick2->setSlug($trick2->getTitle());
         $trick2->setCategory($this->getReference('Category2'))
             ->setImage($this->getReference('Image2'))
-            ->setVideo($this->getReference('Video2'));
+            ->setVideo($this->getReference('video2'));
         $manager->persist($trick2);
         $manager->flush();
 
@@ -48,7 +47,7 @@ class TrickFixtures extends Fixture implements FixtureGroupInterface
         $trick3->setSlug($trick3->getTitle());
         $trick3->setCategory($this->getReference('Category3'))
             ->setImage($this->getReference('Image3'))
-            ->setVideo($this->getReference('Video3'));
+            ->setVideo($this->getReference('video3'));
         $manager->persist($trick3);
         $manager->flush();
 
@@ -60,7 +59,7 @@ class TrickFixtures extends Fixture implements FixtureGroupInterface
         $trick4->setSlug($trick4->getTitle());
         $trick4->setCategory($this->getReference('Category4'))
             ->setImage($this->getReference('Image4'))
-            ->setVideo($this->getReference('Video4'));
+            ->setVideo($this->getReference('video4'));
         $manager->persist($trick4);
         $manager->flush();
 
@@ -72,7 +71,7 @@ class TrickFixtures extends Fixture implements FixtureGroupInterface
         $trick5->setSlug($trick5->getTitle());
         $trick5->setCategory($this->getReference('Category5'))
             ->setImage($this->getReference('Image5'))
-            ->setVideo($this->getReference('Video5'));
+            ->setVideo($this->getReference('video5'));
         $manager->persist($trick5);
         $manager->flush();
 
@@ -84,7 +83,7 @@ class TrickFixtures extends Fixture implements FixtureGroupInterface
         $trick6->setSlug($trick6->getTitle());
         $trick6->setCategory($this->getReference('Category6'))
             ->setImage($this->getReference('Image6'))
-            ->setVideo($this->getReference('Video6'));
+            ->setVideo($this->getReference('video6'));
         $manager->persist($trick6);
         $manager->flush();
 
@@ -96,7 +95,7 @@ class TrickFixtures extends Fixture implements FixtureGroupInterface
         $trick7->setSlug($trick7->getTitle());
         $trick7->setCategory($this->getReference('Category7'))
             ->setImage($this->getReference('Image7'))
-            ->setVideo($this->getReference('Video7'));
+            ->setVideo($this->getReference('video7'));
         $manager->persist($trick7);
         $manager->flush();
 
@@ -107,9 +106,9 @@ class TrickFixtures extends Fixture implements FixtureGroupInterface
             ->setCreated(new DateTime())
             ->setLastUpdate(new DateTime());
         $trick8->setSlug($trick8->getTitle());
-        $trick8->setCategory($this->getReference('Category8'))
+        $trick8->setCategory($this->getReference('Category1'))
             ->setImage($this->getReference('Image8'))
-            ->setVideo($this->getReference('Video8'));
+            ->setVideo($this->getReference('video8'));
         $manager->persist($trick8);
         $manager->flush();
 
@@ -119,9 +118,9 @@ class TrickFixtures extends Fixture implements FixtureGroupInterface
             ->setCreated(new DateTime())
             ->setLastUpdate(new DateTime());
         $trick9->setSlug($trick9->getTitle());
-        $trick9->setCategory($this->getReference('Category9'))
+        $trick9->setCategory($this->getReference('Category2'))
             ->setImage($this->getReference('Image9'))
-            ->setVideo($this->getReference('Video9'));
+            ->setVideo($this->getReference('video9'));
         $manager->persist($trick9);
         $manager->flush();
 
@@ -131,16 +130,21 @@ class TrickFixtures extends Fixture implements FixtureGroupInterface
             ->setCreated(new DateTime())
             ->setLastUpdate(new DateTime());
         $trick10->setSlug($trick10->getTitle());
-        $trick10->setCategory($this->getReference('Category10'))
+        $trick10->setCategory($this->getReference('Category1'))
             ->setImage($this->getReference('Image10'))
-            ->setVideo($this->getReference('Video10'));
+            ->setVideo($this->getReference('video10'));
         $manager->persist($trick10);
         $manager->flush();
 
     }
 
-    public static function getGroups(): array
+    public function getDependencies()
     {
-        return ['group5'];
+        return array(
+          CategoryFixtures::class,
+          ImageFixtures::class,
+          VideoFixtures::class,
+          UserFixtures::class,
+        );
     }
 }

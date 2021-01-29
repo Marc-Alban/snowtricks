@@ -1,14 +1,13 @@
 <?php
 
-namespace App\DataFixtures;
+namespace App\DataFixtures\ORM;
 
 use App\Entity\Image;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class ImageFixtures extends Fixture implements FixtureGroupInterface
+class ImageFixtures extends Fixture
 {
 
     public function load(ObjectManager $manager)
@@ -88,8 +87,4 @@ class ImageFixtures extends Fixture implements FixtureGroupInterface
 
     }
 
-    public static function getGroups(): array
-    {
-        return ['group2'];
-    }
 }
