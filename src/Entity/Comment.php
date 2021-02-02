@@ -30,11 +30,6 @@ class Comment
      */
     private DateTime $created;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private User $user;
 
 
     public function getId(): ?int
@@ -66,16 +61,5 @@ class Comment
         return $this;
     }
 
-    public function getUser(): User
-    {
-        return $this->user;
-    }
-
-    public function setUser(User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
 
 }

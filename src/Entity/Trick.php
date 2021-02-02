@@ -45,23 +45,6 @@ class Trick
      */
     private DateTime $lastUpdate;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="tricks")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private Category $category;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Image::class, inversedBy="tricks")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private Image $image;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Video::class, inversedBy="tricks")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private Video $video;
 
 
     public function getId(): int
@@ -125,44 +108,6 @@ class Trick
     public function setLastUpdate(DateTime $lastUpdate): self
     {
         $this->lastUpdate = $lastUpdate;
-
-        return $this;
-    }
-
-
-
-    public function getCategory():Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(Category $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
-    public function getImage():Image
-    {
-        return $this->image;
-    }
-
-    public function setImage(Image $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    public function getVideo():Video
-    {
-        return $this->video;
-    }
-
-    public function setVideo(Video $video): self
-    {
-        $this->video = $video;
 
         return $this;
     }

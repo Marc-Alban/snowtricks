@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ImageRepository;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use \DateTime;
 
@@ -30,11 +29,6 @@ class Image
      * @ORM\Column(type="datetime")
      */
     private DateTime $created;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="Image")
-     */
-    private Collection $tricks;
 
 
 
@@ -73,13 +67,6 @@ class Image
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
-    public function getTricks(): Collection
-    {
-        return $this->tricks;
-    }
 
 
 }

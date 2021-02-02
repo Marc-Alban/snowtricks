@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 
@@ -26,10 +25,7 @@ class Category
      */
     private string $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="category")
-     */
-    private Collection $tricks;
+
 
     public function __construct()
     {
@@ -53,12 +49,5 @@ class Category
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
-    public function getTricks(): Collection
-    {
-        return $this->tricks;
-    }
 
 }

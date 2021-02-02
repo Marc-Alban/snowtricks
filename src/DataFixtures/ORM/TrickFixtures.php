@@ -50,9 +50,12 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
         $trick3->setSlug($trick3->getTitle());
         $trick3->setCategory($this->getReference('Category3'))
             ->setImage($this->getReference('Image3'))
+            ->setImage($this->getReference('Image2'))
             ->setVideo($this->getReference('video3'));
         $manager->persist($trick3);
         $manager->flush();
+
+
 
         $trick4 = (new Trick())
             ->setTitle('flip')

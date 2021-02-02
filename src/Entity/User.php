@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use \DateTime;
 
@@ -66,17 +64,6 @@ class User
      */
     private DateTime $lastUpdate;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
-     */
-    private Collection $comments;
-
-    ////////////////////////////////////////////////////////////////////////////////////
-
-    public function __construct()
-    {
-        $this->comments = new ArrayCollection();
-    }
 
 
     public function getId(): ?int
@@ -198,12 +185,5 @@ class User
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
 
 }
