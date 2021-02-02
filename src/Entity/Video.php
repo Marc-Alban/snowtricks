@@ -51,6 +51,7 @@ class Video
         return $this->address;
     }
 
+
     public function setAddress(string $address): self
     {
         $this->address = $address;
@@ -77,5 +78,7 @@ class Video
     {
         return $this->tricks;
     }
+
+
 
 }

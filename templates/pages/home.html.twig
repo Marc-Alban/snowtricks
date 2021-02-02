@@ -9,7 +9,7 @@
 			<div class="row  justify-content-center align-items-center d-flex text-center h-100">
 				<div class="col-12 col-md-12 ">
 					<h1 class="text-light mb-2 mt-5">Snowtrick</h1>
-					<p class="lead  text-light mb-5">La légende c'est vous</p>
+					<p class="lead  text-light mb-5">The legende is you !</p>
 			
 					<div class="btn-container-wrapper p-relative d-block  zindex-1">
 						<a class="btn btn-link btn-lg   mt-md-3 mb-4 scroll align-self-center text-light" href="#gobottom">
@@ -22,7 +22,7 @@
 		</div>
 	</section>
 	<section id="gobottom">
-		<h2 class="text-center font-italic mb-4">Dernières figures</h2>
+		<h2 class="text-center font-italic mb-4">Last figure: </h2>
 		<div class="container">
 			<div class="row">
 				<div id="tricks" class="row view-group">
@@ -30,10 +30,7 @@
 						<div class="item col-xs-3 col-lg-3">
 							<div class="thumbnail card">
 								<div class="img-event m-auto">
-									{# <img src="{{ asset('build/{{image.content}}') }}" alt="ACME logo"> #}
-									<img class="group list-group-image img-fluid"
-									     src="http://placehold.it/400x250/000/fff"
-									     alt=""/>
+{#										<img src="{{ asset('images/')~images.name }}">#}
 								</div>
 								<div class="caption card-body">
 									<div class="d-flex align-items-center  justify-content-between flex-wrap">
@@ -43,7 +40,7 @@
 										</a>
 										<a href="{{ path('app_trick_edit', {id:trick.id}) }}"><i
 													class="fa fa-pencil lead"></i></a>
-										<a href="#" onclick="event.preventDefault(); confirm('Etes-vous sur de vouloir le supprimer ?') && document.getElementById('js-trick-delete-form').submit();"> <i
+										<a href="#" onclick="event.preventDefault(); confirm('Are you sur to deleted this trick?') && document.getElementById('js-trick-delete-form').submit();"> <i
 													class="fa fa-trash lead"></i></a>
 									</div>
 								</div>
@@ -56,7 +53,7 @@
 	</section>
 	<section class="container d-flex justify-content-around loadMore">
 		<div class="row">
-			<div class="btn btn-primary m-2" id="load">Load More</div>
+			<div class="btn btn-primary m-2" id="loadData">Load More</div>
 		</div>
 	</section>
 	<section class="container rowUp d-flex">

@@ -33,7 +33,7 @@ class TricksController extends AbstractController
             $manager->persist($trick);
             $manager->flush();
 
-            $this->addFlash('success', 'Trick bien créer');
+            $this->addFlash('success', 'Trick created');
 
             return $this->redirectToRoute('app_home');
         }
@@ -56,7 +56,7 @@ class TricksController extends AbstractController
         if($this->isCsrfTokenValid('trick_delete'.$trick->getId(),$request->request->get('csrf_token'))){
             $manager->remove($trick);
             $manager->flush();
-            $this->addFlash('info', 'trick bien supprimer');
+            $this->addFlash('info', 'trick deleted');
         }
         return $this->redirectToRoute('app_home');
     }
@@ -80,7 +80,7 @@ class TricksController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $manager->flush();
-            $this->addFlash('success', 'Trick bien mis à jour');
+            $this->addFlash('success', 'Trick updated');
 
             return $this->redirectToRoute('app_home');
         }

@@ -93,6 +93,13 @@ nav {
     }
   }
 }
+form{
+  li {
+    display:flex;
+    justify-content: space-around;
+    margin:10px 10px;
+  }
+}
 .minVh {
   min-height: 95vh;
 }

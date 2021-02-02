@@ -14,7 +14,7 @@
 							</a>
 						</span>
 						<span class="iconFa">
-							<a href="#" onclick="event.preventDefault(); confirm('Etes-vous sur de vouloir le supprimer ? ') && document.getElementById('js-trick-delete-form').submit();">
+							<a href="#" onclick="event.preventDefault(); confirm('Are you sur to deleted this trick ? ') && document.getElementById('js-trick-delete-form').submit();">
 								<i class="fa fa-trash lead"></i>
 							</a>
 						</span>
@@ -26,9 +26,9 @@
 				<p class="text-justify">{{ trick.description }} </p>
 				<div class="col-12 col-md-12 col-lg-12 d-flex justify-content-between flex-wrap">
 					<div class="alert alert-primary btn-primary">{{ trick.slug }}</div>
-					<div class="alert alert-primary btn-primary">Créer le <span
+					<div class="alert alert-primary btn-primary">Created at <span
 								class="created">{{ trick.created|date("d/m/Y") }} </span></div>
-					<div class="alert alert-primary btn-primary">modifier le : <span
+					<div class="alert alert-primary btn-primary">Updated at : <span
 								class="updated">{{ trick.lastUpdate|date("d/m/Y") }} </span></div>
 				</div>
 			</article>

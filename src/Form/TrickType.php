@@ -21,18 +21,19 @@ class TrickType extends AbstractType
             ->add('description', TextareaType::class)
             ->add('category', CollectionType::class,[
                 'entry_type'=>CategoryType::class,
-                'allow_add'=>true,
-                'allow_delete'=>true,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
             ])
             ->add('image',CollectionType::class,[
                 'entry_type'=>ImageType::class,
-                'allow_add'=>true,
-                'allow_delete'=>true,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
             ])
             ->add('video',CollectionType::class,[
                 'entry_type'=>VideoType::class,
-                'allow_add'=>true,
-                'allow_delete'=>true,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'by_reference' => false,
             ])
         ;
 
