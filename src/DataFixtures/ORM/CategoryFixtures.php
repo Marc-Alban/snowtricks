@@ -18,37 +18,37 @@ class CategoryFixtures extends Fixture
 
         //Categories ----------------
         $category1 = (new Category());
-        $category1->setName('grab');
+        $category1->setUrl('grab');
         $manager->persist($category1);
         $manager->flush();
 
         $category2 = (new Category());
-        $category2->setName('rotation');
+        $category2->setUrl('rotation');
         $manager->persist($category2);
         $manager->flush();
 
         $category3 = (new Category());
-        $category3->setName('flip');
+        $category3->setUrl('flip');
         $manager->persist($category3);
         $manager->flush();
 
         $category4 = (new Category());
-        $category4->setName('slide');
+        $category4->setUrl('slide');
         $manager->persist($category4);
         $manager->flush();
 
         $category5 = (new Category());
-        $category5->setName('one foot');
+        $category5->setUrl('one foot');
         $manager->persist($category5);
         $manager->flush();
 
         $category6 = (new Category());
-        $category6->setName('old school');
+        $category6->setUrl('old school');
         $manager->persist($category6);
         $manager->flush();
 
         $category7 = (new Category());
-        $category7->setName('rotation désaxé');
+        $category7->setUrl('rotation désaxé');
         $manager->persist($category7);
         $manager->flush();
 

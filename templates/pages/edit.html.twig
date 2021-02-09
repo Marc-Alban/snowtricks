@@ -1,12 +1,12 @@
 {% extends 'layout/base.html.twig' %}
-{% block title %}Edited trick{% endblock %}
+
+{% block title %}SnowTricks - Updated trick{% endblock %}
+
 {% block body %}
-<div class="container">
-	<div class="row">
-		<div class="col-md-6 mx-auto">
-			<h2>Edittrick</h2>
-			{{ include('layout/partials/_form.html.twig', {submit_bottom_text: 'Update Pin'}) }}
-		</div>
+	<div class="col-lg-7 col-md-10 mx-auto">
+		<h1>Modifier le trick : {{ trick.name }}</h1>
+		{% include 'layout/partials/_form.html.twig' %}
+		<button type="submit" class="btn btn-success btn-lg col-12"><i class="fas fa-check"></i> Updated !</button>
+		{{ form_end(form) }}
 	</div>
-</div>
 {% endblock %}

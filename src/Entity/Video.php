@@ -2,12 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\VideoRepository;
+
 use Doctrine\ORM\Mapping as ORM;
-use DateTime;
 
 /**
- * @ORM\Entity(repositoryClass=VideoRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\VideoRepository")
  */
 class Video
 {
@@ -19,55 +18,41 @@ class Video
     private int $id;
 
     /**
-     * @ORM\Column(type="string", length=41)
+     * @ORM\Column(type="string", length=255)
      */
-    private string $address;
+    private string $url;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="video")
      */
-    private DateTime $created;
-
-
-
-    // default values automatically added
-    public function __construct()
-    {
-        $this->setCreated(new DateTime());
-    }
+    private $trick;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getAddress(): ?string
+    public function getUrl(): ?string
     {
-        return $this->address;
+        return $this->url;
     }
 
-
-    public function setAddress(string $address): self
+    public function setUrl(string $url): self
     {
-        $this->address = $address;
+        $this->url = $url;
 
         return $this;
     }
 
-    public function getCreated(): DateTime
+    public function getTrick(): ?Trick
     {
-        return $this->created;
+        return $this->trick;
     }
 
-    public function setCreated(DateTime $created): self
+    public function setTrick(?Trick $trick): self
     {
-        $this->created = $created;
+        $this->trick = $trick;
 
         return $this;
     }
-
-
-
-
-
 }

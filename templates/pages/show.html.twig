@@ -1,6 +1,6 @@
 {% extends 'layout/base.html.twig' %}
 
-{% block title %}{{ trick.title }}{% endblock %}
+{% block title %}{{ trick.name }}{% endblock %}
 
 {% block body %}
 	<div class="container contShow mt-5">
@@ -22,14 +22,13 @@
 					</div>
 				</div>
 			<article class="col-12 col-md-12 col-lg-12">
-				<h1 class="text-center">{{ trick.title }}</h1>
+				<h1 class="text-center">{{ trick.name }}</h1>
 				<p class="text-justify">{{ trick.description }} </p>
 				<div class="col-12 col-md-12 col-lg-12 d-flex justify-content-between flex-wrap">
-					<div class="alert alert-primary btn-primary">{{ trick.slug }}</div>
 					<div class="alert alert-primary btn-primary">Created at <span
-								class="created">{{ trick.created|date("d/m/Y") }} </span></div>
+								class="created">{{ trick.createdAt|date("d/m/Y") }} </span></div>
 					<div class="alert alert-primary btn-primary">Updated at : <span
-								class="updated">{{ trick.lastUpdate|date("d/m/Y") }} </span></div>
+								class="updated">{{ trick.updatedAt|date("d/m/Y") }} </span></div>
 				</div>
 			</article>
 		</div>

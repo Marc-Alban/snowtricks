@@ -1,12 +1,12 @@
 {% extends 'layout/base.html.twig' %}
-{% block title %}Create trick{% endblock %}
+
+{% block title %}SnowTricks - Create trick{% endblock %}
+
 {% block body %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 mx-auto">
-            <h2>Create trick</h2>
-            {{ include('layout/partials/_form.html.twig') }}
-        </div>
+    <div class="col-lg-7 col-md-10 mx-auto">
+        <h1>Create new trick</h1>
+        {% include 'layout/partials/_form.html.twig' %}
+        <button type="submit" class="btn btn-success btn-lg col-12"><i class="fas fa-check"></i> Create the new trick !</button>
+        {{ form_end(form) }}
     </div>
-</div>
 {% endblock %}

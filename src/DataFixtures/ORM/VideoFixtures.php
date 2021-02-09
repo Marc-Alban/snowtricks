@@ -3,7 +3,6 @@
 namespace App\DataFixtures\ORM;
 
 use App\Entity\Video;
-use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -16,62 +15,52 @@ class VideoFixtures extends Fixture
     {
 
         $video1 = (new Video())
-            ->setAddress('https://www.youtube.com/embed/_hxLS2ErMiY')
-            ->setCreated(new DateTime());
+            ->setUrl('https://www.youtube.com/embed/_hxLS2ErMiY');
        $manager->persist($video1);
        $manager->flush();
 
         $video2 = (new Video())
-            ->setAddress('https://www.youtube.com/embed/_Qq-YoXwNQY')
-            ->setCreated(new DateTime());
+            ->setUrl('https://www.youtube.com/embed/_Qq-YoXwNQY');
         $manager->persist($video2);
         $manager->flush();
 
         $video3 = (new Video())
-            ->setAddress('https://www.youtube.com/embed/ZlNmeM1XdM4')
-            ->setCreated(new DateTime());
+            ->setUrl('https://www.youtube.com/embed/ZlNmeM1XdM4');
         $manager->persist($video3);
         $manager->flush();
 
         $video4 = (new Video())
-            ->setAddress('https://www.youtube.com/embed/CzDjM7h_Fwo')
-            ->setCreated(new DateTime());
+            ->setUrl('https://www.youtube.com/embed/CzDjM7h_Fwo');
         $manager->persist($video4);
         $manager->flush();
 
         $video5 = (new Video())
-            ->setAddress('https://www.youtube.com/embed/9T5AWWDxYM4')
-            ->setCreated(new DateTime());
+            ->setUrl('https://www.youtube.com/embed/9T5AWWDxYM4');
         $manager->persist($video5);
         $manager->flush();
 
         $video6 = (new Video())
-            ->setAddress('https://www.youtube.com/embed/SLncsNaU6es')
-            ->setCreated(new DateTime());
+            ->setUrl('https://www.youtube.com/embed/SLncsNaU6es');
         $manager->persist($video6);
         $manager->flush();
 
         $video7 = (new Video())
-            ->setAddress('https://www.youtube.com/embed/_CN_yyEn78M')
-            ->setCreated(new DateTime());
+            ->setUrl('https://www.youtube.com/embed/_CN_yyEn78M');
         $manager->persist($video7);
         $manager->flush();
 
         $video8 = (new Video())
-            ->setAddress('https://www.youtube.com/embed/12OHPNTeoRs')
-            ->setCreated(new DateTime());
+            ->setUrl('https://www.youtube.com/embed/12OHPNTeoRs');
         $manager->persist($video8);
         $manager->flush();
 
         $video9 = (new Video())
-            ->setAddress('https://www.youtube.com/embed/kxZbQGjSg4w')
-            ->setCreated(new DateTime());
+            ->setUrl('https://www.youtube.com/embed/kxZbQGjSg4w');
         $manager->persist($video9);
         $manager->flush();
 
         $video10 = (new Video())
-            ->setAddress('https://www.youtube.com/embed/O5DpwZjCsgA')
-            ->setCreated(new DateTime());
+            ->setUrl('https://www.youtube.com/embed/O5DpwZjCsgA');
         $manager->persist($video10);
         $manager->flush();
 

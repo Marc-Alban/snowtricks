@@ -2,14 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
-use \DateTime;
-
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ORM\Entity(repositoryClass=ImageRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
  */
 class Image
 {
@@ -23,50 +22,68 @@ class Image
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $content;
+    private string $name;
+
 
     /**
-     * @ORM\Column(type="datetime")
+     * @Assert\Image(
+     *  mimeTypes= {"image/jpeg", "image/jpg", "image/png"},
+     *  mimeTypesMessage = "Le fichier ne possède pas une extension valide ! Veuillez insérer une image en .jpg, .jpeg ou .png",
+     *  minWidth = 500,
+     *  minWidthMessage = "La largeur de cette image est trop petite",
+     *  maxWidth = 3000,
+     *  maxWidthMessage = "La largeur de cette image est trop grande",
+     *  minHeight = 282,
+     *  minHeightMessage = "La hauteur de cette image est trop petite",
+     *  maxHeight = 1687,
+     *  maxHeightMessage ="La hauteur de cette image est trop grande",
+     *  )
      */
-    private DateTime $created;
+    private UploadedFile $file;
 
-
-
-    // default values automatically added
-    public function __construct()
-    {
-        $this->setCreated(new DateTime());
-    }
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="Image")
+     */
+    private ?Trick $trick;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getContent(): string
+    public function getName(): ?string
     {
-        return $this->content;
+        return $this->name;
     }
 
-    public function setContent(string $content): self
+    public function setName(string $name): self
     {
-        $this->content = $content;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getCreated(): DateTime
+    public function getFile(): UploadedFile
     {
-        return $this->created;
+        return $this->file;
     }
 
-    public function setCreated(DateTime $created): self
+    public function setFile(UploadedFile $file): self
     {
-        $this->created = $created;
+        $this->file = $file;
 
         return $this;
     }
 
+    public function getTrick(): ?Trick
+    {
+        return $this->trick;
+    }
 
+    public function setTrick(?Trick $trick): self
+    {
+        $this->trick = $trick;
 
+        return $this;
+    }
 }

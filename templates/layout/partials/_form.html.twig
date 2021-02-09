@@ -1,38 +1,6 @@
 {{ form_start(form) }}
-
-{{ form_errors(form) }}
-    {{ form_label(form.title, "Title:") }}
-    {{ form_errors(form.title) }}
-    <div>
-        {{ form_widget(form.title) }}
-    </div>
-    {{ form_label(form.slug, "Slug:") }}
-    {{ form_errors(form.slug) }}
-    <div>
-        {{ form_widget(form.slug) }}
-    </div>
-    {{ form_label(form.description, "Description:") }}
-    {{ form_errors(form.description) }}
-    <div>
-        {{ form_widget(form.description) }}
-    </div>
-    {{ form_label(form.category, "Choice a category:") }}
-    {{ form_errors(form.category) }}
-    <div>
-        {{ form_widget(form.category) }}
-    </div>
-    {{ form_label(form.image, "Choice a image:") }}
-    {{ form_errors(form.image) }}
-    <div>
-        {{ form_widget(form.image) }}
-    </div>
-    {{ form_label(form.video, "Put the url of video:") }}
-    {{ form_errors(form.video) }}
-    <div>
-        <ul class="video" data-prototype="{{ form_widget(form.video.vars.prototype)|e('html_attr') }}"></ul>
-    </div>
-    <div>
-        {{ form_rest(form)}}
-    </div>
-<input type="submit" value="{{ submit_bottom_text ?? 'Create Trick' }}" class="btn btn-primary " formnovalidate>
-{{ form_end(form) }}
+{{ form_row(form.name) }}
+{{ form_row(form.description) }}
+{{ form_row(form.category) }}
+{{ form_row(form.images) }}
+{{ form_row(form.videos) }}
