@@ -19,5 +19,18 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
+    public function findByToto()
+    {
+        return $this->createQueryBuilder('t')
+            ->addSelect('ca')
+            ->addSelect('i')
+            ->addSelect('v')
+            ->leftJoin('t.category','ca')
+            ->leftJoin('t.images','i')
+            ->leftJoin('t.videos','v')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 }

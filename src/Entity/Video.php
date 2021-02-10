@@ -5,6 +5,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VideoRepository")
  */
@@ -23,9 +24,9 @@ class Video
     private string $url;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="video")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="videos")
      */
-    private $trick;
+    private ?Trick $trick;
 
     public function getId(): ?int
     {

@@ -42,7 +42,7 @@ class Image
     private UploadedFile $file;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="Image")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="images")
      */
     private ?Trick $trick;
 

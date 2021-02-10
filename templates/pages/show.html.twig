@@ -24,6 +24,7 @@
 			<article class="col-12 col-md-12 col-lg-12">
 				<h1 class="text-center">{{ trick.name }}</h1>
 				<p class="text-justify">{{ trick.description }} </p>
+				{% dump(trick) %}
 				<div class="col-12 col-md-12 col-lg-12 d-flex justify-content-between flex-wrap">
 					<div class="alert alert-primary btn-primary">Created at <span
 								class="created">{{ trick.createdAt|date("d/m/Y") }} </span></div>

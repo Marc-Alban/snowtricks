@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Services\Slugify;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
@@ -126,18 +127,33 @@ class Trick
         return $this;
     }
 
-    public function getSlug(): ?string
+
+    public function getSlug(): string
     {
         return $this->slug;
     }
 
-    public function setSlug(string $slug): self
+
+    public function setSlug($slug): self
     {
         $this->slug = $slug;
 
         return $this;
     }
 
+    /**
+     * Initialize slug before persist or update
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function initializeSlug(): void
+    {
+        if (empty($this->slug)) {
+            $slug = slugify::slug($this->name);
+            $this->setSlug($slug);
+        }
+    }
 
     /**
      * @return Collection
