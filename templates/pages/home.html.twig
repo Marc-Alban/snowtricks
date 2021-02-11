@@ -17,7 +17,6 @@
                         </a>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -27,8 +26,8 @@
         <div class="container">
             <div class="row">
             {% for trick in tricks %}
-                        <article class="col-md-3">
-                            <figure class="col-lg-12">
+                        <article class="col-lg-2 col-12 col-md-3 figureBlock">
+                            <figure class="col-lg-12  ">
                                 {% if trick.images is defined %}
                                     {% for  image in trick.images %}
                                         <a href="{{ path('app_trick_show', {id:trick.id}) }}">
@@ -48,9 +47,9 @@
                                     </h1>
                                 </figcaption>
                             </figure>
-                            <div class="article-intro col-lg-12" style="padding-top: 10px;">
+                            <div class="article-intro col-lg-12 d-flex justify-content-around" style="padding-top: 10px;">
                                 <a href="{{ path('app_trick_edit', {id:trick.id}) }}">
-                                    <i class="fa fa-pencil lead"></i></a>
+                                    <i class="fas fa-edit"></i></a>
                                 <span class="ml-2 mr-2">|</span>
                                 <a href="#"
                                    onclick="event.preventDefault(); confirm('Are you sur to deleted this trick?') && document.getElementById('js-trick-delete-form').submit();">
@@ -69,7 +68,7 @@
     </section>
     <section class="container rowUp d-flex">
         <div class="row">
-            <a href="#gobottom"><i class="fa fa-arrow-circle-o-up"></i></a>
+            <a class="scroll" href="#gobottom"><i class="fas fa-arrow-up"></i></a>
         </div>
     </section>
     {% for trick in tricks %}

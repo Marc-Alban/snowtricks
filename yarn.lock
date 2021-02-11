@@ -3862,7 +3862,7 @@ loader-utils@1.2.3:
     emojis-list "^2.0.0"
     json5 "^1.0.1"
 
-loader-utils@^1.4.0:
+loader-utils@^1.0.1, loader-utils@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-1.4.0.tgz#c579b5e34cb34b1a74edc6c1fb36bfa371d5a613"
   integrity sha512-qH0WSMBtn/oHuwjy/NucEgbx5dbxxnxup9s4PVXJUDHZBQY+s0NWA9rJf53RBnQZxfch7euUui7hpoAPvALZdA==
@@ -4180,7 +4180,7 @@ negotiator@0.6.2:
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.2.tgz#feacf7ccf525a77ae9634436a64883ffeca346fb"
   integrity sha512-hZXc7K2e+PgeI1eDBe/10Ard4ekbfrrqG8Ep+8Jmf4JID2bNg7NvCPOZN+kfF574pFQI7mum2AUqDidoKqcTOw==
 
-neo-async@^2.6.2:
+neo-async@^2.5.0, neo-async@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
@@ -4235,7 +4235,7 @@ node-releases@^1.1.70:
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.70.tgz#66e0ed0273aa65666d7fe78febe7634875426a08"
   integrity sha512-Slf2s69+2/uAD79pVVQo8uSiC34+g8GWY8UH2Qtqv34ZfhYrxpYpfzs9Js9d6O0mbDmALuxaTlplnBTnSELcrw==
 
-node-sass@4.14.1:
+node-sass@^4.14.1:
   version "4.14.1"
   resolved "https://registry.yarnpkg.com/node-sass/-/node-sass-4.14.1.tgz#99c87ec2efb7047ed638fb4c9db7f3a42e2217b5"
   integrity sha512-sjCuOlvGyCJS40R8BscF5vhVlQjNN069NtQ1gSxyK1u9iqvn6tf7O1R4GNowVZfiZUCRt5MmMs1xd+4V/7Yr0g==
@@ -5407,16 +5407,16 @@ sass-graph@2.2.5:
     scss-tokenizer "^0.2.3"
     yargs "^13.3.2"
 
-sass-loader@^10.0.0:
-  version "10.1.1"
-  resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-10.1.1.tgz#4ddd5a3d7638e7949065dd6e9c7c04037f7e663d"
-  integrity sha512-W6gVDXAd5hR/WHsPicvZdjAWHBcEJ44UahgxcIE196fW2ong0ZHMPO1kZuI5q0VlvMQZh32gpv69PLWQm70qrw==
+sass-loader@^7.0.1:
+  version "7.3.1"
+  resolved "https://registry.yarnpkg.com/sass-loader/-/sass-loader-7.3.1.tgz#a5bf68a04bcea1c13ff842d747150f7ab7d0d23f"
+  integrity sha512-tuU7+zm0pTCynKYHpdqaPpe+MMTQ76I9TPZ7i4/5dZsigE350shQWe5EZNl5dBidM49TPET75tNqRbcsUZWeNA==
   dependencies:
-    klona "^2.0.4"
-    loader-utils "^2.0.0"
-    neo-async "^2.6.2"
-    schema-utils "^3.0.0"
-    semver "^7.3.2"
+    clone-deep "^4.0.1"
+    loader-utils "^1.0.1"
+    neo-async "^2.5.0"
+    pify "^4.0.1"
+    semver "^6.3.0"
 
 sax@~1.2.4:
   version "1.2.4"
@@ -5471,7 +5471,7 @@ semver@7.0.0:
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.0.0.tgz#5f3ca35761e47e05b206c6daff2cf814f0316b8e"
   integrity sha512-+GB6zVA9LWh6zovYQLALHwv5rb2PHGlJi3lfiqIHxR0uuwCgefcOJc59v9fv1w8GbStwxuuqqAjI9NMAOOgq1A==
 
-semver@^6.0.0:
+semver@^6.0.0, semver@^6.3.0:
   version "6.3.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.0.tgz#ee0a64c8af5e8ceea67687b133761e1becbd1d3d"
   integrity sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==

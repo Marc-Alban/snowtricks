@@ -1,5 +1,8 @@
 @import "~bootstrap";
-
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+@import '~@fortawesome/fontawesome-free/scss/brands';
 html {
   position: relative;
 }
@@ -109,6 +112,13 @@ form{
   font-size: 35px;
 }
 
+.fa-arrow-up{
+    font-size: 1.5em;
+    border: 1px solid;
+    border-radius: 50%;
+    padding: 0.5em;
+}
+
 
 article
 {
@@ -124,6 +134,37 @@ article
   width: 50%;
 }
 
+.imgArticle
+{
+    width: 100%;
+    height: 500px;
+}
+
+.blockImg
+{
+  position: relative;
+  margin-bottom: 2em;
+}
+
+
+.cover-wrapper {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 45%;
+  color: white;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-size: 2em;
+}
+
+
+
+.figureBlock
+{
+  border: 1px solid;
+  margin: 10px;
+}
 
 .article-img
 {
@@ -174,6 +215,7 @@ footer {
 
 
 @media (max-width: 768px) {
+
   .rowUp {
     justify-content: space-around;
   }
@@ -191,7 +233,7 @@ footer {
     nav {
       a {
         padding: 20px !important;
-        .fa {
+        .fa,.fas {
           font-size: 1.5rem;
         }
       }
@@ -205,10 +247,24 @@ footer {
 
 
 @media screen and (max-width: 500px) {
+
+  .figureBlock
+  {
+    border: 1px solid;
+    margin: 10px 0;
+  }
+
   .article-title
   {
     font-size: 20px;
   }
+
+  .contShow{
+    border: none;
+    height: 100%;
+    padding: 0;
+  }
+
 }
 
 .article-caption a

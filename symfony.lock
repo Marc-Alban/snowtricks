@@ -1,5 +1,5 @@
 {
-    "components/font-awesome": {
+    "components/esome": {
         "version": "5.15.1"
     },
     "composer/package-versions-deprecated": {
@@ -98,9 +98,6 @@
     },
     "egulias/email-validator": {
         "version": "2.1.25"
-    },
-    "fontawesome/fontawesome": {
-        "version": "3.0.2"
     },
     "fortawesome/font-awesome": {
         "version": "5.15.2"
@@ -558,7 +555,7 @@
         "version": "v5.2.1"
     },
     "twbs/bootstrap": {
-        "version": "v4.0.0"
+        "version": "v4.6.0"
     },
     "twig/extra-bundle": {
         "version": "v3.2.1"
