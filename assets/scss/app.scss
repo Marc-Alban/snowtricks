@@ -1,4 +1,3 @@
-@import "~font-awesome";
 @import "~bootstrap";
 
 html {
@@ -109,22 +108,31 @@ form{
 .fa-arrow-circle-o-up {
   font-size: 35px;
 }
-.view-group {
-  display: -ms-flexbox;
-  display: contents;
-  flex-wrap: wrap;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  padding-left: 0;
-  margin-bottom: 0;
+
+
+article
+{
+  padding-bottom: 20px;
 }
-.thumbnail {
-  margin-bottom: 30px;
-  padding: 0;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
+.article-caption
+{
+  position: absolute;
+  bottom: 16px;
+  max-width: 90%;
+  text-align: center;
+  background-color: rgba(111,111,111,0.7);
+  width: 50%;
 }
+
+
+.article-img
+{
+  width: 100%;
+  max-height: 400px;
+  height: 200px;
+  object-fit: cover;
+}
+
 .fa-trash {
   cursor: pointer;
 }
@@ -163,6 +171,8 @@ footer {
   }
 }
 
+
+
 @media (max-width: 768px) {
   .rowUp {
     justify-content: space-around;
@@ -187,4 +197,21 @@ footer {
       }
     }
   }
+  .article-title
+  {
+    font-size: 28px;
+  }
+}
+
+
+@media screen and (max-width: 500px) {
+  .article-title
+  {
+    font-size: 20px;
+  }
+}
+
+.article-caption a
+{
+  color: white;
 }
