@@ -7,18 +7,16 @@
 		<div class="row col-md-8 mx-auto ">
 			<div class="col-12">
 				<div class="d-flex justify-content-end">
-					<div class=" col-4 col-md-2 contUpDe">
-						<span class="iconFa">
-							<a href="{{ path('app_trick_edit', {id: trick.id} ) }}">
-								<i class="fa fa-pencil lead"></i>
+					{% if app.user %}
+						<div class="float">
+							<a href="{{ path('app_trick_edit', {'slug': trick.slug}) }}">
+								<i class="fas fa-pencil-alt fa-lg"></i>
 							</a>
-						</span>
-						<span class="iconFa">
-							<a href="#" onclick="event.preventDefault(); confirm('Are you sur to deleted this trick ? ') && document.getElementById('js-trick-delete-form').submit();">
+							<a href="#"  onclick="event.preventDefault(); confirm('Are you sur to deleted this trick?') && document.getElementById('js-trick-delete-form').submit();">
 								<i class="fa fa-trash lead"></i>
 							</a>
-						</span>
-					</div>
+						</div>
+					{% endif %}
 				</div>
 				<div class="blockImg">
 						{% for  image in trick.images %}

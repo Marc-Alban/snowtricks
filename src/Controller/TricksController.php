@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Trick;
 use App\Form\TrickType;
+use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -63,7 +64,7 @@ class TricksController extends AbstractController
 
 
     /**
-     * @Route("/trick/{id<[0-9]+>}/edit", name="app_trick_edit", methods={"GET","PUT"})
+     * @Route("/trick/{slug}/edit", name="app_trick_edit", methods={"GET","PUT"})
      * @param Trick $trick
      * @param Request $request
      * @param EntityManagerInterface $manager
@@ -92,15 +93,22 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{id<[0-9]+>}",name="app_trick_show", methods="GET")
-     * @param Trick $trick
+     * @Route("/trick/{slug}",name="app_trick_show", methods="GET")
+     * @param TrickRepository $trickRepository
+     * @param $slug
      * @return Response
      */
-    public function show(Trick $trick): Response
+    public function show(TrickRepository $trickRepository, $slug): Response
     {
-        return $this->render('pages/show.html.twig',[
-            'trick'=>$trick
-        ]);
+        $trick = $trickRepository->findOneBySlug($slug);
+        if($trick){
+            foreach ($trick as $tricks){
+                return $this->render('pages/show.html.twig',[
+                    'trick'=>$tricks
+                ]);
+            }
+        }
+        throw $this->createNotFoundException('le trick n\'existe pas !');
     }
 
 

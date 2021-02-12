@@ -33,11 +33,11 @@ class TrickRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findImage(int $idImage)
+    public function findOneBySlug(string $slug)
     {
         return $this->createQueryBuilder('t')
-            ->andwhere('t.images = :id')
-            ->leftJoin('id',$idImage)
+            ->andwhere('t.slug = :slug')
+            ->setParameter('slug',$slug)
             ->getQuery()
             ->getResult()
             ;

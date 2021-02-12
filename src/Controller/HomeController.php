@@ -16,7 +16,6 @@ class HomeController extends AbstractController
      */
     public function index(TrickRepository $trickRepository): Response
     {
-//        dd($trickRepository->findImage(1));
         return $this->render('pages/home.html.twig', [
             'tricks' => $trickRepository->findByToto(),
         ]);
