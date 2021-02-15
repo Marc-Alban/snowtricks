@@ -2,5 +2,10 @@
 {{ form_row(form.name) }}
 {{ form_row(form.description) }}
 {{ form_row(form.category) }}
-{{ form_row(form.images) }}
-{{ form_row(form.videos) }}
+{{ form_errors(form.images) }}
+<p>Add images: </p>
+{{ form_widget(form.images.vars.prototype)}}
+{#<br>#}
+{#<p>Add videos (Youtube ou Dailymotion)</p>#}
+{#<ul class="video" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}"></ul>#}
+{{ form_rest(form) }}

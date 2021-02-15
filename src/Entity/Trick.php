@@ -56,10 +56,10 @@ class Trick
      */
     private Collection $images;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="trick", cascade={"persist", "remove"})
-     */
-    private Collection $videos;
+//    /**
+//     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="trick", cascade={"persist", "remove"})
+//     */
+//    private ?Collection $videos;
 
 
     /**
@@ -71,7 +71,7 @@ class Trick
     public function __construct()
     {
         $this->images = new ArrayCollection();
-        $this->videos = new ArrayCollection();
+//        $this->videos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -185,36 +185,36 @@ class Trick
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
-    public function getVideos(): Collection
-    {
-        return $this->videos;
-    }
-
-    public function addVideo(Video $video): self
-    {
-        if (!$this->videos->contains($video)) {
-            $this->videos[] = $video;
-            $video->setTrick($this);
-        }
-
-        return $this;
-    }
-
-    public function removeVideo(Video $video): self
-    {
-        if ($this->videos->contains($video)) {
-            $this->videos->removeElement($video);
-            if ($video->getTrick() === $this) {
-                $video->setTrick(null);
-            }
-        }
-
-        return $this;
-    }
-
+//    /**
+//     * @return null|Collection
+//     */
+//    public function getVideos(): ?Collection
+//    {
+//        return $this->videos;
+//    }
+//
+//    public function addVideo(?Video $video): ?self
+//    {
+//        if (!$this->videos->contains($video)) {
+//            $this->videos[] = $video;
+//            $video->setTrick($this);
+//        }
+//
+//        return $this;
+//    }
+//
+//    public function removeVideo(?Video $video): ?self
+//    {
+//        if ($this->videos->contains($video)) {
+//            $this->videos->removeElement($video);
+//            if ($video->getTrick() === $this) {
+//                $video->setTrick(null);
+//            }
+//        }
+//
+//        return $this;
+//    }
+//
 
     public function getCategory(): Category
     {

@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ImageRepository;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
+ * @ORM\HasLifecycleCallbacks()
+ * @ORM\Entity(repositoryClass=ImageRepository::class)
  */
 class Image
 {
@@ -40,6 +42,10 @@ class Image
      *  )
      */
     private UploadedFile $file;
+
+    private string $path;
+
+
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="images")
@@ -86,4 +92,42 @@ class Image
 
         return $this;
     }
+
+    public function getPath(): string
+    {
+        return $this->path;
+    }
+
+    public function setPath($path): void
+    {
+        $this->path = $path;
+    }
+
+
+    private function createName(): string
+    {
+        //Créer un nom unique
+        return md5(uniqid()).$this->file->getClientOriginalName();
+    }
+
+    /**
+     * @ORM\PreFlush()
+     */
+    public function handle()
+    {
+        if($this->file === null){
+            return;
+        }
+
+        if(file_exists($this->id)){
+            unlink($this->path.'/'.$this->name);
+        }
+        //Récupère le file soumis
+        $name = $this->createName();
+        //Donne le nom à l'image
+        $this->setName($name);
+        //Déplace le fichier
+        $this->file->move($this->path,$name);
+    }
+
 }

@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller;
 
-
+use App\Entity\Image;
 use App\Entity\Trick;
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
@@ -18,30 +18,26 @@ class TricksController extends AbstractController
      * @Route("/trick/create",name="app_trick_create", methods={"GET", "POST"})
      * @param Request $request
      * @param EntityManagerInterface $manager
+     * @param Image $image
      * @return Response
      */
-    public function create(Request $request, EntityManagerInterface $manager): Response
+    public function create(Request $request, EntityManagerInterface $manager, Image $image): Response
     {
-
-
-        $trick = new Trick();
-
-        $form = $this->createForm(TrickType::class,$trick);
-
+        $form = $this->createForm(TrickType::class);
         $form->handleRequest($request);
-
         if($form->isSubmitted() && $form->isValid()){
+            $path = $this->getParameter('kernel.project_dir').'/public/images/';
+            $trick = $form->getData();
+            $image->setPath($path);
             $manager->persist($trick);
             $manager->flush();
-
             $this->addFlash('success', 'Trick created');
-
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_trick_show', ['slug'=>$trick->getSlug()]);
         }
-
         return $this->render('pages/create.html.twig',[
             'form'=>$form->createView()
         ]);
+
     }
 
     /**
