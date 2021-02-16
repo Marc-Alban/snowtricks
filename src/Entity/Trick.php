@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Services\Slugify;
+use DateTime;
 use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
@@ -51,15 +52,16 @@ class Trick
     private string $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="trick", cascade={"persist", "remove"})
-     * @Assert\Valid()
+     * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist", "remove"})
      */
-    private Collection $images;
+    private Image $mainImage;
 
-//    /**
-//     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="trick", cascade={"persist", "remove"})
-//     */
-//    private ?Collection $videos;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="trick", cascade={"persist", "remove"})
+     */
+    private ?Collection $videos;
 
 
     /**
@@ -70,8 +72,9 @@ class Trick
 
     public function __construct()
     {
-        $this->images = new ArrayCollection();
-//        $this->videos = new ArrayCollection();
+       $this->videos = new ArrayCollection();
+       $this->createdAt = new DateTime();
+       $this->updatedAt = new DateTime();
     }
 
     public function getId(): ?int
@@ -155,66 +158,50 @@ class Trick
         }
     }
 
-    /**
-     * @return Collection
-     */
-    public function getImages(): Collection
+
+    public function getMainImage(): Image
     {
-        return $this->images;
+        return $this->mainImage;
     }
 
-    public function addImage(Image $image): self
+
+    public function setMainImage(Image $mainImage): void
     {
-        if (!$this->images->contains($image)) {
-            $this->images[] = $image;
-            $image->setTrick($this);
+        $this->mainImage = $mainImage;
+    }
+
+
+
+    /**
+     * @return null|Collection
+     */
+    public function getVideos(): ?Collection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(?Video $video): ?self
+    {
+        if (!$this->videos->contains($video)) {
+            $this->videos[] = $video;
+            $video->setTrick($this);
         }
 
         return $this;
     }
 
-    public function removeImage(Image $image): self
+    public function removeVideo(?Video $video): ?self
     {
-        if ($this->images->contains($image)) {
-            $this->images->removeElement($image);
-            if ($image->getTrick() === $this) {
-                $image->setTrick(null);
+        if ($this->videos->contains($video)) {
+            $this->videos->removeElement($video);
+            if ($video->getTrick() === $this) {
+                $video->setTrick(null);
             }
         }
 
         return $this;
     }
 
-//    /**
-//     * @return null|Collection
-//     */
-//    public function getVideos(): ?Collection
-//    {
-//        return $this->videos;
-//    }
-//
-//    public function addVideo(?Video $video): ?self
-//    {
-//        if (!$this->videos->contains($video)) {
-//            $this->videos[] = $video;
-//            $video->setTrick($this);
-//        }
-//
-//        return $this;
-//    }
-//
-//    public function removeVideo(?Video $video): ?self
-//    {
-//        if ($this->videos->contains($video)) {
-//            $this->videos->removeElement($video);
-//            if ($video->getTrick() === $this) {
-//                $video->setTrick(null);
-//            }
-//        }
-//
-//        return $this;
-//    }
-//
 
     public function getCategory(): Category
     {

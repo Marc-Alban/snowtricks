@@ -7,30 +7,31 @@
 		<div class="row col-md-8 mx-auto ">
 			<div class="col-12">
 				<div class="d-flex justify-content-end">
-					{% if app.user %}
+{#					{% if app.user %}#}
 						<div class="float">
 							<a href="{{ path('app_trick_edit', {'slug': trick.slug}) }}">
 								<i class="fas fa-pencil-alt fa-lg"></i>
 							</a>
-							<a href="#"  onclick="event.preventDefault(); confirm('Are you sur to deleted this trick?') && document.getElementById('js-trick-delete-form').submit();">
-								<i class="fa fa-trash lead"></i>
-							</a>
+							<a href="{{ path('app_trick_delete', {'slug': trick.slug}) }}"
+							onclick="return confirm(`Are you sur to delete the trick : {{ trick.name }} ?`)"><i
+									class="fas fa-trash-alt"></i></a>
 						</div>
-					{% endif %}
+{#					{% endif %}#}
 				</div>
 				<div class="blockImg">
-						{% for  image in trick.images %}
-							<img src="{{ asset('images/')~image.name }}" alt=""
-								 class="img img-responsive imgArticle">
-						{% endfor %}
+					{% if trick.mainImage.name is defined %}
+						<img src="{{ UploadDirectory~trick.mainImage.name}}" alt=""
+							 class="img img-responsive imgArticle">
+						{% else %}
+						<p>No image...</p>
+					{% endif %}
 					<p class="cover-wrapper">{{ trick.name }}</p>
 				</div>
 				{% dump(trick) %}
 				<div class="col-12 col-md-12 col-lg-12 d-flex justify-content-between flex-wrap">
 					<div class="alert alert-primary btn-primary">Created at : <span
 								class="created">{{ trick.createdAt|date("d/m/Y") }} </span></div>
-{#					<div class="alert alert-primary btn-primary">Category :<span#}
-{#								class="created">{{ trick }} </span></div>#}
+					<div class="alert alert-primary btn-primary">Category :</div>
 					<div class="alert alert-primary btn-primary">Updated at : <span
 								class="updated">{{ trick.updatedAt|date("d/m/Y") }} </span></div>
 				</div>
@@ -39,10 +40,4 @@
 			</div>
 		</div>
 	</div>
-	
-	<form id="js-trick-delete-form" action="{{ path('app_trick_delete', {id: trick.id} ) }}" method="post"
-	      style="display: none">
-		<input type="hidden" name="csrf_token" value="{{ csrf_token('trick_delete'~ trick.id) }}">
-		<input type="hidden" name="_method" value="DELETE">
-	</form>
 {% endblock %}

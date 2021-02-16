@@ -5,25 +5,23 @@
                 <h6 class="card-title font-weight-bold mb-2">{{ trick.name | slice(0, 15) }}</h6>
                 <i class="far fa-clock pr-2"></i><small>{{ trick.createdAt | date('d/m/Y') }}</small>
             </div>
-            {% if app.user %}
+{#            {% if app.user %}#}
                 <div class="float">
                     <a href="{{ path('app_trick_edit', {'slug': trick.slug}) }}">
                         <i class="fas fa-pencil-alt fa-lg"></i>
                     </a>
-                    <a href="#"  onclick="event.preventDefault(); confirm('Are you sur to deleted this trick?') && document.getElementById('js-trick-delete-form').submit();">
-                        <i class="fa fa-trash lead"></i>
-                    </a>
+                   <a href="{{ path('app_trick_delete', {'slug': trick.slug}) }}"
+                    onclick="return confirm(`Are you sur to delete the trick : {{ trick.name }} ?`)"><i
+                            class="fas fa-trash-alt"></i></a>
                 </div>
-            {% endif %}
+{#            {% endif %}#}
         </div>
         <div class="view overlay">
-            {% if trick.images is defined %}
-                {% for  image in trick.images %}
+            {% if trick.mainImage.name is defined %}
                     <a href="{{ path('app_trick_show', {'slug': trick.slug}) }}">
-                        <img src="{{UploadDirectory~image.name }}" alt=""
+                        <img src="{{ UploadDirectory~trick.mainImage.name }}" alt=""
                              class="img img-responsive article-img">
                     </a>
-                {% endfor %}
             {% else %}
                 <p>No image...</p>
             {% endif %}

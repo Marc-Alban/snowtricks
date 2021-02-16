@@ -24,10 +24,10 @@ class TrickRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('t')
             ->addSelect('ca')
             ->addSelect('i')
-//            ->addSelect('v')
+            ->addSelect('v')
             ->leftJoin('t.category','ca')
-            ->leftJoin('t.images','i')
-//            ->leftJoin('t.videos','v')
+            ->leftJoin('t.mainImage','i')
+            ->leftJoin('t.videos','v')
             ->getQuery()
             ->getResult()
         ;
@@ -42,5 +42,6 @@ class TrickRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+
 
 }

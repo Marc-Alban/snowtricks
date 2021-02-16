@@ -39,11 +39,4 @@
             <a class="scroll" href="#gobottom"><i class="fas fa-arrow-up"></i></a>
         </div>
     </section>
-    {% for trick in tricks %}
-        <form id="js-trick-delete-form" action="{{ path('app_trick_delete', {id: trick.id} ) }}" method="post"
-              style="display: none">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token('trick_delete'~ trick.id) }}">
-            <input type="hidden" name="_method" value="DELETE">
-        </form>
-    {% endfor %}
 {% endblock %}

@@ -1,10 +1,11 @@
 <?php
 namespace App\Controller;
 
-use App\Entity\Image;
 use App\Entity\Trick;
+use App\Entity\Image;
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
+use App\Services\ImageHandler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,16 +19,20 @@ class TricksController extends AbstractController
      * @Route("/trick/create",name="app_trick_create", methods={"GET", "POST"})
      * @param Request $request
      * @param EntityManagerInterface $manager
-     * @param Image $image
      * @return Response
      */
-    public function create(Request $request, EntityManagerInterface $manager, Image $image): Response
+    public function create(Request $request, EntityManagerInterface $manager): Response
     {
         $form = $this->createForm(TrickType::class);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
-            $path = $this->getParameter('kernel.project_dir').'/public/images/';
+            //recupère le chemin
+            $path = $this->getParameter('kernel.project_dir').'/public/images';
+            //Récupère les valeurs sous forme d'objet
             $trick = $form->getData();
+            //recupere l'image
+            /** @var Image $image */
+            $image = $trick->getMainImage();
             $image->setPath($path);
             $manager->persist($trick);
             $manager->flush();
@@ -41,20 +46,20 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{id<[0-9]+>}/delete", name="app_trick_delete", methods={"DELETE"})
-     * @param Request $request
-     * @param Trick $trick
+     * @Route("/trick/{slug}/delete", name="app_trick_delete")
      * @param EntityManagerInterface $manager
+     * @param TrickRepository $trickRepository
+     * @param $slug
      * @return Response
      */
-    public function delete(Request $request,Trick $trick,EntityManagerInterface $manager): Response
+    public function delete(EntityManagerInterface $manager, TrickRepository $trickRepository,$slug): Response
     {
-
-        if($this->isCsrfTokenValid('trick_delete'.$trick->getId(),$request->request->get('csrf_token'))){
-            $manager->remove($trick);
+            $trick = $trickRepository->findOneBySlug($slug);
+            foreach ($trick as $trickName){
+                $manager->remove($trickName);
+            }
             $manager->flush();
             $this->addFlash('info', 'trick deleted');
-        }
         return $this->redirectToRoute('app_home');
     }
 
@@ -68,14 +73,18 @@ class TricksController extends AbstractController
      */
     public function edit(Trick $trick, Request $request, EntityManagerInterface $manager): Response
     {
-
         $form = $this->createForm(TrickType::class,$trick,[
             'method'=>'PUT'
         ]);
-
         $form->handleRequest($request);
-
         if($form->isSubmitted() && $form->isValid()){
+
+            //recupère le chemin
+            $path = $this->getParameter('kernel.project_dir').'/public/images';
+            /**@var Image $image */
+            $image = $form->getData()->getMainImage();
+            $image->setPath($path);
+
             $manager->flush();
             $this->addFlash('success', 'Trick updated');
 

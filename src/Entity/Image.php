@@ -9,8 +9,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=ImageRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Image
 {
@@ -23,6 +23,8 @@ class Image
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length( min="5", max="20")
      */
     private string $name;
 
@@ -45,12 +47,6 @@ class Image
 
     private string $path;
 
-
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="images")
-     */
-    private ?Trick $trick;
 
     public function getId(): ?int
     {
@@ -81,53 +77,40 @@ class Image
         return $this;
     }
 
-    public function getTrick(): ?Trick
-    {
-        return $this->trick;
-    }
-
-    public function setTrick(?Trick $trick): self
-    {
-        $this->trick = $trick;
-
-        return $this;
-    }
-
     public function getPath(): string
     {
         return $this->path;
     }
+
 
     public function setPath($path): void
     {
         $this->path = $path;
     }
 
-
-    private function createName(): string
-    {
-        //Créer un nom unique
-        return md5(uniqid()).$this->file->getClientOriginalName();
-    }
-
     /**
      * @ORM\PreFlush()
      */
-    public function handle()
+    public function handle(): void
     {
         if($this->file === null){
             return;
         }
 
-        if(file_exists($this->id)){
+        if($this->id){
             unlink($this->path.'/'.$this->name);
         }
-        //Récupère le file soumis
-        $name = $this->createName();
-        //Donne le nom à l'image
-        $this->setName($name);
-        //Déplace le fichier
+        $name = $this->createName($this->file);
+        //deplacement du fichier
         $this->file->move($this->path,$name);
+        //donne le nom à l'image
+        $this->setName($name);
+    }
+
+    private function createName(): string
+    {
+        //creer un nom unique
+        return md5(uniqid()).'.'.$this->file->getClientOriginalName();
     }
 
 }

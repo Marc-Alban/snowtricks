@@ -26,9 +26,8 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
             ->setUpdatedAt(new DateTime());
         $trick1->setSlug(Slugify::slug($trick1->getName()));
         $trick1->setCategory($this->getReference('Category1'));
-        $trick1->addImage($this->getReference('Image1'));
-        $trick1->addImage($this->getReference('Image2'));
-//       $trick1->addVideo($this->getReference('video1'));
+        $trick1->setMainImage($this->getReference('Image1'));
+       $trick1->addVideo($this->getReference('video1'));
         $manager->persist($trick1);
         $manager->flush();
 
@@ -39,8 +38,8 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
             ->setUpdatedAt(new DateTime());
         $trick2->setSlug(Slugify::slug($trick2->getName()));
         $trick2->setCategory($this->getReference('Category1'));
-        $trick2->addImage($this->getReference('Image2'));
-//        $trick2->addVideo($this->getReference('video2'));
+        $trick2->setMainImage($this->getReference('Image2'));
+        $trick2->addVideo($this->getReference('video2'));
         $manager->persist($trick2);
         $manager->flush();
 
@@ -51,8 +50,8 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
             ->setUpdatedAt(new DateTime());
         $trick3->setSlug(Slugify::slug($trick3->getName()));
         $trick3->setCategory($this->getReference('Category2'));
-        $trick3->addImage($this->getReference('Image3'));
-//        $trick3->addVideo($this->getReference('video3'));
+        $trick3->setMainImage($this->getReference('Image3'));
+        $trick3->addVideo($this->getReference('video3'));
         $manager->persist($trick3);
         $manager->flush();
 
@@ -65,8 +64,8 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
             ->setUpdatedAt(new DateTime());
         $trick4->setSlug(Slugify::slug($trick4->getName()));
         $trick4->setCategory($this->getReference('Category5'));
-        $trick4->addImage($this->getReference('Image4'));
-//        $trick4->addVideo($this->getReference('video4'));
+        $trick4->setMainImage($this->getReference('Image4'));
+        $trick4->addVideo($this->getReference('video4'));
         $manager->persist($trick4);
         $manager->flush();
 
@@ -77,8 +76,8 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
             ->setUpdatedAt(new DateTime());
         $trick5->setSlug(Slugify::slug($trick5->getName()));
         $trick5->setCategory($this->getReference('Category3'));
-        $trick5->addImage($this->getReference('Image5'));
-//        $trick5->addVideo($this->getReference('video5'));
+        $trick5->setMainImage($this->getReference('Image5'));
+        $trick5->addVideo($this->getReference('video5'));
         $manager->persist($trick5);
         $manager->flush();
 
@@ -89,8 +88,8 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
             ->setUpdatedAt(new DateTime());
         $trick6->setSlug(Slugify::slug($trick6->getName()));
         $trick6->setCategory($this->getReference('Category3'));
-        $trick6->addImage($this->getReference('Image6'));
-//        $trick6->addVideo($this->getReference('video6'));
+        $trick6->setMainImage($this->getReference('Image6'));
+        $trick6->addVideo($this->getReference('video6'));
         $manager->persist($trick6);
         $manager->flush();
 
@@ -101,8 +100,8 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
             ->setUpdatedAt(new DateTime());
         $trick7->setSlug(Slugify::slug($trick7->getName()));
         $trick7->setCategory($this->getReference('Category1'));
-        $trick7->addImage($this->getReference('Image7'));
-//        $trick7->addVideo($this->getReference('video7'));
+        $trick7->setMainImage($this->getReference('Image7'));
+        $trick7->addVideo($this->getReference('video7'));
         $manager->persist($trick7);
         $manager->flush();
 
@@ -114,8 +113,8 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
             ->setUpdatedAt(new DateTime());
         $trick8->setSlug(Slugify::slug($trick8->getName()));
         $trick8->setCategory($this->getReference('Category2'));
-        $trick8->addImage($this->getReference('Image8'));
-//        $trick8->addVideo($this->getReference('video8'));
+        $trick8->setMainImage($this->getReference('Image8'));
+        $trick8->addVideo($this->getReference('video8'));
         $manager->persist($trick8);
         $manager->flush();
 
@@ -126,8 +125,8 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
             ->setUpdatedAt(new DateTime());
         $trick9->setSlug(Slugify::slug($trick9->getName()));
         $trick9->setCategory($this->getReference('Category5'));
-        $trick9->addImage($this->getReference('Image9'));
-//        $trick9->addVideo($this->getReference('video9'));
+        $trick9->setMainImage($this->getReference('Image9'));
+        $trick9->addVideo($this->getReference('video9'));
         $manager->persist($trick9);
         $manager->flush();
 
@@ -138,8 +137,8 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
             ->setUpdatedAt(new DateTime());
         $trick10->setSlug(Slugify::slug($trick10->getName()));
         $trick10->setCategory($this->getReference('Category4'));
-        $trick10->addImage($this->getReference('Image10'));
-//        $trick10->addVideo($this->getReference('video10'));
+        $trick10->setMainImage($this->getReference('Image10'));
+        $trick10->addVideo($this->getReference('video10'));
         $manager->persist($trick10);
         $manager->flush();
 
@@ -150,7 +149,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
         return array(
           CategoryFixtures::class,
           ImageFixtures::class,
-//          VideoFixtures::class,
+          VideoFixtures::class,
           UserFixtures::class,
         );
     }

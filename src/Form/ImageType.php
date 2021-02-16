@@ -16,18 +16,6 @@ class ImageType extends AbstractType
     {
         $builder
             ->add('file', FileType::class, [
-                'constraints' => [
-                    new File(
-                        [
-                            'mimeTypes' => [
-                                'image/jpeg',
-                                'image/jpg',
-                                'image/png',
-                            ],
-                            'mimeTypesMessage' => "Image PNG or JPG only",
-                        ]
-                    ),
-                ],
                 'label' => false
             ])
         ;
