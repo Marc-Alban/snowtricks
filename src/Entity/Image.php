@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ImageRepository;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -30,22 +30,15 @@ class Image
 
 
     /**
-     * @Assert\Image(
-     *  mimeTypes= {"image/jpeg", "image/jpg", "image/png"},
-     *  mimeTypesMessage = "Le fichier ne possède pas une extension valide ! Veuillez insérer une image en .jpg, .jpeg ou .png",
-     *  minWidth = 500,
-     *  minWidthMessage = "La largeur de cette image est trop petite",
-     *  maxWidth = 3000,
-     *  maxWidthMessage = "La largeur de cette image est trop grande",
-     *  minHeight = 282,
-     *  minHeightMessage = "La hauteur de cette image est trop petite",
-     *  maxHeight = 1687,
-     *  maxHeightMessage ="La hauteur de cette image est trop grande",
-     *  )
+     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="images")
      */
-    private UploadedFile $file;
+    private ?Trick $trick;
 
-    private string $path;
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private ?bool $starImage;
+
 
 
     public function getId(): ?int
@@ -65,52 +58,32 @@ class Image
         return $this;
     }
 
-    public function getFile(): UploadedFile
+
+    public function getTrick(): ?Trick
     {
-        return $this->file;
+        return $this->trick;
     }
 
-    public function setFile(UploadedFile $file): self
+
+    public function setTrick(?Trick $trick): self
     {
-        $this->file = $file;
+        $this->trick = $trick;
 
         return $this;
     }
 
-    public function getPath(): string
+    public function getStarImage(): ?bool
     {
-        return $this->path;
+        return $this->starImage;
+    }
+
+    public function setStarImage(?bool $starImage): self
+    {
+        $this->starImage = $starImage;
+
+        return $this;
     }
 
 
-    public function setPath($path): void
-    {
-        $this->path = $path;
-    }
-
-    /**
-     * @ORM\PreFlush()
-     */
-    public function handle(): void
-    {
-        if($this->file === null){
-            return;
-        }
-
-        if($this->id){
-            unlink($this->path.'/'.$this->name);
-        }
-        $name = $this->createName($this->file);
-        //deplacement du fichier
-        $this->file->move($this->path,$name);
-        //donne le nom à l'image
-        $this->setName($name);
-    }
-
-    private function createName(): string
-    {
-        //creer un nom unique
-        return md5(uniqid()).'.'.$this->file->getClientOriginalName();
-    }
 
 }

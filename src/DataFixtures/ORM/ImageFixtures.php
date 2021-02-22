@@ -16,52 +16,62 @@ class ImageFixtures extends Fixture
     {
 
         $image1 = (new Image())
-            ->setName('50-50.jpg');
+            ->setName('Tailgrab.jpg')
+            ->setStarImage(true);
         $manager->persist($image1);
         $manager->flush();
 
         $image2 = (new Image())
-            ->setName('flip.jpg');
+            ->setName('Nosegrab.jpg')
+            ->setStarImage(true);
         $manager->persist($image2);
         $manager->flush();
 
         $image3 = (new Image())
-            ->setName('backside_air.jpg');
+            ->setName('Doublebackflip.jpg')
+            ->setStarImage(true);
         $manager->persist($image3);
         $manager->flush();
 
         $image4 = (new Image())
-            ->setName('frontsite.jpg');
+            ->setName('Flip.jpg')
+            ->setStarImage(true);
         $manager->persist($image4);
         $manager->flush();
 
         $image5 = (new Image())
-            ->setName('doubleback.jpg');
+            ->setName('Japan.jpg')
+            ->setStarImage(true);
         $manager->persist($image5);
         $manager->flush();
 
         $image6 = (new Image())
-            ->setName('Front_Bluntslide.jpg');
+            ->setName('Frontside.jpg')
+            ->setStarImage(true);
         $manager->persist($image6);
         $manager->flush();
 
         $image7 = (new Image())
-            ->setName('japan.jpg');
+            ->setName('Backsideair.jpg')
+            ->setStarImage(true);
         $manager->persist($image7);
         $manager->flush();
 
         $image8 = (new Image())
-            ->setName('methode_air.jpg');
+            ->setName('Fronsideboard.jpg')
+            ->setStarImage(true);
         $manager->persist($image8);
         $manager->flush();
 
         $image9 = (new Image())
-            ->setName('nose_grab.jpg');
+            ->setName('Frontbluntslid.jpg')
+            ->setStarImage(true);
         $manager->persist($image9);
         $manager->flush();
 
         $image10 = (new Image())
-            ->setName('Tail_grab.jpg');
+            ->setName('50-50.jpg')
+            ->setStarImage(true);
         $manager->persist($image10);
         $manager->flush();
 

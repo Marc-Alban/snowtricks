@@ -5,26 +5,27 @@
                 <h6 class="card-title font-weight-bold mb-2">{{ trick.name | slice(0, 15) }}</h6>
                 <i class="far fa-clock pr-2"></i><small>{{ trick.createdAt | date('d/m/Y') }}</small>
             </div>
-{#            {% if app.user %}#}
                 <div class="float">
                     <a href="{{ path('app_trick_edit', {'slug': trick.slug}) }}">
                         <i class="fas fa-pencil-alt fa-lg"></i>
                     </a>
-                   <a href="{{ path('app_trick_delete', {'slug': trick.slug}) }}"
-                    onclick="return confirm(`Are you sur to delete the trick : {{ trick.name }} ?`)"><i
-                            class="fas fa-trash-alt"></i></a>
+                    {{ include('layout/partials/_delete_form.html.twig') }}
                 </div>
-{#            {% endif %}#}
         </div>
         <div class="view overlay">
-            {% if trick.mainImage.name is defined %}
+            {% for image in trick.images %}
+                {% if image.starImage %}
                     <a href="{{ path('app_trick_show', {'slug': trick.slug}) }}">
-                        <img src="{{ UploadDirectory~trick.mainImage.name }}" alt=""
+                        <img src="{{ asset('images/figures/')~image.name }}" alt=""
                              class="img img-responsive article-img">
                     </a>
-            {% else %}
-                <p>No image...</p>
-            {% endif %}
+                {% else %}
+                    <a href="{{ path('app_trick_show', {'slug': trick.slug}) }}">
+                        <img src="{{ asset('images/figures/defaulttrick.png') }}" alt=""
+                             class="img img-responsive article-img">
+                    </a>
+                {% endif %}
+            {% endfor %}
         </div>
 
         <div class="card-body">

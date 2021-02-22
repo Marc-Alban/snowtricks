@@ -7,36 +7,42 @@
 		<div class="row col-md-8 mx-auto ">
 			<div class="col-12">
 				<div class="d-flex justify-content-end">
-{#					{% if app.user %}#}
+					{% if app.user %}
 						<div class="float">
 							<a href="{{ path('app_trick_edit', {'slug': trick.slug}) }}">
 								<i class="fas fa-pencil-alt fa-lg"></i>
 							</a>
-							<a href="{{ path('app_trick_delete', {'slug': trick.slug}) }}"
-							onclick="return confirm(`Are you sur to delete the trick : {{ trick.name }} ?`)"><i
-									class="fas fa-trash-alt"></i></a>
+							<a href="{{ path('app_trick_delete', {'id': trick.id}) }}"
+							onclick="return confirm(`Are you sur to delete the trick : {{ trick.name | raw }} ?`)"></a>
 						</div>
-{#					{% endif %}#}
+					{% endif %}
 				</div>
 				<div class="blockImg">
-					{% if trick.mainImage.name is defined %}
-						<img src="{{ UploadDirectory~trick.mainImage.name}}" alt=""
-							 class="img img-responsive imgArticle">
-						{% else %}
-						<p>No image...</p>
+					{% if trick.images is defined %}
+						{% for image in trick.images %}
+								<div>
+									<img src="{{ asset('/images/figures/')~image.name }}" alt="image" class="imgArticle">
+									<a href="{{ path('app_edit_image', {id: image.id})}}"><i class="fas fa-pencil-alt"></i></a>
+									<a href="{{ path('app_delete_image', {id: image.id})}}" data-delete-image data-token="{{ csrf_token('delete' ~ image.id )}}">
+										<i class="fas fa-trash-alt"></i>
+									</a>
+								</div>
+							{% endfor %}
+					{% else %}
+						<img src="{{ asset('/images/figures/defaulttrick.png') }}" alt="image" class="imgArticle">
 					{% endif %}
-					<p class="cover-wrapper">{{ trick.name }}</p>
+					<p class="cover-wrapper">{{ trick.name | raw }}</p>
 				</div>
-				{% dump(trick) %}
+				<!-- Include trick images and videos in carousel -->
+				{% include 'layout/partials/_media.html.twig' %}
 				<div class="col-12 col-md-12 col-lg-12 d-flex justify-content-between flex-wrap">
 					<div class="alert alert-primary btn-primary">Created at : <span
 								class="created">{{ trick.createdAt|date("d/m/Y") }} </span></div>
-					<div class="alert alert-primary btn-primary">Category :</div>
+					<div class="alert alert-primary btn-primary">Category : {{ trick.category.name }}</div>
 					<div class="alert alert-primary btn-primary">Updated at : <span
 								class="updated">{{ trick.updatedAt|date("d/m/Y") }} </span></div>
 				</div>
-				<p class="text-justify">{{ trick.description }} </p>
-
+				<p class="text-justify">{{ trick.description | raw }} </p>
 			</div>
 		</div>
 	</div>

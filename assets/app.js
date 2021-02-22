@@ -8,6 +8,8 @@ let $addVideoLink = $('<a href="#" class="add_video_link btn btn-primary">Add a 
 let $newLinkLi = $('<li></li>').append($addVideoLink);
 
 $(document).ready(function() {
+
+    //Video add
     // Get the ul that holds the collection of Videos
     let $collectionHolder = $('ul.video');
 
@@ -58,9 +60,80 @@ $(document).ready(function() {
         });
     }
 
+//Images delete
+// Gestion des boutons "Supprimer"
+let linksImages = document.querySelectorAll("[data-delete-image]")
+let link;
+// On boucle sur links
+for(link of linksImages){
+    // On écoute le clic
+    link.addEventListener("click", function(e){
+        // On empêche la navigation
+        e.preventDefault()
+
+        // On demande confirmation
+        if(confirm("Do you want to delete this image ?")){
+            // On envoie une requête Ajax vers le href du lien avec la méthode DELETE
+            fetch(this.getAttribute("href"), {
+                method: "DELETE",
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({"_token": this.dataset.token})
+            }).then(
+                // On récupère la réponse en JSON
+                response => response.json()
+            ).then(data => {
+                if(data.success)
+                    this.parentElement.remove()
+                else
+                    alert(data.error)
+            }).catch(e => alert(e))
+        }
+    })
+}
+
+
+// //Video delete
+// // Gestion des boutons "Supprimer"
+//     let linksVideo = document.querySelectorAll("[data-delete-video]")
+// // On boucle sur links
+//     for(link of linksVideo){
+//         // On écoute le clic
+//         link.addEventListener("click", function(e){
+//             // On empêche la navigation
+//             e.preventDefault()
+//
+//             // On demande confirmation
+//             if(confirm("Do you want to delete this video ?")){
+//                 // On envoie une requête Ajax vers le href du lien avec la méthode DELETE
+//                 fetch(this.getAttribute("href"), {
+//                     method: "DELETE",
+//                     headers: {
+//                         "X-Requested-With": "XMLHttpRequest",
+//                         "Content-Type": "application/json"
+//                     },
+//                     body: JSON.stringify({"_token": this.dataset.token})
+//                 }).then(
+//                     // On récupère la réponse en JSON
+//                     response => response.json()
+//                 ).then(data => {
+//                     if(data.success)
+//                         this.parentElement.remove()
+//                     else
+//                         alert(data.error)
+//                 }).catch(e => alert(e))
+//             }
+//         })
+//     }
+
+
+
+
 //    LoadData
     //Selection de la classe moreBox et reduit le sous-ensemble puis le montre
-    $(".moreBox").slice(0,4).show();
+    $(".moreBox").slice(0,15).show();
     //Slection de l'id showless et cache le boutton
     $('#showLess').hide().attr('style','display:none!important');
     //Slection de l'id loadMore et le cache

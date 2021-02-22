@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -20,6 +20,7 @@ class Video
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url()
      */
     private string $url;
 
@@ -41,7 +42,6 @@ class Video
     public function setUrl(string $url): self
     {
         $this->url = $url;
-
         return $this;
     }
 
@@ -56,4 +56,6 @@ class Video
 
         return $this;
     }
+
+
 }

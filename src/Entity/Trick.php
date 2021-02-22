@@ -52,9 +52,9 @@ class Trick
     private string $slug;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="trick" ,cascade={"persist", "remove"})
      */
-    private Image $mainImage;
+    private ?Collection $images;
 
 
 
@@ -73,6 +73,7 @@ class Trick
     public function __construct()
     {
        $this->videos = new ArrayCollection();
+       $this->images = new ArrayCollection();
        $this->createdAt = new DateTime();
        $this->updatedAt = new DateTime();
     }
@@ -159,18 +160,37 @@ class Trick
     }
 
 
-    public function getMainImage(): Image
+
+
+    /**
+     * @return null|Collection
+     */
+    public function getImages(): ?Collection
     {
-        return $this->mainImage;
+        return $this->images;
     }
 
-
-    public function setMainImage(Image $mainImage): void
+    public function addImage(?Image $image): ?self
     {
-        $this->mainImage = $mainImage;
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setTrick($this);
+        }
+
+        return $this;
     }
 
+    public function removeImage(?Video $image): ?self
+    {
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
+            if ($image->getTrick() === $this) {
+                $image->setTrick(null);
+            }
+        }
 
+        return $this;
+    }
 
     /**
      * @return null|Collection

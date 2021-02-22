@@ -5,13 +5,11 @@
 {% block body %}
     <div class="container">
         <div class="row d-flex justify-content-end mt-5">
-            <button class="btnPrev btn "><a class="btnPrev" href="{{ path('app_home') }}">Back home</a></button>
+            <button class="btnPrev btn btn-primary "><a class="text-white" href="{{ path('app_home') }}">Back home</a></button>
         </div>
     </div>
     <div class="col-lg-7 col-md-10 mx-auto">
         <h1>Create new trick</h1>
-        {% include 'layout/partials/_form.html.twig' %}
-        <button type="submit" class="btn btn-primary btn-lg col-12">Create the new trick !</button>
-        {{ form_end(form) }}
+        {{ include('layout/partials/_form.html.twig') }}
     </div>
 {% endblock %}

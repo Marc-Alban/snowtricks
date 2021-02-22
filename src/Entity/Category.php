@@ -51,7 +51,7 @@ class Category
     }
 
     /**
-     * @return Collection|Trick[]
+     * @return Collection
      */
     public function getTricks(): Collection
     {

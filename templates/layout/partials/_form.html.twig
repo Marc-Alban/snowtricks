@@ -2,16 +2,22 @@
 {{ form_row(form.name) }}
 {{ form_row(form.description) }}
 {{ form_row(form.category) }}
-{{ form_errors(form.mainImage) }}
-{% if form.mainImage.vars.value.id is defined %}
-    <p>Update images: </p>
-    <img src="{{ UploadDirectory~trick.mainImage.name}}" alt=""
-         class="img img-responsive editImageArticle">
-{% else %}
-    <p>Add images: </p>
+<p>Images: </p>
+{%  if app.request.attributes.get('_route') == 'app_trick_edit' %}
+    {% for image in trick.images %}
+        <div>
+            <img src="{{ asset('/images/figures/')~image.name }}" alt="image" width="150">
+            <a href="{{ path('app_delete_image', {id: image.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id )}}" class="imgArticleLien">Delete</a>
+        </div>
+    {% endfor %}
 {% endif %}
-{{ form_row(form.mainImage)}}
-{#<br>#}
-{#<p>Add videos (Youtube ou Dailymotion)</p>#}
-{#<ul class="video" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}"></ul>#}
+{{ form_row(form.images) }}
+<p>Add videos (Youtube)</p>
+<ul class="video" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}"></ul>
 {{ form_rest(form) }}
+<button class="btn btn-primary btn-lg col-12 col-md-6 col-lg-4  mx-auto">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+
+
+
+

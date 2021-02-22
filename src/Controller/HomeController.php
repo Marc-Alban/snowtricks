@@ -10,14 +10,14 @@ class HomeController extends AbstractController
 {
 
     /**
-     * @Route("/", name="app_home")
+     * @Route("/", name="app_home", methods={"GET"})
      * @param TrickRepository $trickRepository
      * @return Response
      */
     public function index(TrickRepository $trickRepository): Response
     {
         return $this->render('pages/home.html.twig', [
-            'tricks' => $trickRepository->findByToto(),
+            'tricks' => $trickRepository->findByRequest(),
         ]);
     }
 }
