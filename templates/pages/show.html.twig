@@ -4,30 +4,26 @@
 
 {% block body %}
 	<div class="container-fluid col-lg-10 col-md-12 col-12 contShow mt-5">
-		<div class="row col-md-8 mx-auto ">
+		<div class="row col-md-12 col-lg-8 mx-auto ">
 			<div class="col-12">
-				<div class="d-flex justify-content-end">
-					{% if app.user %}
-						<div class="float">
-							<a href="{{ path('app_trick_edit', {'slug': trick.slug}) }}">
-								<i class="fas fa-pencil-alt fa-lg"></i>
-							</a>
-							<a href="{{ path('app_trick_delete', {'id': trick.id}) }}"
-							onclick="return confirm(`Are you sur to delete the trick : {{ trick.name | raw }} ?`)"></a>
-						</div>
-					{% endif %}
-				</div>
 				<div class="blockImg">
 					{% if trick.images is defined %}
 						{% for image in trick.images %}
+							{% dump(image) %}
+							{% if image.starImage != null %}
 								<div>
-									<img src="{{ asset('/images/figures/')~image.name }}" alt="image" class="imgArticle">
-									<a href="{{ path('app_edit_image', {id: image.id})}}"><i class="fas fa-pencil-alt"></i></a>
-									<a href="{{ path('app_delete_image', {id: image.id})}}" data-delete-image data-token="{{ csrf_token('delete' ~ image.id )}}">
-										<i class="fas fa-trash-alt"></i>
-									</a>
+									<img src="{{ asset('/images/figures/')~image.name }}" alt="image" class="imgStarArticle">
+									<div class="lienStarImage">
+										<a href="{{ path('app_edit_image', {id: image.id})}}"><i class="fas fa-pencil-alt"></i></a>
+										<a href="{{ path('app_delete_image', {id: image.id})}}" data-delete-image data-token="{{ csrf_token('delete' ~ image.id )}}">
+											<i class="fas fa-trash-alt"></i>
+										</a>
+									</div>
 								</div>
-							{% endfor %}
+							{% elseif image.id|length == 0 and image.starImage == null   %}
+								<img src="{{ asset('/images/figures/defaulttrick.png') }}" alt="image" class="imgArticle">
+							{% endif %}
+						{% endfor %}
 					{% else %}
 						<img src="{{ asset('/images/figures/defaulttrick.png') }}" alt="image" class="imgArticle">
 					{% endif %}
@@ -43,6 +39,19 @@
 								class="updated">{{ trick.updatedAt|date("d/m/Y") }} </span></div>
 				</div>
 				<p class="text-justify">{{ trick.description | raw }} </p>
+				<div class="d-flex justify-content-center">
+					{#					{% if app.user %}#}
+					<div class="float">
+						<a href="{{ path('app_trick_edit', {'slug': trick.slug}) }}">
+							<div class="btn btn-warning">Edit trick</div>
+						</a>
+						<a href="{{ path('app_trick_delete', {'id': trick.id}) }}"
+						   onclick="return confirm(`Are you sur to delete the trick : {{ trick.name | raw }} ?`)">
+							<div class="btn btn-warning">Delete trick</div>
+						</a>
+					</div>
+					{#					{% endif %}#}
+				</div>
 			</div>
 		</div>
 	</div>

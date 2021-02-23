@@ -5,8 +5,10 @@ use App\Entity\Image;
 use App\Entity\Trick;
 use App\Entity\Video;
 use App\Form\TrickType;
+use App\Form\ImageType;
 use App\Form\VideoType;
 use App\Repository\TrickRepository;
+use App\Services\TrickHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -21,26 +23,17 @@ class TricksController extends AbstractController
      * @Route("/trick/create",name="app_trick_create", methods={"GET", "POST"})
      * @param Request $request
      * @param EntityManagerInterface $manager
+     * @param TrickHelper $helper
      * @return Response
      */
-    public function create(Request $request, EntityManagerInterface $manager,): Response
+    public function create(Request $request, EntityManagerInterface $manager, TrickHelper $helper): Response
     {
         $trick = new Trick();
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $images = $form->get('images')->getData();
-            foreach ($images as $image)
-            {
-                $fileName =  md5(uniqid()).'.'.$image->guessExtension();
-                $image->move(
-                    $this->getParameter('images_directory'),
-                    $fileName
-                );
-                $img = new Image();
-                $img->setName($fileName);
-                $trick->addImage($img);
-            }
+            $helper->imageUpload($trick, $images);
             $manager->persist($trick);
             $manager->flush();
             $this->addFlash('success', 'Trick created');
@@ -78,9 +71,10 @@ class TricksController extends AbstractController
      * @param EntityManagerInterface $manager
      * @param TrickRepository $trickRepository
      * @param string $slug
+     * @param TrickHelper $helper
      * @return Response
      */
-    public function edit(Request $request, EntityManagerInterface $manager, TrickRepository $trickRepository, string $slug): Response
+    public function edit(Request $request, EntityManagerInterface $manager, TrickRepository $trickRepository, string $slug, TrickHelper $helper): Response
     {
         $tricks = $trickRepository->findOneBySlug($slug);
         foreach ($tricks as $trick ) {
@@ -88,16 +82,7 @@ class TricksController extends AbstractController
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $images = $form->get('images')->getData();
-                foreach ($images as $image) {
-                    $fileName = md5(uniqid()) . '.' . $image->guessExtension();
-                    $image->move(
-                        $this->getParameter('images_directory'),
-                        $fileName
-                    );
-                    $img = new Image();
-                    $img->setName($fileName);
-                    $trick->addImage($img);
-                }
+                $helper->imageUpload($trick, $images);
                 $manager->flush();
                 $this->addFlash('success', 'Trick updated');
                 return $this->redirectToRoute('app_home');

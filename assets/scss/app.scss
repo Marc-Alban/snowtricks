@@ -67,6 +67,8 @@ main {
 }
 .navbarTop {
   display: flex !important;
+  border-bottom: 1px solid ;
+  background-color: #fff ;
 }
 .navbarBottom {
   display: none !important;
@@ -127,18 +129,35 @@ form {
   margin: auto;
 }
 iframe {
-  width: 100%;
-  height: auto;
+  width: 150px;
+  height: 150px;
 }
+
+.imgStarArticle {
+  position: relative;
+  height: auto;
+  width: 100%;
+  margin: auto;
+}
+.lienStarImage {
+  position: absolute !important;
+  top: -30px;
+  left: 86%;
+}
+
 .imgArticle {
   position: relative;
   width: 150px;
   margin: 0 2em;
   height: 150px;
-  .imgArticleLien {
-    position: absolute !important;
-  }
 }
+
+.imgArticleLien {
+  position: absolute !important;
+  top: 0 !important;
+  left: 100% !important;
+}
+
 
 .article {
   display: flex;
@@ -146,6 +165,13 @@ iframe {
   flex-direction: row;
   justify-content: center;
 }
+
+.card-body form{
+  bottom: 7px;
+  position: relative;
+}
+
+
 .col-form-label {
   display: none !important;
 }
@@ -157,14 +183,42 @@ iframe {
 }
 .blockImg {
   .cover-wrapper {
+    background-color: #090909;
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 10px;
     position: absolute;
-    bottom: 70%;
+    bottom: 75%;
     left: 50%;
     transform: translate(-55%, 45%);
     font-weight: bold;
     font-size: 2em;
     color: white;
   }
+}
+
+.conteneurImageArticle {
+  position: relative;
+  margin: 10px 0;
+}
+
+
+.conteneurVideoArticle {
+  position: relative;
+  margin: 10px 0;
+  left: 35px;
+}
+
+.lienImage{
+    position: absolute;
+    top: 0;
+    right: -10px;
+}
+
+.lienVideo{
+    position: absolute;
+    top: 0;
+    right: -40px;
 }
 .fa-trash {
   cursor: pointer;
@@ -203,6 +257,15 @@ footer {
     margin-right: 10px;
   }
 }
+
+@media (max-width: 1024px) {
+  .blockImg {
+    .cover-wrapper {
+      bottom: 85%;
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .rowUp {
     justify-content: space-around;
@@ -230,6 +293,11 @@ footer {
       }
     }
   }
+  .blockImg {
+    .cover-wrapper {
+      bottom: 85%;
+    }
+  }
   .contShow {
     border: none;
     height: 100%;
@@ -250,6 +318,14 @@ footer {
   .article-caption {
     a {
       color: white;
+    }
+  }
+  .blockImg {
+    .cover-wrapper {
+      position: absolute;
+      bottom: 88%;
+      text-align: center;
+      transform: translate(-50%, 0%);
     }
   }
 }
