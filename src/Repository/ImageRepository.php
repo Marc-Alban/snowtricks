@@ -19,6 +19,33 @@ class ImageRepository extends ServiceEntityRepository
         parent::__construct($registry, Image::class);
     }
 
+
+
+    //UPDATE `image` SET `star_image` = '0' WHERE `image`.`id` = 105;
+    public function nullDefaultImage($id)
+    {
+        return $this->createQueryBuilder('i')
+            ->update()
+            ->set('i.starImage', '0')
+            ->where( ':id = i.id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function setDefaultImage($id)
+    {
+        return $this->createQueryBuilder('i')
+            ->update()
+            ->set('i.starImage', '1')
+            ->where( ':id = i.id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Image[] Returns an array of Image objects
     //  */

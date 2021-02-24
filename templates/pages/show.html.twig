@@ -7,26 +7,23 @@
 		<div class="row col-md-12 col-lg-8 mx-auto ">
 			<div class="col-12">
 				<div class="blockImg">
-					{% if trick.images is defined %}
-						{% for image in trick.images %}
-							{% dump(image) %}
-							{% if image.starImage != null %}
+					{% set imageUne = 0 %}
+					{% for image in trick.images %}
+							{% if image.starImage == 1 %}
 								<div>
 									<img src="{{ asset('/images/figures/')~image.name }}" alt="image" class="imgStarArticle">
 									<div class="lienStarImage">
-										<a href="{{ path('app_edit_image', {id: image.id})}}"><i class="fas fa-pencil-alt"></i></a>
 										<a href="{{ path('app_delete_image', {id: image.id})}}" data-delete-image data-token="{{ csrf_token('delete' ~ image.id )}}">
 											<i class="fas fa-trash-alt"></i>
 										</a>
 									</div>
 								</div>
-							{% elseif image.id|length == 0 and image.starImage == null   %}
-								<img src="{{ asset('/images/figures/defaulttrick.png') }}" alt="image" class="imgArticle">
-							{% endif %}
-						{% endfor %}
-					{% else %}
-						<img src="{{ asset('/images/figures/defaulttrick.png') }}" alt="image" class="imgArticle">
-					{% endif %}
+								{% set imageUne = 1 %}
+						{% endif %}
+					{% endfor %}
+						{% if imageUne == 0 %}
+							<img src="{{ asset('/images/figures/defaulttrick.png') }}" alt="image" class="imgStarArticle">
+						{% endif %}
 					<p class="cover-wrapper">{{ trick.name | raw }}</p>
 				</div>
 				<!-- Include trick images and videos in carousel -->

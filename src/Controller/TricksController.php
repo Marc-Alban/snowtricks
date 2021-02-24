@@ -5,13 +5,12 @@ use App\Entity\Image;
 use App\Entity\Trick;
 use App\Entity\Video;
 use App\Form\TrickType;
-use App\Form\ImageType;
-use App\Form\VideoType;
+use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
 use App\Services\TrickHelper;
+use App\Services\VideoUpload;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,9 +23,10 @@ class TricksController extends AbstractController
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @param TrickHelper $helper
+     * @param VideoUpload $videoUpload
      * @return Response
      */
-    public function create(Request $request, EntityManagerInterface $manager, TrickHelper $helper): Response
+    public function create(Request $request, EntityManagerInterface $manager, TrickHelper $helper, VideoUpload $videoUpload): Response
     {
         $trick = new Trick();
         $form = $this->createForm(TrickType::class, $trick);
@@ -34,6 +34,8 @@ class TricksController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $images = $form->get('images')->getData();
             $helper->imageUpload($trick, $images);
+            $test = $form->get('videos')->getData();
+            dd($test);
             $manager->persist($trick);
             $manager->flush();
             $this->addFlash('success', 'Trick created');
@@ -112,51 +114,60 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route ("/image/{id}/delete", name="app_delete_image", methods={"DELETE"})
+     * @Route ("/image/{id}/delete", name="app_delete_image")
      * @param Image $image
      * @param Request $request
      * @param EntityManagerInterface $manager
-     * @return JsonResponse
+     * @return Response
      */
-    public function deleteImage(Image $image, Request $request, EntityManagerInterface $manager): JsonResponse
+    public function deleteImage(Image $image, Request $request, EntityManagerInterface $manager): Response
     {
-        $data = json_decode($request->getContent(), true);
-        if($this->isCsrfTokenValid('delete'.$image->getId(), $data['_token']))
-        {
-            $nom = $image->getName();
-            unlink($this->getParameter('images_directory').'/'.$nom);
+        if($this->isCsrfTokenValid('delete'.$image->getId(), $request->request->get('_token'))){
             $manager->remove($image);
             $manager->flush();
-
-            return new JsonResponse(['success'=>1]);
-        }else{
-            return new JsonResponse(['error'=>'Token invalid'], 400);
         }
+        $this->addFlash('info', 'image deleted');
+        return $this->redirectToRoute('app_home');
     }
 
     /**
-     * @Route ("/video/{id}/delete", name="app_delete_video", methods={"DELETE"})
+     * @Route ("/image/{id}/default", name="app_default_image")
+     * @param Image $image
+     * @param ImageRepository $imageRepository
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    public function defaultImage(Image $image, ImageRepository $imageRepository, EntityManagerInterface $manager): Response
+    {
+        $trick = $image->getTrick();
+        foreach ($trick->getImages() as $trick){
+            $imageRepository->nullDefaultImage($trick->getId());
+        }
+        $imageRepository->setDefaultImage($image->getId());
+        $manager->flush();
+        $this->addFlash('info', 'image update default');
+        return $this->redirectToRoute('app_home');
+    }
+
+    /**
+     * @Route ("/video/{id}/delete", name="app_delete_video")
      * @param Video $video
      * @param Request $request
      * @param EntityManagerInterface $manager
-     * @return JsonResponse
+     * @return Response
      */
-    public function deleteVideo(Video $video, Request $request, EntityManagerInterface $manager): JsonResponse
+    public function deleteVideo(Video $video, Request $request, EntityManagerInterface $manager): Response
     {
-        $data = json_decode($request->getContent(), true);
-        if($this->isCsrfTokenValid('delete'.$video->getId(), $data['_token']))
-        {
+        if($this->isCsrfTokenValid('delete'.$video->getId(), $request->request->get('_token'))){
             $manager->remove($video);
             $manager->flush();
-            return new JsonResponse(['success'=>1]);
-        }else{
-            return new JsonResponse(['error'=>'Token invalid'], 400);
         }
+        $this->addFlash('info', 'trick deleted');
+        return $this->redirectToRoute('app_home');
     }
 
-
     /**
-     * @Route ("/video/{id}/edit", name="app_edit_video", methods={"GET", "POST"})
+     * @Route ("/video/{id}/edit", name="app_edit_video")
      * @param Video $video
      * @param Request $request
      * @param EntityManagerInterface $manager
@@ -165,40 +176,7 @@ class TricksController extends AbstractController
     public function editVideo(Video $video, Request $request, EntityManagerInterface $manager): Response
     {
 
-            $form = $this->createForm(VideoType::class, $video);
-            $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-                $manager->flush();
-                $this->addFlash('success', 'Video updated');
-                return $this->redirectToRoute('app_home');
-            }
-            return $this->render('pages/editVideo.html.twig', [
-                'form' => $form->createView(),
-                'video' => $video
-            ]);
-    }
-
-    /**
-     * @Route ("/image/{id}/edit", name="app_edit_image", methods={"GET", "POST"})
-     * @param Image $image
-     * @param Request $request
-     * @param EntityManagerInterface $manager
-     * @return Response
-     */
-    public function editImage(Image $image, Request $request, EntityManagerInterface $manager): Response
-    {
-
-            $form = $this->createForm(  ImageType::class, $image);
-            $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-                $manager->flush();
-                $this->addFlash('success', 'Image updated');
-                return $this->redirectToRoute('app_home');
-            }
-            return $this->render('pages/editImage.html.twig', [
-                'form' => $form->createView(),
-                'image' => $image
-            ]);
+        return $this->redirectToRoute('app_home');
     }
 
 }
