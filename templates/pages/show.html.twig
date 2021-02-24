@@ -13,9 +13,7 @@
 								<div>
 									<img src="{{ asset('/images/figures/')~image.name }}" alt="image" class="imgStarArticle">
 									<div class="lienStarImage">
-										<a href="{{ path('app_delete_image', {id: image.id})}}" data-delete-image data-token="{{ csrf_token('delete' ~ image.id )}}">
-											<i class="fas fa-trash-alt"></i>
-										</a>
+										{{ include('layout/partials/_deleteImage_form.html.twig') }}
 									</div>
 								</div>
 								{% set imageUne = 1 %}

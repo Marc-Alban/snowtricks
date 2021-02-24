@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Video
 {
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -20,7 +21,9 @@ class Video
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Url()
+     * @Assert\Url(
+     *    relativeProtocol = true
+     * )
      */
     private string $url;
 
@@ -28,6 +31,7 @@ class Video
      * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="videos")
      */
     private ?Trick $trick;
+
 
     public function getId(): ?int
     {
