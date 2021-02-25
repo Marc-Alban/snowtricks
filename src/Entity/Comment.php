@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
 use \DateTime;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
@@ -22,6 +22,8 @@ class Comment
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     private string $content;
 

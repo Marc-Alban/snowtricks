@@ -13,7 +13,7 @@
 								<div>
 									<img src="{{ asset('/images/figures/')~image.name }}" alt="image" class="imgStarArticle">
 									<div class="lienStarImage">
-										{{ include('layout/partials/_deleteImage_form.html.twig') }}
+										{{ include('layout/partials/_deleteImageForm.html.twig') }}
 									</div>
 								</div>
 								{% set imageUne = 1 %}
@@ -36,14 +36,13 @@
 				<p class="text-justify">{{ trick.description | raw }} </p>
 				<div class="d-flex justify-content-center">
 					{#					{% if app.user %}#}
-					<div class="float">
-						<a href="{{ path('app_trick_edit', {'slug': trick.slug}) }}">
-							<div class="btn btn-warning">Edit trick</div>
-						</a>
-						<a href="{{ path('app_trick_delete', {'id': trick.id}) }}"
-						   onclick="return confirm(`Are you sur to delete the trick : {{ trick.name | raw }} ?`)">
-							<div class="btn btn-warning">Delete trick</div>
-						</a>
+					<div class="d-flex">
+						<div class="mr-2">
+							<a href="{{ path('app_trick_edit', {'slug': trick.slug}) }}">
+								<div class="btn btn-warning">Edit trick</div>
+							</a>
+						</div>
+						{{ include('layout/partials/_deleteTrickFormShow.html.twig') }}
 					</div>
 					{#					{% endif %}#}
 				</div>

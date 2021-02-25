@@ -5,10 +5,14 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use \DateTime;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(fields="username",  message="This name is already in use")
+ * @UniqueEntity(fields="email",  message="This email is already in use")
  */
 class User
 {
@@ -20,7 +24,9 @@ class User
     private int $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(name="username", type="string", length=180, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     private string $username;
 
@@ -31,16 +37,25 @@ class User
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     * @Assert\Length(min="8")
      */
     private string $password;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(name="email", type="string", length=180, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     * @Assert\Email()
      */
     private string $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     * @Assert\Image()
      */
     private string $photo;
 

@@ -9,7 +9,7 @@
                             <a href="{{ path('app_default_image', {id: image.id})}}">
                                 <i class="fas fa-star fa-lg"></i>
                             </a>
-                            {{ include('layout/partials/_deleteImage_form.html.twig') }}
+                            {{ include('layout/partials/_deleteImageForm.html.twig') }}
                         </div>
                         </div>
                     </div>
@@ -21,7 +21,7 @@
                            <a href="{{ path('app_edit_video', {'id': video.id}) }}">
                                <i class="fas fa-pencil-alt fa-lg"></i>
                            </a>
-                           {{ include('layout/partials/_deleteVideo_form.html.twig') }}
+                           {{ include('layout/partials/_deleteVideoForm.html.twig') }}
                        </div>
                     <iframe src="{{ video.url }}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>

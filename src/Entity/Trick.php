@@ -8,11 +8,14 @@ use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrickRepository")
+ * @UniqueEntity(fields="name",  message="This name is already in use")
+ * @UniqueEntity(fields="slug",  message="This slug is already in use")
  * @ORM\HasLifecycleCallbacks()
  */
 class Trick
@@ -25,14 +28,18 @@ class Trick
     private int $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(name="name", type="string", length=255, unique=true)
      * @Assert\Length(max=100, maxMessage="Le nom ne doit pas faire plus de 100 caractères")
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     private string $name;
 
     /**
      * @ORM\Column(type="text")
      * @Assert\Length(min=20, minMessage="La description doit faire au moins 20 caractères")
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
     private string $description;
 
@@ -47,7 +54,7 @@ class Trick
     private DateTimeInterface $updatedAt;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(name="slug", type="string", length=255, unique=true)
      */
     private string $slug;
 
@@ -66,6 +73,8 @@ class Trick
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="tricks")
+     * @Assert\NotNull()
+     * @Assert\NotBlank()
      */
     private Category $category;
 
@@ -159,9 +168,6 @@ class Trick
         }
     }
 
-
-
-
     /**
      * @return null|Collection
      */
@@ -221,7 +227,6 @@ class Trick
 
         return $this;
     }
-
 
     public function getCategory(): Category
     {
