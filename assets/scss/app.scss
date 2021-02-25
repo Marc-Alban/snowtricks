@@ -12,6 +12,9 @@ body {
   flex-direction: column;
   min-height: 100vh;
   color: #0a0a0a;
+  ul{
+    list-style: none;
+  }
   p {
     color: #0a0a0a;
     text-decoration: none;
@@ -54,6 +57,9 @@ body {
 }
 main {
   margin-bottom: 100px;
+  .remove-video{
+    margin-bottom: 2rem;
+  }
 }
 .loadMore {
   display: none !important;

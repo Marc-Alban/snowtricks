@@ -73,7 +73,6 @@ class TricksController extends AbstractController
     }
 
     // Edit
-
     /**
      * @Route("/trick/{slug}/edit", name="app_trick_edit", methods={"GET","POST"})
      * @param Request $request
@@ -100,7 +99,9 @@ class TricksController extends AbstractController
                 }
                 $manager->flush();
                 $this->addFlash('success', 'Trick updated');
-                return $this->redirectToRoute('app_home');
+                return $this->redirectToRoute('app_trick_show', [
+                    'slug' => $slug
+                ] );
             }
             return $this->render('pages/edit.html.twig', [
                 'form' => $form->createView(),
@@ -140,7 +141,7 @@ class TricksController extends AbstractController
     }
 
     /**
-     * @Route ("/image/{id}/delete", name="app_delete_image")
+     * @Route ("/image/{id}/delete", name="app_delete_image", methods={"DELETE"})
      * @param Image $image
      * @param Request $request
      * @param EntityManagerInterface $manager
@@ -176,19 +177,23 @@ class TricksController extends AbstractController
     }
 
     //Show
+
     /**
      * @Route("/trick/{slug}",name="app_trick_show", methods="GET")
      * @param TrickRepository $trickRepository
+     * @param TrickHelper $helper
      * @param string $slug
+     * @param ImageRepository $imageRepository
      * @return Response
      */
-    public function show(TrickRepository $trickRepository, string $slug): Response
+    public function show(TrickRepository $trickRepository, TrickHelper $helper, string $slug,ImageRepository $imageRepository): Response
     {
-        $trick = $trickRepository->findOneBySlug($slug);
-        if($trick){
-            foreach ($trick as $tricks){
+        $tricks = $trickRepository->findOneBySlug($slug);
+        if($tricks){
+            foreach ($tricks as $trick){
+                $helper->checkImageUpload($trick, $imageRepository);
                 return $this->render('pages/show.html.twig',[
-                    'trick'=>$tricks
+                    'trick'=>$trick
                 ]);
             }
         }

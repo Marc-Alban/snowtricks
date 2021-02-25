@@ -14,9 +14,9 @@ class HomeController extends AbstractController
      * @param TrickRepository $trickRepository
      * @return Response
      */
-    public function index(TrickRepository $trickRepository): Response
+    public function index(TrickRepository $trickRepository ): Response
     {
-        return $this->render('pages/home.html.twig', [
+                return $this->render('pages/home.html.twig', [
             'tricks' => $trickRepository->findByRequest(),
         ]);
     }
