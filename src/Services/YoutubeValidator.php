@@ -13,26 +13,31 @@ class YoutubeValidator extends AbstractController
 
     /**
      * @param string $value
-     * @return mixed
+     * @return string
      */
-    public function doClean(string $value): mixed
+    public function doClean(string $value): string
     {
-        $pattern = "/(http(s)?:\/\/)?(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/";
+        $pattern = "/^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/";
 
         preg_match($pattern, $value, $matches);
 
-        if (empty($matches[3]))
+        if (empty($matches[5]))
         {
             throw $this->createNotFoundException('l\'url n\'est pas bonne !');
         }
-        return $matches[3];
+        return $matches[5];
     }
 
     /**
      * @param Video $video
+     * @param string $url
      */
-    public function setVideoUrl(Video $video): void
+    public function setVideoUrl(Video $video, ?string $url): void
     {
-        $video->setUrl('https://www.youtube.com/embed/'.$this->doClean($video->getUrl()));
+        if($url !== null) {
+            $video->setUrl('https://www.youtube.com/embed/' .$this->doClean($url));
+        }elseif ($url === null){
+            $video->setUrl('https://www.youtube.com/embed/' . $this->doClean($video->getUrl()));
+        }
     }
 }

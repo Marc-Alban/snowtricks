@@ -5,8 +5,10 @@ use App\Entity\Image;
 use App\Entity\Trick;
 use App\Entity\Video;
 use App\Form\TrickType;
+use App\Form\VideoType;
 use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
+use App\Repository\VideoRepository;
 use App\Services\TrickHelper;
 use App\Services\YoutubeValidator;
 use DateTime;
@@ -39,7 +41,7 @@ class TricksController extends AbstractController
             $helper->imageUpload($trick, $images);
             $videos = $form->get('videos')->getData();
             foreach ($videos as $video){
-                $youtubeValidator->setVideoUrl($video);
+                $youtubeValidator->setVideoUrl($video, null);
                 $video->setTrick($trick);
             }
             $manager->persist($trick);
@@ -97,7 +99,7 @@ class TricksController extends AbstractController
                 $helper->imageUpload($trick, $images);
                 $videos = $form->get('videos')->getData();
                 foreach ($videos as $video){
-                    $youtubeValidator->setVideoUrl($video);
+                    $youtubeValidator->setVideoUrl($video, null);
                     $video->setTrick($trick);
                 }
                 $manager->flush();
@@ -115,14 +117,33 @@ class TricksController extends AbstractController
 
     /**
      * @Route ("/video/{id}/edit", name="app_edit_video")
-     * @param Video $video
      * @param Request $request
      * @param EntityManagerInterface $manager
+     * @param VideoRepository $videoRepository
+     * @param int $id
+     * @param YoutubeValidator $youtubeValidator
      * @return Response
      */
-    public function editVideo(Video $video, Request $request, EntityManagerInterface $manager): Response
+    public function editVideo(Request $request, EntityManagerInterface $manager, VideoRepository $videoRepository, int  $id, YoutubeValidator $youtubeValidator): Response
     {
-        return $this->redirectToRoute('app_home');
+        $videos = $videoRepository->videoGet($id);
+        foreach ($videos as $video){
+            $form = $this->createForm(VideoType::class, $video);
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid()){
+                $url = $form->get('url')->getData();
+                $youtubeValidator->setVideoUrl($video, $url);
+                $manager->flush();
+                $this->addFlash('success', 'video updated');
+                return $this->redirectToRoute('app_trick_show', [
+                    'slug' => $video->getTrick()->getSlug()
+                ] );
+            }
+            return $this->render('pages/editVideo.html.twig',[
+                'form' => $form->createView(),
+                'video' => $video
+            ]);
+        }
     }
 
     //Delete
