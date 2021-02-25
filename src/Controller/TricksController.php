@@ -9,6 +9,7 @@ use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
 use App\Services\TrickHelper;
 use App\Services\YoutubeValidator;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,6 +34,7 @@ class TricksController extends AbstractController
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+            $trick->setCreatedAt(new DateTime());
             $images = $form->get('images')->getData();
             $helper->imageUpload($trick, $images);
             $videos = $form->get('videos')->getData();
@@ -90,6 +92,7 @@ class TricksController extends AbstractController
             $form = $this->createForm(TrickType::class, $trick);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
+                $trick->setUpdatedAt(new DateTime());
                 $images = $form->get('images')->getData();
                 $helper->imageUpload($trick, $images);
                 $videos = $form->get('videos')->getData();

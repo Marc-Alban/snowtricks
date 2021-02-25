@@ -51,7 +51,7 @@ class Trick
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private DateTimeInterface $updatedAt;
+    private ?DateTimeInterface $updatedAt;
 
     /**
      * @ORM\Column(name="slug", type="string", length=255, unique=true)
@@ -83,8 +83,6 @@ class Trick
     {
        $this->videos = new ArrayCollection();
        $this->images = new ArrayCollection();
-       $this->createdAt = new DateTime();
-       $this->updatedAt = new DateTime();
     }
 
     public function getId(): ?int
@@ -128,7 +126,7 @@ class Trick
         return $this;
     }
 
-    public function getUpdatedAt(): DateTimeInterface
+    public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updatedAt;
     }

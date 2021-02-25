@@ -30,8 +30,10 @@
 					<div class="alert alert-primary btn-primary">Created at : <span
 								class="created">{{ trick.createdAt|date("d/m/Y") }} </span></div>
 					<div class="alert alert-primary btn-primary">Category : {{ trick.category.name }}</div>
-					<div class="alert alert-primary btn-primary">Updated at : <span
-								class="updated">{{ trick.updatedAt|date("d/m/Y") }} </span></div>
+					{% if trick.updatedAt != null %}
+						<div class="alert alert-primary btn-primary">Updated at : <span
+									class="updated">{{ trick.updatedAt|date("d/m/Y") }} </span></div>
+					{% endif %}
 				</div>
 				<p class="text-justify">{{ trick.description | raw }} </p>
 				<div class="d-flex justify-content-center">
