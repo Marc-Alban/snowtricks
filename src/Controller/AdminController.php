@@ -1,20 +1,21 @@
 <?php
 
+
 namespace App\Controller;
+
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SignInController extends AbstractController
+class AdminController extends AbstractController
 {
-
     /**
-     * @Route("signin", name="app_register")
-     * @return Response
+     * @Route("/admin", name="app_admin")
      */
-    public function index(): Response
+    public function admin():Response
     {
-        return $this->render('pages/signIn.html.twig');
+     return $this->render('admin/admin.html.twig');
     }
+
 }

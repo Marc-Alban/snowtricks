@@ -4,17 +4,16 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use \DateTime;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity(fields="username",  message="This name is already in use")
  * @UniqueEntity(fields="email",  message="This email is already in use")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -24,11 +23,14 @@ class User
     private int $id;
 
     /**
-     * @ORM\Column(name="username", type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     *     mode="strict"
+     * )
      * @Assert\NotBlank()
-     * @Assert\NotNull()
      */
-    private string $username;
+    private string $email;
 
     /**
      * @ORM\Column(type="json")
@@ -36,68 +38,47 @@ class User
     private array $roles = [];
 
     /**
+     * @var string The hashed password
      * @ORM\Column(type="string")
      * @Assert\NotBlank()
-     * @Assert\NotNull()
-     * @Assert\Length(min="8")
      */
     private string $password;
 
     /**
-     * @ORM\Column(name="email", type="string", length=180, unique=true)
-     * @Assert\NotBlank()
-     * @Assert\NotNull()
-     * @Assert\Email()
-     */
-    private string $email;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\NotBlank()
-     * @Assert\NotNull()
-     * @Assert\Image()
-     */
-    private string $photo;
-
-    /**
      * @ORM\Column(type="boolean")
      */
-    private bool $activated;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private string $token;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private DateTime $created;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private DateTime $lastUpdate;
-
-
+    private bool $enable = false;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUsername(): string
+    public function getEmail(): ?string
     {
-        return (string) $this->username;
+        return $this->email;
     }
 
-    public function setUsername(string $username): self
+    public function setEmail(string $email): self
     {
-        $this->username = $username;
+        $this->email = $email;
 
         return $this;
     }
 
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -114,7 +95,9 @@ class User
         return $this;
     }
 
-
+    /**
+     * @see UserInterface
+     */
     public function getPassword(): string
     {
         return (string) $this->password;
@@ -127,78 +110,35 @@ class User
         return $this;
     }
 
-
-    public function getEmail(): ?string
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
     {
-        return $this->email;
+        return null;
     }
 
-    public function setEmail(string $email): self
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
     {
-        $this->email = $email;
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    public function getEnable(): bool
+    {
+        return $this->enable;
+    }
+
+    public function setEnable(bool $enable): self
+    {
+        $this->enable = $enable;
 
         return $this;
     }
-
-    public function getPhoto(): string
-    {
-        return $this->photo;
-    }
-
-    public function setPhoto(string $photo): self
-    {
-        $this->photo = $photo;
-
-        return $this;
-    }
-
-    public function getActivated(): ?bool
-    {
-        return $this->activated;
-    }
-
-    public function setActivated(bool $activated): self
-    {
-        $this->activated = $activated;
-
-        return $this;
-    }
-
-    public function getToken(): string
-    {
-        return $this->token;
-    }
-
-    public function setToken(string $token): self
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
-    public function getCreated(): DateTime
-    {
-        return $this->created;
-    }
-
-    public function setCreated(DateTime $created): self
-    {
-        $this->created = $created;
-
-        return $this;
-    }
-
-    public function getLastUpdate(): DateTime
-    {
-        return $this->lastUpdate;
-    }
-
-    public function setLastUpdate(DateTime $lastUpdate): self
-    {
-        $this->lastUpdate = $lastUpdate;
-
-        return $this;
-    }
-
-
 }
