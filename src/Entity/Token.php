@@ -33,6 +33,7 @@ class Token
      */
     private User $user;
 
+
     public function __construct(User $user)
     {
         $this->createdAt = new \DateTime();
@@ -87,4 +88,7 @@ class Token
        return $this->createdAt->add($interval) >= new \DateTime();
 
     }
+
+
+
 }

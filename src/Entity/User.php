@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields="email",  message="This email is already in use")
+ * @UniqueEntity(fields="username",  message="This username is already in use")
  */
 class User implements UserInterface
 {
@@ -28,9 +29,41 @@ class User implements UserInterface
      *     message = "The email '{{ value }}' is not a valid email.",
      *     mode="strict"
      * )
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z_.-]+@[a-zA-Z-]+\.[a-zA-Z-.]+$/",
+     *     message="valid email : test@live.fr -> not figures, special character etc…"
+     * )
      * @Assert\NotBlank()
      */
     private string $email;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(min="5", max="10")
+     * @Assert\Regex(
+     *     pattern="/[a-zA-Z0-9._\p{L}-]{1,20}/",
+     *     message="not valid username"
+     * )
+     */
+    private ?string $username;
+
+
+    /**
+     * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Regex(
+     *     pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).{6,}$/",
+     *     message="not valid password, must contain capital letter and number and letters "
+     * )
+     * @Assert\Length(min="5", max="20")
+     */
+    private ?string $password;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $enable = false;
 
     /**
      * @ORM\Column(type="json")
@@ -38,16 +71,11 @@ class User implements UserInterface
     private array $roles = [];
 
     /**
-     * @var string The hashed password
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private string $password;
+    private ?string $resetToken;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private bool $enable = false;
+
 
     public function getId(): ?int
     {
@@ -59,11 +87,12 @@ class User implements UserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): ?string
     {
-        $this->email = $email;
-
-        return $this;
+        return (string) $this->password;
     }
 
     /**
@@ -71,9 +100,20 @@ class User implements UserInterface
      *
      * @see UserInterface
      */
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
         return (string) $this->email;
+    }
+
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
     }
 
     /**
@@ -95,35 +135,22 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
-    public function getPassword(): string
+
+
+    public function setEmail(string $email): self
     {
-        return (string) $this->password;
+        $this->email = $email;
+
+        return $this;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(?string $password): self
     {
         $this->password = $password;
 
         return $this;
     }
 
-    /**
-     * Returning a salt is only needed, if you are not using a modern
-     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     *
-     * @see UserInterface
-     */
-    public function getSalt(): ?string
-    {
-        return null;
-    }
-
-    /**
-     * @see UserInterface
-     */
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
@@ -141,4 +168,24 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function setUsername(?string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
+
+        return $this;
+    }
+
 }

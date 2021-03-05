@@ -9,6 +9,7 @@ use App\Form\VideoType;
 use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
 use App\Repository\VideoRepository;
+use App\Services\ImageDefault;
 use App\Services\TrickHelper;
 use App\Services\YoutubeValidator;
 use DateTime;
@@ -21,6 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TricksController extends AbstractController
 {
 
+
     //Create
     /**
      * @Route("/trick/create",name="app_trick_create", methods={"GET", "POST"})
@@ -32,6 +34,11 @@ class TricksController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $manager, TrickHelper $helper, YoutubeValidator $youtubeValidator): Response
     {
+
+        if(!$this->getUser()){
+            return $this->redirectToRoute('app_home');
+        }
+
         $trick = new Trick();
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
@@ -66,6 +73,11 @@ class TricksController extends AbstractController
      */
     public function defaultImage(Image $image, ImageRepository $imageRepository, EntityManagerInterface $manager): Response
     {
+
+        if(!$this->getUser()){
+            return $this->redirectToRoute('app_home');
+        }
+
         $trick = $image->getTrick();
         foreach ($trick->getImages() as $trick){
             $imageRepository->nullDefaultImage($trick->getId());
@@ -89,6 +101,10 @@ class TricksController extends AbstractController
      */
     public function edit(Request $request, EntityManagerInterface $manager, TrickRepository $trickRepository, string $slug, TrickHelper $helper, YoutubeValidator $youtubeValidator): Response
     {
+
+        if(!$this->getUser()){
+            return $this->redirectToRoute('app_home');
+        }
         $tricks = $trickRepository->findOneBySlug($slug);
         foreach ($tricks as $trick ) {
             $form = $this->createForm(TrickType::class, $trick);
@@ -104,7 +120,7 @@ class TricksController extends AbstractController
                 }
                 $manager->flush();
                 $this->addFlash('success', 'Trick updated');
-                return $this->redirectToRoute('app_trick_show', [
+                return $this->redirectToRoute('app_home', [
                     'slug' => $slug
                 ] );
             }
@@ -126,6 +142,11 @@ class TricksController extends AbstractController
      */
     public function editVideo(Request $request, EntityManagerInterface $manager, VideoRepository $videoRepository, int  $id, YoutubeValidator $youtubeValidator): Response
     {
+
+        if(!$this->getUser()){
+            return $this->redirectToRoute('app_home');
+        }
+
         $videos = $videoRepository->videoGet($id);
         foreach ($videos as $video){
             $form = $this->createForm(VideoType::class, $video);
@@ -147,19 +168,32 @@ class TricksController extends AbstractController
     }
 
     //Delete
+
     /**
      * @Route("/trick/{id}/delete", name="app_trick_delete", methods={"DELETE"})
      * @param EntityManagerInterface $manager
      * @param Request $request
      * @param Trick $trick
+     * @param Image $image
      * @return Response
      */
-    public function delete(EntityManagerInterface $manager, Request $request, Trick $trick): Response
+    public function delete(EntityManagerInterface $manager, Request $request, Trick $trick, Image $image): Response
     {
+        if(!$this->getUser()){
+            return $this->redirectToRoute('app_home');
+        }
+
         if($this->isCsrfTokenValid('delete'.$trick->getId(), $request->request->get('_token'))){
             $manager->remove($trick);
             $manager->flush();
         }
+
+        if($this->isCsrfTokenValid('delete'.$image->getId(), $request->request->get('_token'))){
+            unlink($this->getParameter('images_directory').$image->getName());
+            $manager->remove($image);
+            $manager->flush();
+        }
+
         $this->addFlash('info', 'trick deleted');
         return $this->redirectToRoute('app_home');
     }
@@ -173,6 +207,10 @@ class TricksController extends AbstractController
      */
     public function deleteImage(Image $image, Request $request, EntityManagerInterface $manager): Response
     {
+        if(!$this->getUser()){
+            return $this->redirectToRoute('app_home');
+        }
+
         if($this->isCsrfTokenValid('delete'.$image->getId(), $request->request->get('_token'))){
             unlink($this->getParameter('images_directory').$image->getName());
             $manager->remove($image);
@@ -192,6 +230,10 @@ class TricksController extends AbstractController
      */
     public function deleteVideo(Video $video, Request $request, EntityManagerInterface $manager): Response
     {
+        if(!$this->getUser()){
+            return $this->redirectToRoute('app_home');
+        }
+
         if($this->isCsrfTokenValid('delete'.$video->getId(), $request->request->get('_token'))){
             $manager->remove($video);
             $manager->flush();
@@ -208,16 +250,25 @@ class TricksController extends AbstractController
      * @param TrickHelper $helper
      * @param string $slug
      * @param ImageRepository $imageRepository
+     * @param ImageDefault $imageDefault
      * @return Response
      */
-    public function show(TrickRepository $trickRepository, TrickHelper $helper, string $slug,ImageRepository $imageRepository): Response
+    public function show(TrickRepository $trickRepository, TrickHelper $helper, string $slug,ImageRepository $imageRepository, ImageDefault $imageDefault): Response
     {
         $tricks = $trickRepository->findOneBySlug($slug);
         if($tricks){
             foreach ($tricks as $trick){
+                $image = $imageRepository->findOneBy(['trick'=>$trick->getId()]);
+                if($image !== null){
+                    $imageName = $imageDefault->index($image->getName());
+                }else{
+                    $imageName = false;
+                }
+
                 $helper->checkImageUpload($trick, $imageRepository);
                 return $this->render('pages/show.html.twig',[
-                    'trick'=>$trick
+                    'trick'=>$trick,
+                    'imageName' => $imageName
                 ]);
             }
         }

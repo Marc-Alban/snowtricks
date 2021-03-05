@@ -3,52 +3,56 @@
 {% block title %}{{ trick.name }}{% endblock %}
 
 {% block body %}
-	<div class="container-fluid col-lg-10 col-md-12 col-12 contShow mt-5">
-		<div class="row col-md-12 col-lg-8 mx-auto ">
-			<div class="col-12">
-				<div class="blockImg">
-					{% set imageUne = 0 %}
-					{% for image in trick.images %}
-							{% if image.starImage == 1 %}
-								<div>
-									<img src="{{ asset('/images/figures/')~image.name }}" alt="image" class="imgStarArticle">
-									<div class="lienStarImage">
-										{{ include('layout/partials/_deleteImageForm.html.twig') }}
-									</div>
-								</div>
-								{% set imageUne = 1 %}
-						{% endif %}
-					{% endfor %}
-						{% if imageUne == 0 %}
-							<img src="{{ asset('/images/figures/defaulttrick.png') }}" alt="image" class="imgStarArticle">
-						{% endif %}
-					<p class="cover-wrapper">{{ trick.name | raw }}</p>
-				</div>
-				<!-- Include trick images and videos in carousel -->
-				{% include 'layout/partials/_media.html.twig' %}
-				<div class="col-12 col-md-12 col-lg-12 d-flex justify-content-between flex-wrap">
-					<div class="alert alert-primary btn-primary">Created at : <span
-								class="created">{{ trick.createdAt|date("d/m/Y") }} </span></div>
-					<div class="alert alert-primary btn-primary">Category : {{ trick.category.name }}</div>
-					{% if trick.updatedAt != null %}
-						<div class="alert alert-primary btn-primary">Updated at : <span
-									class="updated">{{ trick.updatedAt|date("d/m/Y") }} </span></div>
-					{% endif %}
-				</div>
-				<p class="text-justify">{{ trick.description | raw }} </p>
-				<div class="d-flex justify-content-center">
-					{#					{% if app.user %}#}
-					<div class="d-flex">
-						<div class="mr-2">
-							<a href="{{ path('app_trick_edit', {'slug': trick.slug}) }}">
-								<div class="btn btn-warning">Edit trick</div>
-							</a>
-						</div>
-						{{ include('layout/partials/_deleteTrickFormShow.html.twig') }}
-					</div>
-					{#					{% endif %}#}
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="container-fluid col-lg-10 col-md-12 col-12 contShow mt-5">
+        <div class="row col-md-12 col-lg-8 mx-auto ">
+            <div class="col-12">
+                <div class="blockImg">
+                    {% set imageUne = 0 %}
+                    {% for image in trick.images %}
+                        {% if image.starImage == 1 %}
+                            <div>
+                                <img src="{{ asset('/images/figures/')~image.name }}" alt="image"
+                                     class="imgStarArticle">
+                                {% if app.user %}
+                                    <div class="lienStarImage">
+                                        {{ include('layout/partials/_deleteImageForm.html.twig') }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            {% set imageUne = 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    {% if imageUne == 0 or imageName == false %}
+                        <img src="{{ asset('/images/figures/defaulttrick.png') }}" alt="image" class="imgStarArticle">
+                    {% endif %}
+
+                    <p class="cover-wrapper">{{ trick.name | raw }}</p>
+                </div>
+                <!-- Include trick images and videos in carousel -->
+                {% include 'layout/partials/_media.html.twig' %}
+                <div class="col-12 col-md-12 col-lg-12 d-flex justify-content-between flex-wrap">
+                    <div class="alert alert-primary btn-primary">Created at : <span
+                                class="created">{{ trick.createdAt|date("d/m/Y") }} </span></div>
+                    <div class="alert alert-primary btn-primary">Category : {{ trick.category.name }}</div>
+                    {% if trick.updatedAt != null %}
+                        <div class="alert alert-primary btn-primary">Updated at : <span
+                                    class="updated">{{ trick.updatedAt|date("d/m/Y") }} </span></div>
+                    {% endif %}
+                </div>
+                <p class="text-justify">{{ trick.description | raw }} </p>
+                <div class="d-flex justify-content-center">
+                    {% if app.user %}
+                        <div class="d-flex">
+                            <div class="mr-2">
+                                <a href="{{ path('app_trick_edit', {'slug': trick.slug}) }}">
+                                    <div class="btn btn-warning">Edit trick</div>
+                                </a>
+                            </div>
+                            {{ include('layout/partials/_deleteTrickFormShow.html.twig') }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -5,24 +5,28 @@
                 {% if image.starImage == 0 %}
                     <div class="conteneurImageArticle">
                         <img src="{{ asset('/images/figures/')~image.name }}" alt="image" class="imgArticle">
-                        <div class="lienImage">
-                            <a href="{{ path('app_default_image', {id: image.id})}}">
-                                <i class="fas fa-star fa-lg"></i>
-                            </a>
-                            {{ include('layout/partials/_deleteImageForm.html.twig') }}
-                        </div>
+                        {% if app.user %}
+                            <div class="lienImage">
+                                <a href="{{ path('app_default_image', {id: image.id})}}">
+                                    <i class="fas fa-star fa-lg"></i>
+                                </a>
+                                {{ include('layout/partials/_deleteImageForm.html.twig') }}
+                            </div>
+                        {% endif %}
                         </div>
                     </div>
                     {% endif %}
                 {% endfor %}
                 {% for video in trick.videos %}
                     <div class="conteneurVideoArticle">
-                       <div class="lienVideo">
+                        {% if app.user %}
+                        <div class="lienVideo">
                            <a href="{{ path('app_edit_video', {'id': video.id}) }}">
                                <i class="fas fa-pencil-alt fa-lg"></i>
                            </a>
                            {{ include('layout/partials/_deleteVideoForm.html.twig') }}
-                       </div>
+                            {% endif %}
+                        </div>
                     <iframe src="{{ video.url }}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
 

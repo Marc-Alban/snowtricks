@@ -28,17 +28,25 @@ class Trick
 
     /**
      * @ORM\Column(name="name", type="string", length=255, unique=true)
-     * @Assert\Length(max=100, maxMessage="Le nom ne doit pas faire plus de 100 caractères")
+     * @Assert\Length(min="5", max="10",minMessage="Le nom doit faire au minimum 5 caractères",maxMessage="Le nom ne doit pas faire plus de 10 caractères")
      * @Assert\NotBlank()
      * @Assert\NotNull()
+     * @Assert\Regex(
+     *     pattern="/[a-zA-Z._\p{L}-]{1,20}/",
+     *     message="Not valid name: juste letter for name"
+     * )
      */
     private string $name;
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\Length(min=20, minMessage="La description doit faire au moins 20 caractères")
+     * @Assert\Length(min="5", max="400",minMessage="Le nom doit faire au minimum 5 caractères",maxMessage="Le nom ne doit pas faire plus de 400 caractères")
      * @Assert\NotBlank()
      * @Assert\NotNull()
+     * @Assert\Regex(
+     *     pattern="/[a-zA-Z0-9._\p{L}-]{1,20}/",
+     *     message="Not valid description"
+     * )
      */
     private string $description;
 
@@ -61,7 +69,6 @@ class Trick
      * @ORM\OneToMany(targetEntity="App\Entity\Image", mappedBy="trick" ,cascade={"persist", "remove"})
      */
     private ?Collection $images;
-
 
 
     /**
