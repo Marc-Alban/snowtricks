@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -46,7 +48,7 @@ class User implements UserInterface
      *     message="not valid username"
      * )
      */
-    private ?string $username;
+    private string $username;
 
 
     /**
@@ -75,6 +77,21 @@ class User implements UserInterface
      */
     private ?string $resetToken;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private string $avatar = 'default_user.png';
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
+     */
+    private  Collection $comments;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
+
 
 
     public function getId(): ?int
@@ -100,7 +117,7 @@ class User implements UserInterface
      *
      * @see UserInterface
      */
-    public function getUsername(): ?string
+    public function getUsername(): string
     {
         return (string) $this->email;
     }
@@ -169,7 +186,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function setUsername(?string $username): self
+    public function setUsername(string $username): self
     {
         $this->username = $username;
 
@@ -184,6 +201,48 @@ class User implements UserInterface
     public function setResetToken(?string $resetToken): self
     {
         $this->resetToken = $resetToken;
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(string $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
+            }
+        }
 
         return $this;
     }

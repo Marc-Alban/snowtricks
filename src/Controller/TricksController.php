@@ -1,13 +1,17 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Image;
 use App\Entity\Trick;
 use App\Entity\Video;
+use App\Form\CommentaireType;
 use App\Form\TrickType;
 use App\Form\VideoType;
+use App\Repository\CommentRepository;
 use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
+use App\Repository\UserRepository;
 use App\Repository\VideoRepository;
 use App\Services\ImageDefault;
 use App\Services\TrickHelper;
@@ -245,19 +249,24 @@ class TricksController extends AbstractController
     //Show
 
     /**
-     * @Route("/trick/{slug}",name="app_trick_show", methods="GET")
+     * @Route("/trick/{slug}",name="app_trick_show", methods={"GET","POST"})
      * @param TrickRepository $trickRepository
+     * @param CommentRepository $commentRepository
      * @param TrickHelper $helper
      * @param string $slug
      * @param ImageRepository $imageRepository
      * @param ImageDefault $imageDefault
+     * @param Request $request
+     * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function show(TrickRepository $trickRepository, TrickHelper $helper, string $slug,ImageRepository $imageRepository, ImageDefault $imageDefault): Response
+    public function show(TrickRepository $trickRepository,CommentRepository $commentRepository, TrickHelper $helper, string $slug, ImageRepository $imageRepository, ImageDefault $imageDefault, Request $request, EntityManagerInterface $manager): Response
     {
         $tricks = $trickRepository->findOneBySlug($slug);
+        $user = $this->getUser();
         if($tricks){
             foreach ($tricks as $trick){
+                $comments = $commentRepository->findBy(['trick'=>$trick->getId()]);
                 $image = $imageRepository->findOneBy(['trick'=>$trick->getId()]);
                 if($image !== null){
                     $imageName = $imageDefault->index($image->getName());
@@ -266,9 +275,24 @@ class TricksController extends AbstractController
                 }
 
                 $helper->checkImageUpload($trick, $imageRepository);
+                $comment = new Comment();
+                $form = $this->createForm(CommentaireType::class, $comment);
+                $form->handleRequest($request);
+                if($form->isSubmitted() && $form->isValid()){
+                    $comment->setTrick($trick);
+                    $comment->setCreated(new \DateTime('now'));
+                    $comment->setUser($user);
+                    
+                    $manager->persist($comment);
+                    $manager->flush();
+                    $this->addFlash('success','Comment send');
+                    return $this->redirectToRoute('app_trick_show', ['slug'=>$trick->getSlug()]);
+                }
                 return $this->render('pages/show.html.twig',[
                     'trick'=>$trick,
-                    'imageName' => $imageName
+                    'imageName' => $imageName,
+                    'form' => $form->createView(),
+                    'comments' => $comments
                 ]);
             }
         }
