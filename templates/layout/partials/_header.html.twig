@@ -11,9 +11,6 @@
                             <a class="nav-link" href="{{ path('app_trick_create') }}">Trick</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Compte</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
                         </li>
                     {% endif %}
@@ -33,15 +30,19 @@
 
 
 <header class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm navbarBottom">
-    <nav class="my-2 my-md-0 me-md-3">
-        <a class="p-2" href="{{ path('app_home') }}"><i class="fa fa-home"></i></a>
-        <a class="p-2" href="{{ path('app_trick_create') }}"><i class="fa fa-bookmark"></i></a>
+    <nav class="footer-nav">
+        <li class="nav-item">
+        <a class="nav-link" href="{{ path('app_home') }}"><i class="fa fa-home"></i></a>
+        </li>
+        <li class="nav-item">
+            <a class=" nav-link" href="{{ path('app_trick_create') }}"><i class="fas fa-edit"></i></a>
+        </li>
         {% if app.user %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_admin') }}"><i class="fas fa-sign-in-alt"></i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_logout') }}">Logout</a>
+                <a class="nav-link" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i></a>
             </li>
         {% else %}
             <li class="nav-item">

@@ -2,8 +2,8 @@
     <div class="row col-md-12 col-12 col-lg12 mt-5 mb-5">
             <div class="slider-inner  d-flex flex-wrap">
                 {% for image in trick.images %}
+                <div class="conteneurImageArticle">
                 {% if image.starImage == 0 %}
-                    <div class="conteneurImageArticle">
                         <img src="{{ asset('/images/figures/')~image.name }}" alt="image" class="imgArticle">
                         {% if app.user %}
                             <div class="lienImage">
@@ -13,10 +13,11 @@
                                 {{ include('layout/partials/_deleteImageForm.html.twig') }}
                             </div>
                         {% endif %}
-                        </div>
-                    </div>
                     {% endif %}
+                </div>
+
                 {% endfor %}
+            </div>
                 {% for video in trick.videos %}
                     <div class="conteneurVideoArticle">
                         {% if app.user %}

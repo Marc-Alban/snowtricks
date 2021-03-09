@@ -24,6 +24,7 @@ class Comment
      * @ORM\Column(type="text")
      * @Assert\NotBlank()
      * @Assert\NotNull()
+     * @Assert\Regex("/[a-zA-Z0-9]+/")
      */
     private string $content;
 

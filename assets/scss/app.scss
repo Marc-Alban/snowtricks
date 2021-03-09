@@ -252,6 +252,18 @@ iframe {
   padding: 10px;
 }
 
+.formComment{
+  align-items: center;
+  width: 100%;
+}
+
+.avatar{
+  width: 50px;
+  height: 50px;
+}
+
+
+
 footer {
   border-top: 1px solid black;
   padding: 1rem;
@@ -285,6 +297,10 @@ footer {
   }
   .navbarTop {
     display: none !important;
+  }
+  .footer-nav{
+    display: flex !important;
+    list-style: none !important;
   }
   .navbarBottom {
     position: fixed;

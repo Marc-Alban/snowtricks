@@ -46,6 +46,17 @@ class ImageRepository extends ServiceEntityRepository
             ;
     }
 
+
+    public function removeImageId($value)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.trick = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Image[] Returns an array of Image objects
     //  */

@@ -15,10 +15,9 @@ class HomeController extends AbstractController
      * @Route("/", name="app_home", methods={"GET"})
      * @param TrickRepository $trickRepository
      * @param ImageRepository $imageRepository
-     * @param ImageDefault $imageDefault
      * @return Response
      */
-    public function index(TrickRepository $trickRepository, ImageRepository $imageRepository ,ImageDefault $imageDefault): Response
+    public function index(TrickRepository $trickRepository, ImageRepository $imageRepository): Response
     {
         $tricks = $trickRepository->findByRequest();
         $images = [];
