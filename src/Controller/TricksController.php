@@ -11,7 +11,6 @@ use App\Form\VideoType;
 use App\Repository\CommentRepository;
 use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
-use App\Repository\UserRepository;
 use App\Repository\VideoRepository;
 use App\Services\ImageDefault;
 use App\Services\TrickHelper;
@@ -25,8 +24,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class TricksController extends AbstractController
 {
-
-
     //Create
     /**
      * @Route("/trick/create",name="app_trick_create", methods={"GET", "POST"})

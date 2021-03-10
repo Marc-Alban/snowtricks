@@ -83,8 +83,15 @@ $(document).ready(function () {
     }
 
 
-
     /* ****** LoadMore Comments buttons ***** */
     let commentsPerPage = 10;
+
+    /*Filename custom*/
+    $('.custom-file-input').on('change', function(event) {
+        let inputFile = event.currentTarget;
+        $(inputFile).parent()
+            .find('.custom-file-label')
+            .html(inputFile.files[0].name);
+    });
 });
 
