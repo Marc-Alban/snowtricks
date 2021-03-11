@@ -296,7 +296,7 @@ class TricksController extends AbstractController
                         $this->addFlash('success','Comment send');
                         return $this->redirectToRoute('app_trick_show', ['slug'=>$trick->getSlug()]);
                     }
-                        return $this->render('pages/show.html.twig', [
+                    return $this->render('pages/show.html.twig', [
                             'trick' => $trick,
                             'imageName' => $imageName,
                             'form' => $form->createView(),

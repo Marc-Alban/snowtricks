@@ -83,8 +83,30 @@ $(document).ready(function () {
     }
 
 
-    /* ****** LoadMore Comments buttons ***** */
-    let commentsPerPage = 10;
+    /* ****** LoadMore comments button ***** */
+    let commentsPerPage = 5;
+    let comments = $("div.trick-comment");
+    if (comments.length <= commentsPerPage) {
+        $("#loadMoreCommentsBtn").hide();
+    }
+
+    for (let i = commentsPerPage; i <= comments.length - 1; i++) {
+        comments[i].remove();
+    }
+
+    $("#loadMoreCommentsBtn").on("click", function(e) {
+        e.preventDefault();
+        commentsPerPage += 5;
+        for (let i = 0; i <= commentsPerPage - 1; i++) {
+            $("#trickComments").append(comments[i]);
+        }
+        if (comments.length <= commentsPerPage) {
+            $("#loadMoreCommentsBtn").hide();
+        }
+    });
+
+
+
 
     /*Filename custom*/
     $('.custom-file-input').on('change', function(event) {
