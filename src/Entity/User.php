@@ -33,23 +33,25 @@ class User implements UserInterface
      * )
      * @Assert\Regex(
      *     pattern="/^[a-zA-Z_.-]+@[a-zA-Z-]+\.[a-zA-Z-.]+$/",
+     *     match=true,
      *     message="valid email : test@live.fr -> not figures, special character etc…"
      * )
      * @Assert\NotBlank()
      */
-    private string $email;
+    private ?string $email;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      * @Assert\NotBlank()
      * @Assert\NotNull()
      * @Assert\Length(min="5", max="10")
      * @Assert\Regex(
-     *     pattern="/[a-zA-Z0-9._\p{L}-]{1,20}/",
+     *     pattern="/^[ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑña-zA-Z0-9_]{0,10}$/",
+     *     match=true,
      *     message="not valid username"
      * )
      */
-    private string $username;
+    private ?string $username;
 
 
     /**
@@ -105,38 +107,40 @@ class User implements UserInterface
         return $this->email;
     }
 
-    /**
-     * @see UserInterface
-     */
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+
     public function getPassword(): ?string
     {
         return (string) $this->password;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUsername(): string
+    public function setPassword(?string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getUsername(): ?string
     {
         return (string) $this->email;
     }
 
-    /**
-     * Returning a salt is only needed, if you are not using a modern
-     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     *
-     * @see UserInterface
-     */
-    public function getSalt(): ?string
+
+    public function setUsername(?string $username): self
     {
-        return null;
+        $this->username = $username;
+
+        return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
+
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -153,28 +157,6 @@ class User implements UserInterface
         return $this;
     }
 
-
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function setPassword(?string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
-    }
-
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
-
     public function getEnable(): bool
     {
         return $this->enable;
@@ -187,12 +169,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
-    }
 
     public function getResetToken(): ?string
     {
@@ -247,5 +223,20 @@ class User implements UserInterface
 
         return $this;
     }
+
+
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+
 
 }
