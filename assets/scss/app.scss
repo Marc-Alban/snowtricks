@@ -187,20 +187,14 @@ iframe {
   border-color: #dc3545;
   height: 40px;
 }
-.blockImg {
-  .cover-wrapper {
-    background-color: #090909;
-    padding: 10px;
-    border: 1px solid;
-    border-radius: 10px;
-    position: absolute;
-    bottom: 75%;
-    left: 50%;
-    transform: translate(-55%, 45%);
-    font-weight: bold;
-    font-size: 2em;
-    color: white;
-  }
+.conteneur{
+  width: 300px;
+  height: 300px;
+  margin: auto;
+  border: 1px #aaa solid;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
 }
 
 .conteneurImageArticle {
@@ -283,13 +277,6 @@ footer {
   }
 }
 
-@media (max-width: 1024px) {
-  .blockImg {
-    .cover-wrapper {
-      bottom: 85%;
-    }
-  }
-}
 
 @media (max-width: 768px) {
   .rowUp {
@@ -322,11 +309,7 @@ footer {
       }
     }
   }
-  .blockImg {
-    .cover-wrapper {
-      bottom: 85%;
-    }
-  }
+
   .contShow {
     border: none;
     height: 100%;
@@ -347,14 +330,6 @@ footer {
   .article-caption {
     a {
       color: white;
-    }
-  }
-  .blockImg {
-    .cover-wrapper {
-      position: absolute;
-      bottom: 88%;
-      text-align: center;
-      transform: translate(-50%, 0%);
     }
   }
 }

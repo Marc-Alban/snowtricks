@@ -19,7 +19,7 @@ class TrickHelper extends AbstractController
         return md5(uniqid()).'.'.$image->guessExtension();
     }
 
-    public function checkImageUpload(Trick $trick, ImageRepository $imageRepository)
+    public function checkImageUpload(Trick $trick, ImageRepository $imageRepository): void
     {
         $images = $trick->getImages();
         $tour = 0;
@@ -32,7 +32,7 @@ class TrickHelper extends AbstractController
         }
     }
 
-    public function imageUpload(Trick $trick, array $images)
+    public function imageUpload(Trick $trick, array $images): void
     {
         foreach ($images as $image)
         {

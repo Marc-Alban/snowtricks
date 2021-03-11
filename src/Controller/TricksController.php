@@ -262,20 +262,28 @@ class TricksController extends AbstractController
     {
         $tricks = $trickRepository->findOneBySlug($slug);
         $user = $this->getUser();
-
+            //Si il y a des tricks
             if($tricks){
+                //Boucle foreach pour récupérer un trick
                 foreach ($tricks as $trick){
+                    //Récupération des commentaires
                     $comments = $commentRepository->findBy(['trick'=>$trick->getId()]);
-                    $image = $imageRepository->findOneBy(['trick'=>$trick->getId()]);
-                    if($image !== null){
-                        $imageName = $imageDefault->index($image->getName());
-                    }else{
-                        $imageName = false;
-                    }
-
+                    //Déplacement de l'image
                     $helper->checkImageUpload($trick, $imageRepository);
+                    $images = $imageRepository->findAllById($trick->getId());
+                    $starImage = null;
+                    $imageName = null;
+                    foreach ($images as $image){
+                        //Vérification du fichier présents qu'il soit pas false
+                        $imageName[] = $imageDefault->index($image->getName());
+                        //Vérification de l'image à la une
+                        $starImage[] = $image->getStarImage();
+                        //Si pas de true pour l'image à la une alors on definit une image
+                        if(array_search(true, $starImage) === false){
+                            $image->setStarImage(true);
+                        }
+                    }
                     $comment = new Comment();
-
                     $form = $this->createForm(CommentaireType::class, $comment);
                     $form->handleRequest($request);
                     if($form->isSubmitted() && $form->isValid()){
@@ -288,7 +296,6 @@ class TricksController extends AbstractController
                         $this->addFlash('success','Comment send');
                         return $this->redirectToRoute('app_trick_show', ['slug'=>$trick->getSlug()]);
                     }
-
                         return $this->render('pages/show.html.twig', [
                             'trick' => $trick,
                             'imageName' => $imageName,

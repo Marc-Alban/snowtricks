@@ -42,6 +42,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank()
+     * @Assert\NotNull()
      * @Assert\Length(min="5", max="10")
      * @Assert\Regex(
      *     pattern="/[a-zA-Z0-9._\p{L}-]{1,20}/",

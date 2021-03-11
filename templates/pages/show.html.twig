@@ -5,11 +5,18 @@
 {% block body %}
     <div class="container-fluid col-lg-10 col-md-12 col-12 contShow mt-5">
         <div class="row col-md-12 col-lg-8 mx-auto ">
-            <div class="col-12">
-                <div class="blockImg">
+            <div class="col-12 d-flex justify-content-center align-items-center flex-column">
+                <div class="conteneur">
+                    {#Variable twig#}
+                    {% set appearance = false %}
                     {% set imageUne = 0 %}
+    
+                    {% for imageEmpty in imageName %}
+                        {% set appearance = imageEmpty  %}
+                    {% endfor %}
+    
                     {% for image in trick.images %}
-                        {% if image.starImage == 1 %}
+                        {% if imageUne == 0   and appearance == true %}
                             <div>
                                 <img src="{{ asset('/images/figures/')~image.name }}" alt="image"
                                      class="imgStarArticle">
@@ -22,11 +29,10 @@
                             {% set imageUne = 1 %}
                         {% endif %}
                     {% endfor %}
-                    {% if imageUne == 0 or imageName == false %}
+                    {% if imageUne == 0  and appearance == false %}
                         <img src="{{ asset('/images/figures/defaulttrick.png') }}" alt="image" class="imgStarArticle">
                     {% endif %}
-
-                    <p class="cover-wrapper">{{ trick.name | raw }}</p>
+                    <p>{{ trick.name | raw }}</p>
                 </div>
                 <!-- Include trick images and videos in carousel -->
                 {% include 'layout/partials/_media.html.twig' %}
