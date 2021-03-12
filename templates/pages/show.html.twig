@@ -36,6 +36,10 @@
                 </div>
                 <!-- Include trick images and videos in carousel -->
                 {% include 'layout/partials/_media.html.twig' %}
+                <div class=" col-12 col-md12 col-lg-12 d-flex justify-content-center">
+                    <button type="button" class="btn btn-primary m-2" id="loadMoreMediaBtn">See more media</button>
+                </div>
+                
                 <div class="col-12 col-md-12 col-lg-12 d-flex justify-content-between flex-wrap">
                     <div class="alert alert-primary btn-primary">Created at : <span
                                 class="created">{{ trick.createdAt|date("d/m/Y") }} </span></div>
@@ -44,9 +48,8 @@
                         <div class="alert alert-primary btn-primary">Updated at : <span
                                     class="updated">{{ trick.updatedAt|date("d/m/Y") }} </span></div>
                     {% endif %}
+                    <p class="text-justify w-100">{{ trick.description | raw }} </p>
                 </div>
-                <p class="text-justify w-100">{{ trick.description | raw }} </p>
-                
                 <div class="d-flex w-100 justify-content-center">
                     {% if app.user %}
                         <div class="d-flex">
@@ -73,7 +76,7 @@
                 <p>For write a comment, log you:  <a href="{{ path('app_login') }}" class="btn btn-primary">Click here</a></p>
             </div>
             {% endif %}
-            {#     start  Comment     #}
+             {#     start  Comment     #}
             <div class="row py-3 justify-content-center" id="trickComments">
                 {% if trick.comments is not empty %}
                     {% for comment in trick.comments %}
@@ -93,7 +96,7 @@
                         </div>
                     {% endfor %}
                 {% else %}
-                    <p>No comments. Be the first to discuss about this trick !</p>
+                    <p class="p-2">No comments. Be the first to discuss about this trick !</p>
                 {% endif %}
                 <button type="button" class="btn btn-primary loadMoreBtn" id="loadMoreCommentsBtn">
                     <i class="fas fa-spinner mr-3"></i>Load more</button>

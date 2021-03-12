@@ -105,8 +105,31 @@ $(document).ready(function () {
         }
     });
 
+    // Load more media
+    let mediaPerPage = 0;
+    let medias = $("div.mediaLoadMore");
+    let btnLoadMedia = $("#loadMoreMediaBtn");
+    let width = $(window).width();
+    btnLoadMedia.hide();
 
+    if(width < 769){
+        btnLoadMedia.show();
 
+        for (let i = mediaPerPage; i <= medias.length; i++){
+            medias.remove();
+        }
+
+        btnLoadMedia.on("click", function(e){
+            e.preventDefault();
+            mediaPerPage += 5
+            for(let j = 0;j<=mediaPerPage;j++){
+                $("#mediaTrick").append(medias[j]);
+            }
+            if (medias.length <= mediaPerPage) {
+                btnLoadMedia.hide();
+            }
+        })
+    }
 
     /*Filename custom*/
     $('.custom-file-input').on('change', function(event) {
