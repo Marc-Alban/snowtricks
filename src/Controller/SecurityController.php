@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\NewPassType;
 use App\Form\RegistrationType;
 use App\Form\ResetPassType;
+use App\Repository\TokenRepository;
 use App\Repository\UserRepository;
 use App\Services\TokenSendler;
 use Doctrine\ORM\EntityManagerInterface;
@@ -99,22 +100,28 @@ class SecurityController extends AbstractController
     /**
      * @Route("/confirmation/{value}",name="app_validation")
      * @param EntityManagerInterface $manager
-     * @param Token $token
+     * @param TokenRepository $tokenRepository
+     * @param string $value
      * @return Response
      */
-    public function validationToken(EntityManagerInterface $manager, Token $token): Response
+    public function validationToken(EntityManagerInterface $manager, TokenRepository $tokenRepository,string $value): Response
     {
+
+        $token = $tokenRepository->findOneBy(['value'=>$value]);
+
+       if($token === null){
+           $this->addFlash('danger', 'Token unknown..');
+           return $this->redirectToRoute('app_home');
+       }
+
         $user = $token->getUser();
 
-        if($user->getEnable()){
-            $this->addFlash('notice', 'The token is expired, register again');
-        }else if($token->isValid()){
+        if($token->isValid()){
             $user->setEnable(true);
             $manager->flush();
             return $this->redirectToRoute('app_login');
         }
-        $manager->remove($token);
-        return $this->redirectToRoute('app_registration');
+
     }
 
 
@@ -122,15 +129,17 @@ class SecurityController extends AbstractController
      * @Route("/forgot/pass", name="app_forgotten_password")
      * @param Request $request
      * @param UserRepository $users
+     * @param TokenRepository $tokenRepository
      * @param MailerInterface $mailer
      * @param TokenGeneratorInterface $tokenGenerator
      * @param EntityManagerInterface $manager
      * @return Response
+     * @throws TransportExceptionInterface
      */
-    public function forgotPass(Request $request, UserRepository $users, MailerInterface $mailer, TokenGeneratorInterface $tokenGenerator, EntityManagerInterface $manager): Response
+    public function forgotPass(Request $request, UserRepository $users,TokenRepository $tokenRepository,MailerInterface $mailer, TokenGeneratorInterface $tokenGenerator, EntityManagerInterface $manager): Response
     {
         if($this->getUser()){
-            $this->addFlash("danger", "Vous êtes déjà connecté ! ");
+            $this->addFlash("danger", "you are already logged ! ");
             return $this->redirectToRoute('app_home');
         }
 
@@ -149,10 +158,22 @@ class SecurityController extends AbstractController
             // On cherche un utilisateur ayant cet e-mail
             $user = $users->findOneBy(['email'=>$donnees['email']]);
 
+            if($user->getEnable() === false ){
+
+                $this->addFlash("danger", "Account not validated!, register again ");
+                $token = $tokenRepository->findOneBy(['user'=>$user]);
+                if($token){
+                    $manager->remove($token);
+                };
+                $manager->remove($user);
+                    $manager->flush();
+                    return $this->redirectToRoute('app_registration');
+                }
+
             // Si l'utilisateur n'existe pas
             if ($user === null) {
                 // On envoie une alerte disant que l'adresse e-mail est inconnue
-                $this->addFlash('danger', 'Cette adresse e-mail est inconnue');
+                $this->addFlash('danger', 'This email address is unknown');
 
                 // On retourne sur la page de connexion
                 return $this->redirectToRoute('app_login');
@@ -182,7 +203,7 @@ class SecurityController extends AbstractController
             $mailer->send($message);
 
             // On crée le message flash de confirmation
-            $this->addFlash('message', 'Sent password reset email !');
+            $this->addFlash('success', 'Sent password reset email !');
 
             // On redirige vers la page de login
             return $this->redirectToRoute('app_login');
@@ -206,7 +227,7 @@ class SecurityController extends AbstractController
 
         if(empty($users->findOneByToken($token))){
             // On affiche une erreur
-            $this->addFlash('danger', 'Token incorrect ..');
+            $this->addFlash('danger', 'Token false ..');
             return $this->redirectToRoute('app_login');
         }
 
@@ -215,7 +236,7 @@ class SecurityController extends AbstractController
             // Si l'utilisateur n'existe pas
             if ($userBdd === null) {
                 // On affiche une erreur
-                $this->addFlash('danger', 'Token Inconnu');
+                $this->addFlash('danger', 'Token unknown');
                 return $this->redirectToRoute('app_login');
             }
 
@@ -232,7 +253,7 @@ class SecurityController extends AbstractController
                 $manager->persist($userBdd);
                 $manager->flush();
                 // On crée le message flash
-                $this->addFlash('message', 'Updated Password');
+                $this->addFlash('success', 'Updated Password');
 
                 // On redirige vers la page de connexion
                 return $this->redirectToRoute('app_login');
