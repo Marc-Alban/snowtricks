@@ -9,6 +9,7 @@ use App\Form\RegistrationType;
 use App\Form\ResetPassType;
 use App\Repository\TokenRepository;
 use App\Repository\UserRepository;
+use App\Services\ResetPassword;
 use App\Services\TokenSendler;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -108,20 +109,21 @@ class SecurityController extends AbstractController
     {
 
         $token = $tokenRepository->findOneBy(['value'=>$value]);
+        $user = $token->getUser();
 
-       if($token === null){
+
+       if($token === null || $token->isValid() === false){
            $this->addFlash('danger', 'Token unknown..');
            return $this->redirectToRoute('app_home');
        }
 
-        $user = $token->getUser();
 
-        if($token->isValid()){
+        if($token->isValid() && $user->getEnable() === true){
             $user->setEnable(true);
+            $user->setResetToken(null);
             $manager->flush();
-            return $this->redirectToRoute('app_login');
         }
-
+        return $this->redirectToRoute('app_login');
     }
 
 
@@ -133,10 +135,10 @@ class SecurityController extends AbstractController
      * @param MailerInterface $mailer
      * @param TokenGeneratorInterface $tokenGenerator
      * @param EntityManagerInterface $manager
+     * @param ResetPassword $resetPassword
      * @return Response
-     * @throws TransportExceptionInterface
      */
-    public function forgotPass(Request $request, UserRepository $users,TokenRepository $tokenRepository,MailerInterface $mailer, TokenGeneratorInterface $tokenGenerator, EntityManagerInterface $manager): Response
+    public function forgotPass(Request $request, UserRepository $users, TokenRepository $tokenRepository, MailerInterface $mailer, TokenGeneratorInterface $tokenGenerator, EntityManagerInterface $manager, ResetPassword $resetPassword): Response
     {
         if($this->getUser()){
             $this->addFlash("danger", "you are already logged ! ");
@@ -158,29 +160,28 @@ class SecurityController extends AbstractController
             // On cherche un utilisateur ayant cet e-mail
             $user = $users->findOneBy(['email'=>$donnees['email']]);
 
-            if($user->getEnable() === false ){
-
-                $this->addFlash("danger", "Account not validated!, register again ");
-                $token = $tokenRepository->findOneBy(['user'=>$user]);
-                if($token){
-                    $manager->remove($token);
-                };
-                $manager->remove($user);
-                    $manager->flush();
-                    return $this->redirectToRoute('app_registration');
-                }
-
             // Si l'utilisateur n'existe pas
             if ($user === null) {
                 // On envoie une alerte disant que l'adresse e-mail est inconnue
                 $this->addFlash('danger', 'This email address is unknown');
-
                 // On retourne sur la page de connexion
                 return $this->redirectToRoute('app_login');
             }
 
             // On génère un token
             $token = $tokenGenerator->generateToken();
+
+            if($user->getEnable() === false  ){
+                $userToken = $user->setResetToken($token);
+                $manager->persist($userToken);
+                $manager->flush();
+                ////////////////////////////////////
+                /// Renvoie d'um email pour reset password
+                $resetPassword->resetMail($token,$user, $mailer);
+                $this->addFlash('success', 'A new token has send on you email');
+                return $this->redirectToRoute('app_login');
+                ////////////////////////////////////
+                }
 
             // On essaie d'écrire le token en base de données
             try{
@@ -192,16 +193,7 @@ class SecurityController extends AbstractController
                 $this->addFlash('warning', $e->getMessage());
                 return $this->redirectToRoute('app_login');
             }
-
-            // On génère l'URL de réinitialisation de mot de passe
-            $url = $this->generateUrl('app_reset_password', array('token' => $token), UrlGeneratorInterface::ABSOLUTE_URL);
-            // On génère l'e-mail
-            $message = (new Email())
-                ->From('snowtrick@example.com')
-                ->To($user->getEmail())
-                ->html("<p>Hello please click on this <a href=".$url.">link</a> to reset the password</p> ");
-            $mailer->send($message);
-
+            $resetPassword->resetMail($token,$user, $mailer);
             // On crée le message flash de confirmation
             $this->addFlash('success', 'Sent password reset email !');
 
@@ -224,20 +216,20 @@ class SecurityController extends AbstractController
      */
     public function resetPassword(Request $request, string $token, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $manager, UserRepository $users)
     {
-
         if(empty($users->findOneByToken($token))){
             // On affiche une erreur
             $this->addFlash('danger', 'Token false ..');
             return $this->redirectToRoute('app_login');
         }
 
-         // On cherche un utilisateur avec le token donné
+        // On cherche un utilisateur avec le token donné
         foreach($users->findOneByToken($token) as $userBdd){
+
             // Si l'utilisateur n'existe pas
             if ($userBdd === null) {
                 // On affiche une erreur
-                $this->addFlash('danger', 'Token unknown');
-                return $this->redirectToRoute('app_login');
+                $this->addFlash('danger', 'User unknown');
+                return $this->redirectToRoute('app_registration');
             }
 
             $form = $this->createForm(NewPassType::class, $userBdd);
@@ -258,6 +250,7 @@ class SecurityController extends AbstractController
                 // On redirige vers la page de connexion
                 return $this->redirectToRoute('app_login');
             }
+
            // Si on n'a pas reçu les données, on affiche le formulaire
            return $this->render('security/reset_password.html.twig', ['token' => $token, 'form'=>$form->createView()]);
        }

@@ -25,7 +25,7 @@ class Token
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private string $value;
+    private ?string $value;
 
     /**
      * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
@@ -58,12 +58,12 @@ class Token
         return $this;
     }
 
-    public function getValue(): string
+    public function getValue(): ?string
     {
         return $this->value;
     }
 
-    public function setValue(string $value): self
+    public function setValue(?string $value): self
     {
         $this->value = $value;
 
