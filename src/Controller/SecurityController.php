@@ -165,7 +165,7 @@ class SecurityController extends AbstractController
                 // On envoie une alerte disant que l'adresse e-mail est inconnue
                 $this->addFlash('danger', 'This email address is unknown');
                 // On retourne sur la page de connexion
-                return $this->redirectToRoute('app_login');
+                return $this->redirectToRoute('app_registration');
             }
 
             // On génère un token
@@ -179,7 +179,7 @@ class SecurityController extends AbstractController
                 /// Renvoie d'um email pour reset password
                 $resetPassword->resetMail($token,$user, $mailer);
                 $this->addFlash('success', 'A new token has send on you email');
-                return $this->redirectToRoute('app_login');
+                return $this->redirectToRoute('app_home');
                 ////////////////////////////////////
                 }
 
@@ -248,7 +248,7 @@ class SecurityController extends AbstractController
                 $this->addFlash('success', 'Updated Password');
 
                 // On redirige vers la page de connexion
-                return $this->redirectToRoute('app_login');
+                return $this->redirectToRoute('app_home');
             }
 
            // Si on n'a pas reçu les données, on affiche le formulaire
