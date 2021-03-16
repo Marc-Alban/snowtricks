@@ -84,7 +84,7 @@ $(document).ready(function () {
 
 
     /* ****** LoadMore comments button ***** */
-    let commentsPerPage = 5;
+    let commentsPerPage = 10;
     let comments = $("div.trick-comment");
     if (comments.length <= commentsPerPage) {
         $("#loadMoreCommentsBtn").hide();
@@ -137,6 +137,14 @@ $(document).ready(function () {
         $(inputFile).parent()
             .find('.custom-file-label')
             .html(inputFile.files[0].name);
+    });
+
+    //Btn Form
+    $("body").on("submit", "form", function() {
+        $(this).submit(function() {
+            return false;
+        });
+        return true;
     });
 });
 

@@ -79,7 +79,7 @@
              {#     start  Comment     #}
             <div class="row py-3 justify-content-center" id="trickComments">
                 {% if trick.comments is not empty %}
-                    {% for comment in trick.comments %}
+                    {% for comment in comments %}
                         <div class="d-flex justify-content-start align-items-center mb-3 w-100 trick-comment">
                             <div class="trick-comment-avatar">
                                 <img class="avatar mr-4" src="{% if comment.user.avatar is not null %}{{ asset('images/users/'~comment.user.avatar) }}{% else %}{{ asset('images/users/default_user.png') }}{% endif %}"/>
@@ -89,7 +89,7 @@
                                 <p class="pr-2 mb-0">
                                     {{ comment.user.username }}
                                     -
-                                    {{ comment.created|date('h:m:s') }}
+                                    created at {{ comment.created|format_datetime(locale='en',pattern="EEEE dd MMMM YYYY") }}
                                 </p>
                             </div>
                 

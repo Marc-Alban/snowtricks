@@ -22,19 +22,21 @@
                              class="img img-responsive article-img">
                     </a>
                 {% endif %}
+                    {% set imageTour = 0 %}
                     {% for image in trick.images  %}
-                        {% if image.starImage == true %}
+                        {% if image.starImage == true and imageTour == 0 %}
                         <a href="{{ path('app_trick_show', {'slug': trick.slug}) }}">
                                 <img src="{{ asset('/images/figures/')~image.name }}" alt=""
                                      class="img img-responsive article-img">
                             </a>
                         {% endif %}
-                        {% if image.starImage == false  %}
+                        {% if image.starImage == false  and imageTour == 0 %}
                         <a href="{{ path('app_trick_show', {'slug': trick.slug}) }}">
                             <img src="{{ asset('/images/figures/defaulttrick.png') }}" alt="image"
                                  class="img img-responsive article-img">
                         </a>
                         {% endif %}
+                        {% set imageTour = 1 %}
                     {% endfor %}
             </div>
             <div class="card-body">

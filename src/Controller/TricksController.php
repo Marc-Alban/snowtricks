@@ -11,6 +11,7 @@ use App\Form\VideoType;
 use App\Repository\CommentRepository;
 use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
+use App\Repository\UserRepository;
 use App\Repository\VideoRepository;
 use App\Services\ImageDefault;
 use App\Services\TrickHelper;
@@ -266,8 +267,6 @@ class TricksController extends AbstractController
             if($tricks){
                 //Boucle foreach pour récupérer un trick
                 foreach ($tricks as $trick){
-                    //Récupération des commentaires
-                    $comments = $commentRepository->findBy(['trick'=>$trick->getId()]);
                     //Déplacement de l'image
                     $helper->checkImageUpload($trick, $imageRepository);
                     $images = $imageRepository->findAllById($trick->getId());
@@ -287,15 +286,17 @@ class TricksController extends AbstractController
                     $form = $this->createForm(CommentaireType::class, $comment);
                     $form->handleRequest($request);
                     if($form->isSubmitted() && $form->isValid()){
-                        $comment->setTrick($trick);
-                        $comment->setCreated(new \DateTime('now'));
-                        $comment->setUser($user);
-                        $manager->persist($comment);
-                        $manager->flush();
-
+                            $comment->setTrick($trick);
+                            $comment->setCreated(new \DateTime('now'));
+                            $comment->setUser($user);
+                            $manager->persist($comment);
+                            $manager->flush();
                         $this->addFlash('success','Comment send');
                         return $this->redirectToRoute('app_trick_show', ['slug'=>$trick->getSlug()]);
                     }
+                    //Récupération des commentaires
+                    $comments = $commentRepository->findBy(['trick'=>$trick->getId()], ['id'=>'DESC']);
+
                     return $this->render('pages/show.html.twig', [
                             'trick' => $trick,
                             'imageName' => $imageName,
