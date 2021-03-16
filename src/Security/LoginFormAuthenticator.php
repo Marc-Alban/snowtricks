@@ -82,11 +82,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
     }
 
-    /**
-     * Used to upgrade (rehash) the user's password automatically over time.
-     * @param $credentials
-     * @return string|null
-     */
+
     public function getPassword($credentials): ?string
     {
         return $credentials['password'];

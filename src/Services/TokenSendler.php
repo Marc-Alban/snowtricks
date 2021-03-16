@@ -21,7 +21,7 @@ class TokenSendler extends AbstractController
         $this->twig = $twig;
     }
 
-    public function sendToken(User $user, Token $token)
+    public function sendToken(User $user, Token $token): void
     {
         $email = (new Email())
             ->From('snowtrick@example.com')

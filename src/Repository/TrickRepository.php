@@ -19,7 +19,7 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
-    public function findByRequest()
+    public function findByRequest(): array
     {
         return $this->createQueryBuilder('t')
             ->addSelect('ca')
@@ -33,7 +33,7 @@ class TrickRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findOneBySlug(string $slug)
+    public function findOneBySlug(string $slug): array
     {
         return $this->createQueryBuilder('t')
             ->andwhere('t.slug = :slug')

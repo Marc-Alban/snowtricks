@@ -19,30 +19,15 @@ class VideoRepository extends ServiceEntityRepository
         parent::__construct($registry, Video::class);
     }
 
-    // /**
-    //  * @return Video[] Returns an array of Video objects
-    //  */
 
-    public function videoGet($value)
+    public function videoGet(int $id): array
     {
         return $this->createQueryBuilder('v')
-            ->andWhere('v.id = :val')
-            ->setParameter('val', $value)
+            ->andWhere('v.id = :id')
+            ->setParameter('id', $id)
             ->getQuery()
             ->getResult()
         ;
     }
 
-
-    /*
-    public function findOneBySomeField($value): ?Video
-    {
-        return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

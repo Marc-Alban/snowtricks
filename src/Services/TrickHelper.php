@@ -25,8 +25,8 @@ class TrickHelper extends AbstractController
         $tour = 0;
         foreach ($images as $image){
             $imageId = $image->getId() ?? null;
-            if(empty($image->getStarImage()) && $image->getStarImage() === null && $imageId && $tour === 0 ){
-                $imageRepository->setDefaultImage($imageId);
+            if(empty($image->getStarImage()) && $image->getStarImage() === null  && $tour === 0 ){
+             $imageRepository->setDefaultImage($imageId);
             }
             $tour = 1;
         }

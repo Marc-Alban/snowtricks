@@ -79,7 +79,6 @@ class TricksController extends AbstractController
         if(!$this->getUser()){
             return $this->redirectToRoute('app_home');
         }
-
         $trick = $image->getTrick();
         foreach ($trick->getImages() as $trick){
             $imageRepository->nullDefaultImage($trick->getId());
@@ -108,7 +107,10 @@ class TricksController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
         $tricks = $trickRepository->findOneBySlug($slug);
-        foreach ($tricks as $trick ) {
+            $trick = null;
+            foreach ($tricks as $oneTrick ) {
+                $trick = $oneTrick;
+            }
             $form = $this->createForm(TrickType::class, $trick);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
@@ -130,7 +132,7 @@ class TricksController extends AbstractController
                 'form' => $form->createView(),
                 'trick' => $trick
             ]);
-        }
+
     }
 
     /**
@@ -150,7 +152,10 @@ class TricksController extends AbstractController
         }
 
         $videos = $videoRepository->videoGet($id);
-        foreach ($videos as $video){
+        $video = null;
+        foreach ($videos as $oneVideo){
+            $video = $oneVideo;
+        }
             $form = $this->createForm(VideoType::class, $video);
             $form->handleRequest($request);
             if($form->isSubmitted() && $form->isValid()){
@@ -166,7 +171,6 @@ class TricksController extends AbstractController
                 'form' => $form->createView(),
                 'video' => $video
             ]);
-        }
     }
 
     //Delete
@@ -177,22 +181,30 @@ class TricksController extends AbstractController
      * @param Request $request
      * @param Trick $trick
      * @param ImageRepository $imageRepository
+     * @param CommentRepository $commentRepository
      * @return Response
      */
-    public function delete(EntityManagerInterface $manager, Request $request, Trick $trick, ImageRepository $imageRepository): Response
+    public function delete(EntityManagerInterface $manager, Request $request, Trick $trick, ImageRepository $imageRepository, CommentRepository $commentRepository): Response
     {
         if(!$this->getUser()){
             return $this->redirectToRoute('app_home');
         }
 
-        $images = $imageRepository->removeImageId($trick->getId());
-        foreach ($images as $image){
-                unlink($this->getParameter('images_directory').$image->getName());
-                $manager->remove($image);
-                $manager->flush();
-        }
-
         if($this->isCsrfTokenValid('delete'.$trick->getId(), $request->request->get('_token'))){
+
+            $images = $imageRepository->findImageById($trick->getId());
+            foreach ($images as $image){
+                $nameImageBool = file_exists($this->getParameter('images_directory').$image->getName());
+                if($nameImageBool !== false){
+                    unlink($this->getParameter('images_directory').$image->getName());
+                }
+                $manager->remove($image);
+            }
+            $comments = $commentRepository->findCommentById($trick->getId());
+            foreach ($comments as $comment){
+                $manager->remove($comment);
+            }
+
             $manager->remove($trick);
             $manager->flush();
         }
@@ -214,8 +226,11 @@ class TricksController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
+        $nameImageBool = file_exists($this->getParameter('images_directory').$image->getName());
         if($this->isCsrfTokenValid('delete'.$image->getId(), $request->request->get('_token'))){
-            unlink($this->getParameter('images_directory').$image->getName());
+            if($nameImageBool !== false){
+                unlink($this->getParameter('images_directory').$image->getName());
+            }
             $manager->remove($image);
             $manager->flush();
         }

@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\TokenRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TokenRepository::class)
@@ -20,7 +21,7 @@ class Token
     /**
      * @ORM\Column(type="datetime")
      */
-    private \DateTimeInterface $createdAt;
+    private DateTime $createdAt;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -46,12 +47,12 @@ class Token
         return $this->id;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(\DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -70,22 +71,22 @@ class Token
         return $this;
     }
 
-    public function getUser(): ?user
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUser(user $user): self
+    public function setUser(User $user): self
     {
         $this->user = $user;
 
         return $this;
     }
 
-    public function isValid()
+    public function isValid(): bool
     {
         $interval = new \DateInterval('PT6H');
-       return $this->createdAt->add($interval) >= new \DateTime();
+       return $this->createdAt->add($interval) >= new DateTime();
 
     }
 

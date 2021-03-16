@@ -20,9 +20,7 @@ class ImageRepository extends ServiceEntityRepository
     }
 
 
-
-    //UPDATE `image` SET `star_image` = '0' WHERE `image`.`id` = 105;
-    public function nullDefaultImage($id)
+    public function nullDefaultImage(int $id): int
     {
         return $this->createQueryBuilder('i')
             ->update()
@@ -34,7 +32,7 @@ class ImageRepository extends ServiceEntityRepository
             ;
     }
 
-    public function setDefaultImage($id)
+    public function setDefaultImage(int $id): int
     {
         return $this->createQueryBuilder('i')
             ->update()
@@ -47,11 +45,11 @@ class ImageRepository extends ServiceEntityRepository
     }
 
 
-    public function removeImageId($value)
+    public function findImageById(int $id): array
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.trick = :val')
-            ->setParameter('val', $value)
+            ->andWhere('i.trick = :id')
+            ->setParameter('id', $id)
             ->getQuery()
             ->getResult()
             ;
@@ -59,26 +57,14 @@ class ImageRepository extends ServiceEntityRepository
 
 
 
-    public function findAllById($value)
+    public function findAllById(int $id): array
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.trick = :val')
-            ->setParameter('val', $value)
+            ->andWhere('i.trick = :id')
+            ->setParameter('id', $id)
             ->getQuery()
             ->getResult()
         ;
     }
 
-
-    /*
-    public function findOneBySomeField($value): ?Image
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

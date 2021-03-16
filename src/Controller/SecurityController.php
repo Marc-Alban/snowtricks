@@ -61,7 +61,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/logout", name="app_logout")
      */
-    public function logout()
+    public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
@@ -112,17 +112,15 @@ class SecurityController extends AbstractController
         $user = $token->getUser();
 
 
-       if($token === null || $token->isValid() === false){
+       if($token === null || $token->isValid() === false || $user->getEnable() === true ){
            $this->addFlash('danger', 'Token unknown..');
            return $this->redirectToRoute('app_home');
        }
 
-
-        if($token->isValid() && $user->getEnable() === true){
             $user->setEnable(true);
             $user->setResetToken(null);
             $manager->flush();
-        }
+
         return $this->redirectToRoute('app_login');
     }
 
@@ -131,14 +129,13 @@ class SecurityController extends AbstractController
      * @Route("/forgot/pass", name="app_forgotten_password")
      * @param Request $request
      * @param UserRepository $users
-     * @param TokenRepository $tokenRepository
      * @param MailerInterface $mailer
      * @param TokenGeneratorInterface $tokenGenerator
      * @param EntityManagerInterface $manager
      * @param ResetPassword $resetPassword
      * @return Response
      */
-    public function forgotPass(Request $request, UserRepository $users, TokenRepository $tokenRepository, MailerInterface $mailer, TokenGeneratorInterface $tokenGenerator, EntityManagerInterface $manager, ResetPassword $resetPassword): Response
+    public function forgotPass(Request $request, UserRepository $users, MailerInterface $mailer, TokenGeneratorInterface $tokenGenerator, EntityManagerInterface $manager, ResetPassword $resetPassword): Response
     {
         if($this->getUser()){
             $this->addFlash("danger", "you are already logged ! ");
@@ -222,8 +219,11 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
+        $userBdd = null;
         // On cherche un utilisateur avec le token donné
-        foreach($users->findOneByToken($token) as $userBdd){
+        foreach($users->findOneByToken($token) as $oneUser){
+            $userBdd = $oneUser;
+        }
 
             // Si l'utilisateur n'existe pas
             if ($userBdd === null) {
@@ -253,7 +253,6 @@ class SecurityController extends AbstractController
 
            // Si on n'a pas reçu les données, on affiche le formulaire
            return $this->render('security/reset_password.html.twig', ['token' => $token, 'form'=>$form->createView()]);
-       }
     }
 
 }

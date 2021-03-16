@@ -7,8 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ImageDefault extends AbstractController
 {
-
-    public function index($value): bool
+    public function index(string $value): bool
     {
         $filename = $this->getParameter('images_directory');
 

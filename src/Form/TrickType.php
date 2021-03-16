@@ -15,7 +15,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class TrickType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('name', TextType::class, ['label'=>'Name of trick','required'=>false])
@@ -44,7 +44,7 @@ class TrickType extends AbstractType
         ;
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Trick::class,
