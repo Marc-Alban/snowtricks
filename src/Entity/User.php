@@ -6,93 +6,140 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(fields="email",  message="This email is already in use")
+ * @UniqueEntity(fields="username",  message="This username is already in use")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     *     mode="strict"
+     * )
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z_.-]+@[a-zA-Z-]+\.[a-zA-Z-.]+$/",
+     *     match=true,
+     *     message="valid email : test@live.fr -> not figures, special character etc…"
+     * )
+     * @Assert\NotBlank()
      */
-    private $username;
+    private ?string $email;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="string", length=255, unique=true, nullable=false)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
+     * @Assert\Length(min="5", max="10")
+     * @Assert\Regex(
+     *     pattern="/^[ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑña-zA-Z0-9_]{0,10}$/",
+     *     match=true,
+     *     message="not valid username"
+     * )
      */
-    private $roles = [];
+    private ?string $username;
+
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Regex(
+     *     pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).{6,}$/",
+     *     message="not valid password, must contain capital letter and number and letters "
+     * )
+     * @Assert\Length(min="5", max="20")
      */
-    private $password;
-
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
-    private $email;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $photo;
+    private ?string $password;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $activated;
+    private bool $enable = false;
+
+    /**
+     * @ORM\Column(type="json")
+     */
+    private array $roles = [];
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $token;
+    private ?string $resetToken;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string", length=255)
      */
-    private $created;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $lastUpdate;
+    private string $avatar = 'default_user.png';
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
      */
-    private $comments;
-
-    ////////////////////////////////////////////////////////////////////////////////////
+    private  Collection $comments;
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
     }
 
+
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUsername(): string
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+
+    public function getPassword(): ?string
+    {
+        return (string) $this->password;
+    }
+
+    public function setPassword(?string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function getUsername(): ?string
     {
         return (string) $this->username;
     }
 
-    public function setUsername(string $username): self
+
+    public function setUsername(?string $username): self
     {
         $this->username = $username;
 
         return $this;
     }
+
 
     public function getRoles(): array
     {
@@ -110,88 +157,39 @@ class User
         return $this;
     }
 
-
-    public function getPassword(): string
+    public function getEnable(): bool
     {
-        return (string) $this->password;
+        return $this->enable;
     }
 
-    public function setPassword(string $password): self
+    public function setEnable(bool $enable): self
     {
-        $this->password = $password;
+        $this->enable = $enable;
 
         return $this;
     }
 
 
-    public function getEmail(): ?string
+    public function getResetToken(): ?string
     {
-        return $this->email;
+        return $this->resetToken;
     }
 
-    public function setEmail(string $email): self
+    public function setResetToken(?string $resetToken): self
     {
-        $this->email = $email;
+        $this->resetToken = $resetToken;
 
         return $this;
     }
 
-    public function getPhoto()
+    public function getAvatar(): ?string
     {
-        return $this->photo;
+        return $this->avatar;
     }
 
-    public function setPhoto($photo): self
+    public function setAvatar(string $avatar): self
     {
-        $this->photo = $photo;
-
-        return $this;
-    }
-
-    public function getActivated(): ?bool
-    {
-        return $this->activated;
-    }
-
-    public function setActivated(bool $activated): self
-    {
-        $this->activated = $activated;
-
-        return $this;
-    }
-
-    public function getToken(): ?string
-    {
-        return $this->token;
-    }
-
-    public function setToken(?string $token): self
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
-    public function getCreated(): ?\DateTimeInterface
-    {
-        return $this->created;
-    }
-
-    public function setCreated(\DateTimeInterface $created): self
-    {
-        $this->created = $created;
-
-        return $this;
-    }
-
-    public function getLastUpdate(): ?\DateTimeInterface
-    {
-        return $this->lastUpdate;
-    }
-
-    public function setLastUpdate(\DateTimeInterface $lastUpdate): self
-    {
-        $this->lastUpdate = $lastUpdate;
+        $this->avatar = $avatar;
 
         return $this;
     }
@@ -216,8 +214,7 @@ class User
 
     public function removeComment(Comment $comment): self
     {
-        if ($this->comments->contains($comment)) {
-            $this->comments->removeElement($comment);
+        if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
             if ($comment->getUser() === $this) {
                 $comment->setUser(null);
@@ -226,4 +223,20 @@ class User
 
         return $this;
     }
+
+
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+
+
 }

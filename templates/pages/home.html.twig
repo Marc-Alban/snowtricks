@@ -1,39 +1,40 @@
-{% extends 'base.html.twig' %}
-{% block body%}
-    <main>
-
-        <section class="py-5 text-center container">
-            <div class="row py-lg-5">
-                <div class="col-lg-6 col-md-8 mx-auto">
-                    <h1 class="font-weight-light">Snowtricks</h1>
-                    <p class="lead text-muted">La légende c'est vous !</p>
+{% extends 'layout/base.html.twig' %}
+{% block title %}Home{% endblock %}
+{% block body %}
+    {# Top Main #}
+    <!-- Background image -->
+    <section class="pt-5 pb-5 mt-0 align-items-center d-flex bg-dark bgImgHome">
+        <div class="container-fluid">
+            <div class="row  justify-content-center align-items-center d-flex text-center h-100">
+                <div class="col-12 col-md-12 ">
+                    <h1 class="text-light mb-2 mt-5">Snowtrick</h1>
+                    <p class="lead  text-light mb-5">The legende is you !</p>
+                    <div class="btn-container-wrapper p-relative d-block  zindex-1">
+                        <a class="btn btn-link btn-lg   mt-md-3 mb-4 scroll align-self-center text-light"
+                           href="#gobottom">
+                            <i class="fa fa-angle-down fa-4x text-light"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </section>
-        <h2>Dernières Figures:</h2>
-{#        {% for trick in tricks %}#}
-{#        <div class="album py-5 bg-light">#}
-{#            <div class="container">#}
-{#                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">#}
-{#                    <div class="col">#}
-{#                        <div class="card shadow-sm">#}
-{#                            <a href="{{ path('trick_show', {id: trick.id, slug: trick.slug}) }}"></a>#}
-{#                            <img src="{{ trick.image }}" alt="{{ trick.name }}">#}
-{#                            <div class="card-body">#}
-{#                                <p class="card-text">{{ trick.nameTrick | raw }}</p>#}
-{#                                <div class="d-flex justify-content-between align-items-center">#}
-{#                                    <div class="btn-group">#}
-{#                                        <button type="button" class="btn btn-sm btn-outline-secondary">Modifier</button>#}
-{#                                        <button type="button" class="btn btn-sm btn-outline-secondary">Supprimer</button>#}
-{#                                    </div>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-
-{#                </div>#}
-{#            </div>#}
-{#        </div>#}
-{#        {% endfor %}#}
-    </main>
+        </div>
+    </section>
+    <section id="gobottom">
+        <h2 class="text-center font-italic mb-4">Last figures: </h2>
+    </section>
+    <div class="container">
+        <div class="row justify-content-center pb-0" id="trickList">
+            {% include 'layout/partials/_trick.html.twig' %}
+        </div>
+        <div class="justify-content-center mb-5">
+            <div class="col-md-4 offset-md-4 text-center mt-2" id="loadMoreCol">
+                <button type="button" class="btn btn-primary loadMoreBtn" id="loadMoreTricksBtn">See more tricks</button>
+            </div>
+        </div>
+    </div>
+    <section class="container rowUp d-flex " id="showLess">
+        <div class="row">
+            <a class="scroll" href="#gobottom"><i class="fas fa-arrow-up"></i></a>
+        </div>
+    </section>
 {% endblock %}

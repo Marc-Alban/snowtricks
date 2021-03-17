@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\ImageRepository;
+
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ImageRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
  * @ORM\Entity(repositoryClass=ImageRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Image
 {
@@ -16,64 +19,51 @@ class Image
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length( min="5", max="20")
      */
-    private $content;
+    private string $name;
+
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="images")
      */
-    private $created;
+    private ?Trick $trick;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="images")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    private $trick;
+    private ?bool $starImage;
 
 
-    // default values automatically added
-    public function __construct()
-    {
-        $this->setCreated(new \DateTime());
-    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getContent()
+    public function getName(): ?string
     {
-        return $this->content;
+        return $this->name;
     }
 
-    public function setContent($content): self
+    public function setName(string $name): self
     {
-        $this->content = $content;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getCreated(): ?\DateTimeInterface
-    {
-        return $this->created;
-    }
-
-    public function setCreated(\DateTimeInterface $created): self
-    {
-        $this->created = $created;
-
-        return $this;
-    }
 
     public function getTrick(): ?Trick
     {
         return $this->trick;
     }
+
 
     public function setTrick(?Trick $trick): self
     {
@@ -81,5 +71,19 @@ class Image
 
         return $this;
     }
+
+    public function getStarImage(): ?bool
+    {
+        return $this->starImage;
+    }
+
+    public function setStarImage(?bool $starImage): self
+    {
+        $this->starImage = $starImage;
+
+        return $this;
+    }
+
+
 
 }

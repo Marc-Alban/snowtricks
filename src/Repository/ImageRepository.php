@@ -19,32 +19,52 @@ class ImageRepository extends ServiceEntityRepository
         parent::__construct($registry, Image::class);
     }
 
-    // /**
-    //  * @return Image[] Returns an array of Image objects
-    //  */
-    /*
-    public function findByExampleField($value)
+
+    public function nullDefaultImage(int $id): int
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
+            ->update()
+            ->set('i.starImage', '0')
+            ->where( ':id = i.id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function setDefaultImage(int $id): int
+    {
+        return $this->createQueryBuilder('i')
+            ->update()
+            ->set('i.starImage', '1')
+            ->where( ':id = i.id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
+    public function findImageById(int $id): array
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.trick = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+
+
+    public function findAllById(int $id): array
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.trick = :id')
+            ->setParameter('id', $id)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Image
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

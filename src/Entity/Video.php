@@ -2,69 +2,50 @@
 
 namespace App\Entity;
 
-use App\Repository\VideoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
- * @ORM\Entity(repositoryClass=VideoRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\VideoRepository")
  */
 class Video
 {
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
-     * @ORM\Column(type="string", length=41)
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Url(
+     *    relativeProtocol = true
+     * )
      */
-    private $address;
+    private string $url;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="videos")
      */
-    private $created;
+    private ?Trick $trick;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="videos")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $trick;
-
-    // default values automatically added
-    public function __construct()
-    {
-        $this->setCreated(new \DateTime());
-    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getAddress(): ?string
+    public function getUrl(): ?string
     {
-        return $this->address;
+        return $this->url;
     }
 
-    public function setAddress(string $address): self
+    public function setUrl(string $url): self
     {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    public function getCreated(): ?\DateTimeInterface
-    {
-        return $this->created;
-    }
-
-    public function setCreated(\DateTimeInterface $created): self
-    {
-        $this->created = $created;
-
+        $this->url = $url;
         return $this;
     }
 
@@ -79,4 +60,6 @@ class Video
 
         return $this;
     }
+
+
 }

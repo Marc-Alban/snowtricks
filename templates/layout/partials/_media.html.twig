@@ -1,0 +1,41 @@
+<div id="mediaTrick">
+    {% if trick.videos|length > 0 or trick.images|length > 0 %}
+    <div class="row col-md-12 col-12 col-lg12 mt-5 mb-5 mediaLoadMore">
+        <div class="slider-inner  d-flex flex-wrap">
+            {% for image in trick.images %}
+                <div class="conteneurImageArticle">
+                    {% if image.starImage == 0 %}
+                        <img src="{{ asset('/images/figures/')~image.name }}" alt="image" class="imgArticle">
+                        {% if app.user %}
+                            <div class="lienImage">
+                                <a href="{{ path('app_default_image', {id: image.id})}}">
+                                    <i class="fas fa-star fa-lg"></i>
+                                </a>
+                                {{ include('layout/partials/_deleteImageForm.html.twig') }}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            
+            {% endfor %}
+        </div>
+        {% for video in trick.videos %}
+            <div class="conteneurVideoArticle">
+                {% if app.user %}
+                <div class="lienVideo">
+                    <a href="{{ path('app_edit_video', {'id': video.id}) }}">
+                        <i class="fas fa-pencil-alt fa-lg"></i>
+                    </a>
+                    {{ include('layout/partials/_deleteVideoForm.html.twig') }}
+                    {% endif %}
+                </div>
+                <iframe src="{{ video.url }}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+    <div class="container jumbotron text-center"><strong>No medias</strong></div>
+{% endif %}
+</div>

@@ -2,14 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass=CategoryRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
  */
 class Category
 {
@@ -18,17 +17,19 @@ class Category
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private int $id;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank()
+     * @Assert\NotNull()
      */
-    private $name;
+    private string $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Trick::class, mappedBy="category")
+     * @ORM\OneToMany(targetEntity="App\Entity\Trick", mappedBy="category")
      */
-    private $tricks;
+    private Collection $tricks;
 
     public function __construct()
     {
@@ -45,7 +46,7 @@ class Category
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setUrl(string $name): self
     {
         $this->name = $name;
 
@@ -53,7 +54,7 @@ class Category
     }
 
     /**
-     * @return Collection|Trick[]
+     * @return Collection
      */
     public function getTricks(): Collection
     {
@@ -74,7 +75,6 @@ class Category
     {
         if ($this->tricks->contains($trick)) {
             $this->tricks->removeElement($trick);
-            // set the owning side to null (unless already changed)
             if ($trick->getCategory() === $this) {
                 $trick->setCategory(null);
             }

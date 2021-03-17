@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Snowtrick{% endblock %}</title>
+        <meta name="theme-color" content="#7952b3">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="{{ asset("images/favicon-32x32.png")}}" sizes="32x32" type="image/png">
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+        {% include 'layout/partials/_alertMessages.html.twig' %}
+        {% include 'layout/partials/_header.html.twig' %}
+        <main class="mb-75">
+            {% block body %}{% endblock %}
+        </main>
+        {% include 'layout/partials/_footer.html.twig' %}
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </body>
+</html>

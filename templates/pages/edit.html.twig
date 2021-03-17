@@ -1,0 +1,27 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}SnowTricks - Updated trick{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class="row d-flex justify-content-end mt-5">
+			<button class="btnPrev btn btn-primary"><a class="btnPrev text-white" href="{{ path('app_home') }}">Back home</a></button>
+		</div>
+	</div>
+	<div class="col-lg-7 col-md-10 mx-auto d-flex flex-column">
+		<h1>Update the trick : {{ trick.name }}</h1>
+		{{ include('layout/partials/_formTrick.html.twig') }}
+		<button class="btn btn-primary btn-lg col-12 col-md-6 col-lg-4  mx-auto">Update</button>
+		{{ form_end(form) }}
+			{% for image in trick.images %}
+				{%  if image.name is defined %}
+				<br>
+				<p>All images in trick </p>
+				<div>
+					<img src="{{ asset('/images/figures/')~image.name }}" alt="image" width="150">
+					{{ include('layout/partials/_deleteImageForm.html.twig') }}
+				</div>
+				{% endif %}
+			{% endfor %}
+	</div>
+{% endblock %}
