@@ -75,7 +75,7 @@ class TricksController extends AbstractController
      */
     public function defaultImage(Image $image, ImageRepository $imageRepository, EntityManagerInterface $manager): Response
     {
-
+        dd('test');
         if(!$this->getUser()){
             return $this->redirectToRoute('app_home');
         }

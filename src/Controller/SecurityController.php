@@ -112,15 +112,16 @@ class SecurityController extends AbstractController
         $user = $token->getUser();
 
 
-       if($token === null || $token->isValid() === false || $user->getEnable() === true ){
+       if($token === null || $token->isValid() === false || $user->getEnable() === true || $user->getResetToken() !== null){
            $this->addFlash('danger', 'Token unknown..');
            return $this->redirectToRoute('app_home');
        }
 
-            $user->setEnable(true);
-            $user->setResetToken(null);
-            $manager->flush();
 
+        $user->setEnable(true);
+        $user->setResetToken(null);
+        $manager->flush();
+        $this->addFlash('success', 'Valid user..');
         return $this->redirectToRoute('app_login');
     }
 
