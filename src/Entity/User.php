@@ -44,7 +44,7 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, unique=true, nullable=false)
      * @Assert\NotBlank()
      * @Assert\NotNull()
-     * @Assert\Length(min="5", max="10")
+     * @Assert\Length(min="5", max="20",minMessage="Le nom doit faire au minimum 5 caractères",maxMessage="Le nom ne doit pas faire plus de 20 caractères")
      * @Assert\Regex(
      *     pattern="/^[ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑña-zA-Z0-9_]{0,10}$/",
      *     match=true,

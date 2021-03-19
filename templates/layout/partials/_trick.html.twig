@@ -16,18 +16,23 @@
                 {% endif %}
             </div>
             <div class="view overlay">
-                {% if trick.images is not empty %}
-                    {% set imageTour = 0 %}
-                        {% for image in trick.images  %}
-                            {% if imageTour == 0 %}
-                                <a href="{{ path('app_trick_show', {'slug': trick.slug}) }}">
-                                    <img src="{{ asset('/images/figures/')~image.name }}" alt=""
-                                         class="img img-responsive article-img">
-                                </a>
-                            {% set imageTour = 1 %}
-                            {% endif %}
-                        {% endfor %}
-                {% else %}
+                {% set tour = 0 %}
+                {% for image in trick.images %}
+                    {% if image.starImage == true and tour == 0 %}
+                    <a href="{{ path('app_trick_show', {'slug': trick.slug}) }}">
+                        <img src="{{ asset('/images/figures/')~image.name }}" alt=""
+                             class="img img-responsive article-img">
+                    </a>
+                    {% endif %}
+                    {% if image.starImage == false and tour == 0 %}
+                        <a href="{{ path('app_trick_show', {'slug': trick.slug}) }}">
+                            <img src="{{ asset('/images/figures/defaulttrick.png') }}" alt="image"
+                                 class="img img-responsive article-img">
+                        </a>
+                    {% endif %}
+                    {% set tour = 1 %}
+                {% endfor %}
+                {% if(trick.images is empty) %}
                     <a href="{{ path('app_trick_show', {'slug': trick.slug}) }}">
                         <img src="{{ asset('/images/figures/defaulttrick.png') }}" alt="image"
                              class="img img-responsive article-img">

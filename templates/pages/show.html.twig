@@ -7,31 +7,21 @@
         <div class="row col-md-12 col-lg-8 mx-auto ">
             <div class="col-12 d-flex justify-content-center align-items-center flex-column">
                 <div class="conteneur">
-                    {#Variable twig#}
-                    {% set appearance = false %}
-                    {% set imageUne = 0 %}
-    
-                    {% for imageEmpty in imageName %}
-                        {% set appearance = imageEmpty  %}
-                    {% endfor %}
-    
-                    {% for image in trick.images %}
-                        {% if imageUne == 0   and appearance == true %}
+                        {% if imageMain is not empty %}
                             <div>
-                                <img src="{{ asset('/images/figures/')~image.name }}" alt="image"
-                                     class="imgStarArticle">
-                                {% if app.user %}
-                                    <div class="lienStarImage">
-                                        {{ include('layout/partials/_deleteImageForm.html.twig') }}
-                                    </div>
-                                {% endif %}
+                                    {% for image in imageMain %}
+                                        <img src="{{ asset('/images/figures/')~image.name }}" alt="image"
+                                             class="imgStarArticle">
+                                    {% if app.user %}
+                                        <div class="lienStarImage">
+                                            {{ include('layout/partials/_deleteImageForm.html.twig') }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
                             </div>
-                            {% set imageUne = 1 %}
-                        {% endif %}
-                    {% endfor %}
-                    {% if imageUne == 0  and appearance == false %}
+                        {% else %}
                         <img src="{{ asset('/images/figures/defaulttrick.png') }}" alt="image" class="imgStarArticle">
-                    {% endif %}
+                        {% endif %}
                     <p>{{ trick.name | raw }}</p>
                 </div>
                 <!-- Include trick images and videos in carousel -->
