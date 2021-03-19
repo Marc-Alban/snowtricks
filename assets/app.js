@@ -62,25 +62,33 @@ $(document).ready(function () {
 
     /* ****** LoadMore Tricks buttons ***** */
     let tricksPerPage = 15;
-
     let tricks = $(".trick-card-div");
+
+    if (tricksPerPage < 15) {
+        $(".scroll").hide();
+    }
+
+    if (tricks.length <= tricksPerPage) {
+        $("#loadMoreTricksBtn").hide();
+    }
 
     for (let i = tricksPerPage; i <= tricks.length - 1; i++) {
         tricks[i].remove();
     }
-    $('#showLess').hide().attr('style', 'display:none!important');
 
-    if (tricks.length <= tricksPerPage) {
-        $("#loadMoreTricksBtn").fadeOut('slow');
-        $("#showLess").show();
-        $("#loadMoreTricksBtn").on("click", function(e) {
-            e.preventDefault();
-            tricksPerPage += 5;
-            for (let i = 0; i <= tricksPerPage - 1; i++) {
-                $("#trickList").append(tricks[i]);
-            }
-        });
-    }
+    $("#loadMoreTricksBtn").on("click", function(e) {
+        e.preventDefault();
+        tricksPerPage += 5;
+        for (var i = 0; i <= tricksPerPage - 1; i++) {
+            $("#trickList").append(tricks[i]);
+        }
+        if (tricks.length <= tricksPerPage) {
+            $("#loadMoreTricksBtn").hide();
+        }
+        if (tricksPerPage >= 15) {
+            $(".scroll").show();
+        }
+    });
 
 
     /* ****** LoadMore comments button ***** */
