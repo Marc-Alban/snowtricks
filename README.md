@@ -18,7 +18,6 @@ Symfony 5.1 / Bootstrap 4 project
 Installation
 1 - Git clone the project
 
-    https://github.com/CharlotteSaury/SnowTricks.git
 2 - Install libraries
 
     php bin/console composer install
