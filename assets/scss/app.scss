@@ -12,7 +12,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
   color: #0a0a0a;
-  ul{
+  ul {
     list-style: none;
   }
   p {
@@ -57,7 +57,7 @@ body {
 }
 main {
   margin-bottom: 100px;
-  .remove-video{
+  .remove-video {
     margin-bottom: 2rem;
   }
 }
@@ -73,8 +73,8 @@ main {
 }
 .navbarTop {
   display: flex !important;
-  border-bottom: 1px solid ;
-  background-color: #fff ;
+  border-bottom: 1px solid;
+  background-color: #fff;
 }
 .navbarBottom {
   display: none !important;
@@ -138,7 +138,6 @@ iframe {
   width: 150px;
   height: 150px;
 }
-
 .imgStarArticle {
   position: relative;
   height: auto;
@@ -150,34 +149,29 @@ iframe {
   top: -30px;
   left: 86%;
 }
-
 .imgArticle {
   position: relative;
   width: 150px;
   margin: 0 2em;
   height: 150px;
 }
-
 .imgArticleLien {
   position: absolute !important;
   top: 0 !important;
   left: 100% !important;
 }
-
-
 .article {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
 }
-
-.card-body form{
-  bottom: 7px;
-  position: relative;
+.card-body {
+  form {
+    bottom: 7px;
+    position: relative;
+  }
 }
-
-
 .col-form-label {
   display: none !important;
 }
@@ -187,7 +181,7 @@ iframe {
   border-color: #dc3545;
   height: 40px;
 }
-.conteneur{
+.conteneur {
   width: auto;
   margin: auto;
   border: 1px #aaa solid;
@@ -195,29 +189,24 @@ iframe {
   display: table-cell;
   vertical-align: middle;
 }
-
 .conteneurImageArticle {
   position: relative;
   margin: 10px 0;
 }
-
-
 .conteneurVideoArticle {
   position: relative;
   margin: 10px 0;
   left: 35px;
 }
-
-.lienImage{
-    position: absolute;
-    top: 0;
-    right: -10px;
+.lienImage {
+  position: absolute;
+  top: 0;
+  right: -10px;
 }
-
-.lienVideo{
-    position: absolute;
-    top: 0;
-    right: -40px;
+.lienVideo {
+  position: absolute;
+  top: 0;
+  right: -40px;
 }
 .fa-trash {
   cursor: pointer;
@@ -238,25 +227,20 @@ iframe {
   display: flex;
   justify-content: space-around;
 }
-.comment{
+.comment {
   margin: 20px;
   background: #0a0a0a;
   color: #fff;
   padding: 10px;
 }
-
-.formComment{
+.formComment {
   align-items: center;
   width: 100%;
 }
-
-.avatar{
+.avatar {
   width: 50px;
   height: 50px;
 }
-
-
-
 footer {
   border-top: 1px solid black;
   padding: 1rem;
@@ -275,8 +259,6 @@ footer {
     margin-right: 10px;
   }
 }
-
-
 @media (max-width: 768px) {
   .rowUp {
     justify-content: space-around;
@@ -284,7 +266,7 @@ footer {
   .navbarTop {
     display: none !important;
   }
-  .footer-nav{
+  .footer-nav {
     display: flex !important;
     list-style: none !important;
   }
@@ -308,7 +290,6 @@ footer {
       }
     }
   }
-
   .contShow {
     border: none;
     height: 100%;
