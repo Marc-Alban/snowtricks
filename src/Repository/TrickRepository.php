@@ -33,14 +33,4 @@ class TrickRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findOneBySlug(string $slug): array
-    {
-        return $this->createQueryBuilder('t')
-            ->andwhere('t.slug = :slug')
-            ->setParameter('slug',$slug)
-            ->getQuery()
-            ->getResult()
-            ;
-    }
-
 }

@@ -21,15 +21,17 @@ class TrickHelper extends AbstractController
 
     public function checkImageUpload(Trick $trick, ImageRepository $imageRepository): void
     {
-        $images = $trick->getImages();
-        $tour = 0;
-        foreach ($images as $image){
-            $imageId = $image->getId() ?? null;
-            if(empty($image->getStarImage()) && $image->getStarImage() === null  && $tour === 0 ){
-             $imageRepository->setDefaultImage($imageId);
+        $images = $imageRepository->findImageById($trick->getId());
+        $imageByStar = $imageRepository->findImageByIdTrick($trick->getId());
+            if(empty($imageByStar) === true){
+                $tour = 0;
+                foreach ($images as $image){
+                    if($tour === 0){
+                        $imageRepository->setDefaultImage($image->getId());
+                        $tour = 1;
+                    }
+                }
             }
-            $tour = 1;
-        }
     }
 
     public function imageUpload(Trick $trick, array $images): void

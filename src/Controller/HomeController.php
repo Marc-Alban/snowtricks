@@ -23,34 +23,25 @@ class HomeController extends AbstractController
     public function index(TrickRepository $trickRepository, ImageRepository $imageRepository,ImageDefault $imageDefault, EntityManagerInterface $manager): Response
     {
         $tricks = $trickRepository->findByRequest();
-        $imageName = null;
-
         //Boucle foreach pour récupérer un trick
         foreach ($tricks as $trick){
             //Récupération de l'image / des images
-            $images = $imageRepository->findAllById($trick->getId());
+            $images = $imageRepository->findImageById($trick->getId());
             // boucle sur le tableau
             foreach ($images as $image){
-
                 //Vérification du fichier présents qu'il soit pas false
-                    $imageName[] = [
-                        'id' =>  $image->getId(),
-                        'default' =>$imageDefault->index($image->getName())
-                    ];
-                }
-
-            }
-
-        foreach ($imageName as $items) {
-             if($items['default'] === false){
-                $image = $imageRepository->findOneBy(['id'=>$items['id']]);
-                $manager->remove($image);
-                $manager->flush();
+                    if($imageDefault->index($image->getName()) === false){
+                        $image = $imageRepository->findOneBy(['id'=>$image->getId()]);
+                        unlink($this->getParameter('images_directory').$image->getName());
+                        $manager->remove($image);
+                        $manager->flush();
+                    }
             }
         }
 
+
         return $this->render('pages/home.html.twig', [
-                'tricks' => $tricks,
+                'tricks' => $tricks
             ]);
 
     }

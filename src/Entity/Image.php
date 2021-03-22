@@ -37,7 +37,7 @@ class Image
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private ?bool $starImage;
+    private ?bool $starImage = false;
 
 
 

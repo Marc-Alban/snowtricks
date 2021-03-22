@@ -28,7 +28,7 @@ class Trick
 
     /**
      * @ORM\Column(name="name", type="string", length=255, unique=true)
-     * @Assert\Length(min="5", max="10",minMessage="Le nom doit faire au minimum 5 caractères",maxMessage="Le nom ne doit pas faire plus de 10 caractères")
+     * @Assert\Length(min="5", max="20",minMessage="Le nom doit faire au minimum 5 caractères",maxMessage="Le nom ne doit pas faire plus de 20 caractères")
      * @Assert\NotBlank()
      * @Assert\NotNull()
      * @Assert\Regex(
@@ -40,7 +40,7 @@ class Trick
 
     /**
      * @ORM\Column(type="text")
-     * @Assert\Length(min="5", max="400",minMessage="Le nom doit faire au minimum 5 caractères",maxMessage="Le nom ne doit pas faire plus de 400 caractères")
+     * @Assert\Length(min="5",minMessage="Le nom doit faire au minimum 5 caractères")
      * @Assert\NotBlank()
      * @Assert\NotNull()
      * @Assert\Regex(

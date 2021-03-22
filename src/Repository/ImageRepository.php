@@ -44,6 +44,17 @@ class ImageRepository extends ServiceEntityRepository
             ;
     }
 
+    public function findImageByIdTrick(int $id): array
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.trick = :id')
+            ->setParameter('id', $id)
+            ->andWhere('i.starImage = 1')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 
     public function findImageById(int $id): array
     {
@@ -55,16 +66,15 @@ class ImageRepository extends ServiceEntityRepository
             ;
     }
 
-
-
-    public function findAllById(int $id): array
+    public function findImageNoStarById(int $id): array
     {
         return $this->createQueryBuilder('i')
             ->andWhere('i.trick = :id')
             ->setParameter('id', $id)
+            ->andWhere('i.starImage = 0')
             ->getQuery()
             ->getResult()
-        ;
+            ;
     }
 
 }

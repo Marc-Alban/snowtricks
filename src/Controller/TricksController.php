@@ -66,24 +66,26 @@ class TricksController extends AbstractController
     }
 
     //Default Image
+
     /**
      * @Route ("/image/{id}/default", name="app_default_image")
-     * @param Image $image
      * @param ImageRepository $imageRepository
      * @param EntityManagerInterface $manager
+     * @param int $id
      * @return Response
      */
-    public function defaultImage(Image $image, ImageRepository $imageRepository, EntityManagerInterface $manager): Response
+    public function defaultImage(ImageRepository $imageRepository, EntityManagerInterface $manager, int $id): Response
     {
-
         if(!$this->getUser()){
             return $this->redirectToRoute('app_home');
         }
-        $trick = $image->getTrick();
-        foreach ($trick->getImages() as $trick){
-            $imageRepository->nullDefaultImage($trick->getId());
+        $imageAfterClick = $imageRepository->findOneBy(['id'=>$id]);
+        $trick = $imageAfterClick->getTrick();
+        $imageDefault = $imageRepository->findImageByIdTrick($trick->getId());
+        foreach ($imageDefault as $image){
+            $imageRepository->nullDefaultImage($image->getId());
         }
-        $imageRepository->setDefaultImage($image->getId());
+        $imageRepository->setDefaultImage($imageAfterClick->getId());
         $manager->flush();
         $this->addFlash('info', 'image update default');
         return $this->redirectToRoute('app_home');
@@ -106,11 +108,8 @@ class TricksController extends AbstractController
         if(!$this->getUser()){
             return $this->redirectToRoute('app_home');
         }
-        $tricks = $trickRepository->findOneBySlug($slug);
-            $trick = null;
-            foreach ($tricks as $oneTrick ) {
-                $trick = $oneTrick;
-            }
+            $trick = $trickRepository->findOneBy(['slug'=>$slug]);
+
             $form = $this->createForm(TrickType::class, $trick);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
@@ -215,23 +214,24 @@ class TricksController extends AbstractController
 
     /**
      * @Route ("/image/{id}/delete", name="app_delete_image", methods={"DELETE"})
-     * @param Image $image
+     * @param ImageRepository $imageRepository
+     * @param int $id
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function deleteImage(Image $image, Request $request, EntityManagerInterface $manager): Response
+    public function deleteImage(ImageRepository $imageRepository, int $id,Request $request, EntityManagerInterface $manager): Response
     {
         if(!$this->getUser()){
             return $this->redirectToRoute('app_home');
         }
-
-        $nameImageBool = file_exists($this->getParameter('images_directory').$image->getName());
-        if($this->isCsrfTokenValid('delete'.$image->getId(), $request->request->get('_token'))){
+        $imageAfterClick = $imageRepository->findOneBy(['id'=>$id]);
+        $nameImageBool = file_exists($this->getParameter('images_directory').$imageAfterClick->getName());
+        if($this->isCsrfTokenValid('delete'.$imageAfterClick->getId(), $request->request->get('_token'))){
             if($nameImageBool !== false){
-                unlink($this->getParameter('images_directory').$image->getName());
+                unlink($this->getParameter('images_directory').$imageAfterClick->getName());
             }
-            $manager->remove($image);
+            $manager->remove($imageAfterClick);
             $manager->flush();
         }
         $this->addFlash('info', 'image deleted');
@@ -276,53 +276,53 @@ class TricksController extends AbstractController
      */
     public function show(TrickRepository $trickRepository,CommentRepository $commentRepository, TrickHelper $helper, string $slug, ImageRepository $imageRepository, ImageDefault $imageDefault, Request $request, EntityManagerInterface $manager): Response
     {
-        $tricks = $trickRepository->findOneBySlug($slug);
+        $trick = $trickRepository->findOneBy(['slug'=>$slug]);
         $user = $this->getUser();
-            //Si il y a des tricks
-            if($tricks){
-                //Boucle foreach pour récupérer un trick
-                foreach ($tricks as $trick){
-                    //Déplacement de l'image
-                    $helper->checkImageUpload($trick, $imageRepository);
-                    $images = $imageRepository->findAllById($trick->getId());
-                    $starImage = null;
-                    $imageName = null;
-                    foreach ($images as $image){
-                        //Vérification du fichier présents qu'il soit pas false
-                        $imageName[] = $imageDefault->index($image->getName());
-                        //Vérification de l'image à la une
-                        $starImage[] = $image->getStarImage();
-                        //Si pas de true pour l'image à la une alors on definit une image
-                        if(array_search(true, $starImage) === false){
-                            $image->setStarImage(true);
-                        }
-                    }
-                    $comment = new Comment();
-                    $form = $this->createForm(CommentaireType::class, $comment);
-                    $form->handleRequest($request);
-                    if($form->isSubmitted() && $form->isValid()){
-                            $comment->setTrick($trick);
-                            $comment->setCreated(new \DateTime('now'));
-                            $comment->setUser($user);
-                            $manager->persist($comment);
-                            $manager->flush();
-                        $this->addFlash('success','Comment send');
-                        return $this->redirectToRoute('app_trick_show', ['slug'=>$trick->getSlug()]);
-                    }
-                    //Récupération des commentaires
-                    $comments = $commentRepository->findBy(['trick'=>$trick->getId()], ['id'=>'DESC']);
 
-                    return $this->render('pages/show.html.twig', [
-                            'trick' => $trick,
-                            'imageName' => $imageName,
-                            'form' => $form->createView(),
-                            'comments' => $comments,
-                        ]);
+        //Si il y a des tricks
+        if(!$trick){
+            throw $this->createNotFoundException('le trick n\'existe pas !');
+        }
+
+        //Verification de l'image par default
+        $helper->checkImageUpload($trick, $imageRepository);
+        $imageMain = $imageRepository->findImageByIdTrick($trick->getId());
+        //Recuperation des images lies au trick non principal
+        $images = $imageRepository->findImageNoStarById($trick->getId());
+            foreach ($images as $image){
+                //Vérification du fichier présents qu'il soit pas false
+                $imageName = $imageDefault->index($image->getName());
+                //Si pas de true pour imageName, image n'existe pas .. Du coups on supprime l'image
+                if($imageName === false){
+                    unlink($this->getParameter('images_directory').$image->getName());
+                    $manager->remove($image);
+                    $manager->persist($image);
+                    $manager->flush();
                 }
             }
 
-        throw $this->createNotFoundException('le trick n\'existe pas !');
-    }
+            $comment = new Comment();
+            $form = $this->createForm(CommentaireType::class, $comment);
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid()){
+                    $comment->setTrick($trick);
+                    $comment->setCreated(new \DateTime('now'));
+                    $comment->setUser($user);
+                    $manager->persist($comment);
+                    $manager->flush();
+                $this->addFlash('success','Comment send');
+                return $this->redirectToRoute('app_trick_show', ['slug'=>$trick->getSlug()]);
+            }
+            //Récupération des commentaires
+            $comments = $commentRepository->findBy(['trick'=>$trick->getId()], ['id'=>'DESC']);
 
+            return $this->render('pages/show.html.twig', [
+                    'trick' => $trick,
+                    'imageMain' => $imageMain,
+                    'images'=> $images,
+                    'form' => $form->createView(),
+                    'comments' => $comments,
+                ]);
+    }
 
 }
