@@ -19,8 +19,8 @@ Installation
 1 - Git clone the project
 
 2 - Install libraries
-
-    php bin/console composer install
+       -composer install
+    
 3 - Create database
 
 a) Update DATABASE_URL .env file with your database configuration.
