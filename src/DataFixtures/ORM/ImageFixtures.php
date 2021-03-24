@@ -75,6 +75,43 @@ class ImageFixtures extends Fixture
         $manager->persist($image10);
         $manager->flush();
 
+
+        $image11 = (new Image())
+            ->setName('mute.jpg')
+            ->setStarImage(true);
+        $manager->persist($image11);
+        $manager->flush();
+
+        $image12 = (new Image())
+            ->setName('indy.jpg')
+            ->setStarImage(true);
+        $manager->persist($image12);
+        $manager->flush();
+
+        $image13 = (new Image())
+            ->setName('Seatbelt.jpg')
+            ->setStarImage(true);
+        $manager->persist($image13);
+        $manager->flush();
+
+        $image14 = (new Image())
+            ->setName('truck-driver.jpg')
+            ->setStarImage(true);
+        $manager->persist($image14);
+        $manager->flush();
+
+        $image15 = (new Image())
+            ->setName('half-pipe.jpg')
+            ->setStarImage(true);
+        $manager->persist($image15);
+        $manager->flush();
+
+        $image16 = (new Image())
+            ->setName('720.jpg')
+            ->setStarImage(true);
+        $manager->persist($image16);
+        $manager->flush();
+
         //Reference
         $this->addReference('Image1', $image1);
         $this->addReference('Image2', $image2);
@@ -86,6 +123,12 @@ class ImageFixtures extends Fixture
         $this->addReference('Image8', $image8);
         $this->addReference('Image9', $image9);
         $this->addReference('Image10', $image10);
+        $this->addReference('Image11', $image11);
+        $this->addReference('Image12', $image12);
+        $this->addReference('Image13', $image13);
+        $this->addReference('Image14', $image14);
+        $this->addReference('Image15', $image15);
+        $this->addReference('Image16', $image16);
 
     }
 
