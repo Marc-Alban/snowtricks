@@ -132,6 +132,66 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
         $manager->persist($trick10);
         $manager->flush();
 
+        $trick11 = (new Trick())
+            ->setName('mute')
+            ->setDescription('saisie de la carre frontside de la planche entre les deux pieds avec la main avant')
+            ->setCreatedAt(new DateTime());
+        $trick11->setSlug(Slugify::slug($trick11->getName()));
+        $trick11->setCategory($this->getReference('Category3'));
+        $trick11->addImage($this->getReference('Image11'));
+        $manager->persist($trick11);
+        $manager->flush();
+
+        $trick12 = (new Trick())
+            ->setName('indy ')
+            ->setDescription('saisie de la carre frontside de la planche, entre les deux pieds, avec la main arrière ')
+            ->setCreatedAt(new DateTime());
+        $trick12->setSlug(Slugify::slug($trick12->getName()));
+        $trick12->setCategory($this->getReference('Category3'));
+        $trick12->addImage($this->getReference('Image12'));
+        $manager->persist($trick12);
+        $manager->flush();
+
+        $trick13 = (new Trick())
+            ->setName('seat belt')
+            ->setDescription('saisie du carre frontside à l\'arrière avec la main avant')
+            ->setCreatedAt(new DateTime());
+        $trick13->setSlug(Slugify::slug($trick13->getName()));
+        $trick13->setCategory($this->getReference('Category1'));
+        $trick13->addImage($this->getReference('Image13'));
+        $manager->persist($trick13);
+        $manager->flush();
+
+        $trick14 = (new Trick())
+            ->setName('truck driver')
+            ->setDescription('saisie du carre avant et carre arrière avec chaque main (comme tenir un volant de voiture)')
+            ->setCreatedAt(new DateTime());
+        $trick14->setSlug(Slugify::slug($trick14->getName()));
+        $trick14->setCategory($this->getReference('Category2'));
+        $trick14->addImage($this->getReference('Image14'));
+        $manager->persist($trick14);
+        $manager->flush();
+
+        $trick15 = (new Trick())
+            ->setName('Le half-pipe')
+            ->setDescription('La rampe, ou half-pipe (ou halfpipe1), est un des types de modules de skatepark que l\'on peut trouver dans les skateparks. C\'est également le nom d\'une discipline du skateboard, du roller et du BMX. On l\'appelle également la « big », la « vert\' » (venant de « verticale »), ou encore la « courbe ». C\'est également une épreuve olympique en surf des neiges et en ski freestyle.')
+            ->setCreatedAt(new DateTime());
+        $trick15->setSlug(Slugify::slug($trick15->getName()));
+        $trick15->setCategory($this->getReference('Category5'));
+        $trick15->addImage($this->getReference('Image15'));
+        $manager->persist($trick15);
+        $manager->flush();
+
+        $trick16 = (new Trick())
+            ->setName('720')
+            ->setDescription("Sept deux pour deux tours complets ")
+            ->setCreatedAt(new DateTime());
+        $trick16->setSlug(Slugify::slug($trick16->getName()));
+        $trick16->setCategory($this->getReference('Category4'));
+        $trick16->addImage($this->getReference('Image16'));
+        $manager->persist($trick16);
+        $manager->flush();
+
     }
 
     public function getDependencies(): array
