@@ -2,13 +2,14 @@
     "devDependencies": {
         "@fortawesome/fontawesome-free": "^5.15.2",
         "@symfony/stimulus-bridge": "^2.0.0",
-        "@symfony/ux-chartjs": "file:vendor/symfony/ux-chartjs/Resources/assets",
+        "@symfony/ux-chartjs": "file:vendor//symfony/ux-chartjs/Resources/assets",
         "@symfony/webpack-encore": "^1.1.1",
         "autoprefixer": "^10.2.4",
         "bootstrap": "^4.6.0",
+        "chart.js": "^2.9.4",
         "core-js": "^3.9.0",
         "jquery": "^3.5.1",
-        "node-sass": "^4.14.1",
+        "node-sass": "^6.0.1",
         "postcss-loader": "^5.0.0",
         "regenerator-runtime": "^0.13.2",
         "sass-loader": "^11.0.1",
@@ -22,8 +23,5 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress"
-    },
-    "dependencies": {
-
     }
 }
